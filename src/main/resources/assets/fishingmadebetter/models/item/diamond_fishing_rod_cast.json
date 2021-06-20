@@ -1,0 +1,6 @@
+{
+    "parent": "fishingmadebetter:item/diamond_fishing_rod",
+    "textures": {
+        "layer0": "fishingmadebetter:items/diamond_fishing_rod_cast"
+    }
+}

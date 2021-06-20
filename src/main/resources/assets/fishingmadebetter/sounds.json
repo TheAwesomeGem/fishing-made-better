@@ -1,0 +1,12 @@
+{
+  "reeling": {
+    "category": "player",
+    "subtitle": "fishingmadebetter.subtitle.reeling",
+    "sounds": [ "fishingmadebetter:reeling" ]
+  },
+  "fishsplashing": {
+    "category": "player",
+    "subtitle": "fishingmadebetter.subtitle.fishsplashing",
+    "sounds": [ "fishingmadebetter:fishsplashing" ]
+  }
+}
