@@ -6,7 +6,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.TextComponentString;
 import net.theawesomegem.fishingmadebetter.ModInfo;
-import net.theawesomegem.fishingmadebetter.common.configuration.CustomFishConfigurationHandler;
+import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 
 public class FishingReloadCommand extends CommandBase {
     private final String parentCommandName;
@@ -27,7 +27,7 @@ public class FishingReloadCommand extends CommandBase {
 
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
-        boolean loaded = CustomFishConfigurationHandler.loadFishes();
+        boolean loaded = CustomConfigurationHandler.loadFishes();
 
         String message;
 
@@ -42,6 +42,6 @@ public class FishingReloadCommand extends CommandBase {
 
     @Override
     public int getRequiredPermissionLevel() {
-        return 2;
+        return 4;
     }
 }

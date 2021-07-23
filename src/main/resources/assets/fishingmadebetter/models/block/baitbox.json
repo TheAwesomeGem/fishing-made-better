@@ -1,6 +1,12 @@
 {
-    "parent": "block/cube_all",
+    "parent": "block/cube",
     "textures": {
-        "all": "fishingmadebetter:blocks/baitbox"
+        "particle": "fishingmadebetter:blocks/baitbox_side",
+        "down": "blocks/planks_oak",
+        "up": "fishingmadebetter:blocks/baitbox_side",
+        "north": "fishingmadebetter:blocks/baitbox_front",
+        "east": "fishingmadebetter:blocks/baitbox_side",
+        "south": "fishingmadebetter:blocks/baitbox_front",
+        "west": "fishingmadebetter:blocks/baitbox_side"
     }
 }

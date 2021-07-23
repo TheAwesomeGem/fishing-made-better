@@ -1,6 +1,6 @@
 package net.theawesomegem.fishingmadebetter.common.capability.world;
 
-import net.theawesomegem.fishingmadebetter.common.configuration.CustomFishConfigurationHandler;
+import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.util.TimeUtil;
 
@@ -48,11 +48,9 @@ public class PopulationData {
     }
 
     public boolean isHungry(long currentTime){
-        FishData fishData = CustomFishConfigurationHandler.fishDataMap.get(fishType);
+        FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishType);
 
-        if(fishData == null){
-            return false;
-        }
+        if(fishData == null) return false;
 
         long eatingFrequency = TimeUtil.minutesToMinecraftTicks(fishData.eatingFrequency);
         long timeDiff = currentTime - lastEatenTime;

@@ -7,95 +7,44 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
-import net.theawesomegem.fishingmadebetter.common.configuration.CustomFishConfigurationHandler;
+import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
-import net.theawesomegem.fishingmadebetter.common.item.ItemScaleRemover;
+import net.theawesomegem.fishingmadebetter.common.item.scalingknife.ItemScalingKnife;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by TheAwesomeGem on 1/1/2018.
  */
 public class RecipeFishScale extends net.minecraftforge.registries.IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
-    private int scaleSlot = -1;
-    private int fishSlot = -1;
-    private String fishId = null;
-    private int weight = -1;
 
     @Override
     public boolean matches(InventoryCrafting inv, World worldIn) {
-        int numStacks = 0;
-
-        List<Integer> occupiedSlots = new ArrayList<>();
-
-        for (int i = 0; i < inv.getSizeInventory(); i++) {
-            if (!inv.getStackInSlot(i).isEmpty()) {
-                numStacks++;
-                occupiedSlots.add(i);
-            }
-        }
-
-        if (numStacks != 2) {
-            return false;
-        }
-
-        ItemStack itemScaler = ItemStack.EMPTY;
-
-        for (int i : occupiedSlots) {
-            ItemStack itemStack = inv.getStackInSlot(i);
-
-            if (itemStack.getItem() instanceof ItemScaleRemover && (itemStack.getMaxDamage() - itemStack.getItemDamage()) >= 8 && itemScaler.isEmpty()) {
-                itemScaler = itemStack;
-
-                this.scaleSlot = i;
-            } else if (BetterFishUtil.isBetterFish(itemStack) && BetterFishUtil.doesFishHasScale(itemStack)) {
-                this.weight = BetterFishUtil.getFishWeight(itemStack);
-                this.fishId = BetterFishUtil.getFishId(itemStack);
-                this.fishSlot = i;
-            } else {
-                return false;
-            }
-        }
-
-        return fishId != null && scaleSlot != -1 && fishSlot != -1 && weight != -1;
+        return validInput(inv) != null;
     }
 
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inv) {
-        if (fishId == null || scaleSlot == -1 || fishSlot == -1 || weight < 1)
-            return ItemStack.EMPTY;
+    	Integer[] slots = validInput(inv);
+        if(slots==null) return ItemStack.EMPTY;
+        
+        ItemStack itemStackFish = inv.getStackInSlot(slots[1]);
 
-        ItemStack itemScaler = inv.getStackInSlot(scaleSlot);
+        FishData fishData = CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStackFish));
+        if(fishData == null) return ItemStack.EMPTY;
 
-        if (!(itemScaler.getItem() instanceof ItemScaleRemover))
-            return ItemStack.EMPTY;
-
-        FishData fishData = CustomFishConfigurationHandler.fishDataMap.get(fishId);
-
-        if (fishData == null) {
-            return ItemStack.EMPTY;
-        }
-
-        Item item = Item.getByNameOrId(fishData.resultingItem);
-
-        if (item == null) {
-            return ItemStack.EMPTY;
-        }
+        Item itemResult = Item.getByNameOrId(fishData.scalingItem);
+        if(itemResult == null) return ItemStack.EMPTY;
 
         int quantity = 1;
+        int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
 
-        if (fishData.resultQuantityUseWeight) {
-            quantity = weight / 2;
+        if(fishData.scalingUseWeight) quantity = getScaleAmount(fishWeight);
 
-            if (quantity < 1)
-                quantity = 1;
-
-            if (quantity > item.getItemStackLimit())
-                quantity = item.getItemStackLimit();
-        }
-
-        return new ItemStack(item, quantity, fishData.resultingItemMetadata);
+        return new ItemStack(itemResult, quantity, fishData.scalingItemMetadata);
     }
 
     @Override
@@ -110,42 +59,59 @@ public class RecipeFishScale extends net.minecraftforge.registries.IForgeRegistr
 
     @Override
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
-        ItemStack itemScaler = ItemStack.EMPTY;
-        ItemStack itemFish = ItemStack.EMPTY;
+    	Integer[] slots = validInput(inv);
+    	ItemStack itemStackKnife = inv.getStackInSlot(slots[0]).copy();
+    	ItemStack itemStackFish = inv.getStackInSlot(slots[1]).copy();
+    	
+    	FishData fishData = CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStackFish));
+    	int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
+    	
+    	BetterFishUtil.setFishHasScale(itemStackFish, false);
 
-        if (scaleSlot != -1) {
-            ItemStack itemStack = inv.getStackInSlot(scaleSlot);
-
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemScaleRemover) {
-                itemScaler = itemStack.copy();
-            }
-        }
-
-        if(fishSlot != -1){
-            ItemStack itemStack = inv.getStackInSlot(fishSlot);
-
-            if (!itemStack.isEmpty()) {
-                itemFish = itemStack.copy();
-                BetterFishUtil.setFishHasScale(itemFish, false);
-            }
-        }
-
-        if (!itemScaler.isEmpty()) {
-            itemScaler.setItemDamage(itemScaler.getItemDamage() + 8);
-        }
-
+        itemStackKnife.setItemDamage(itemStackKnife.getItemDamage() + (fishData.scalingUseWeight ? getScaleAmount(fishWeight) : 1));
+        if(itemStackKnife.getItemDamage() >= itemStackKnife.getMaxDamage()) itemStackKnife = ItemStack.EMPTY;
+        
         NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
-        for (int i = 0; i < ret.size(); i++) {
+        for(int i = 0; i < ret.size(); i++) {
             ItemStack itemStack = inv.getStackInSlot(i);
 
-            if (!itemStack.isEmpty() && itemStack.getItem() instanceof ItemScaleRemover) {
-                ret.set(i, itemScaler);
-            } else if(!itemStack.isEmpty() && !itemFish.isEmpty()){
-                ret.set(i, itemFish);
+            if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemScalingKnife) ret.set(i, itemStackKnife);
+            else if(!itemStack.isEmpty()) ret.set(i, itemStackFish);
+        }
+        return ret;
+    }
+
+    private int getScaleAmount(int weight) {
+    	return Math.max(1, (int)Math.cbrt(Math.cbrt(Math.pow(weight, 4))));
+    }
+    
+    @Nullable
+    private Integer[] validInput(InventoryCrafting inv) {
+    	int numStacks = 0;
+        int knifeSlot = -1;
+        int fishSlot = -1;
+        List<Integer> occupiedSlots = new ArrayList<>();
+        
+        for(int i = 0; i < inv.getSizeInventory(); i++) {
+            if (!inv.getStackInSlot(i).isEmpty()) {
+                numStacks++;
+                occupiedSlots.add(i);
             }
         }
+        if(numStacks != 2) return null;
 
-        return ret;
+        for(int i : occupiedSlots) {
+            ItemStack itemStack = inv.getStackInSlot(i);
+            
+            if(itemStack.isEmpty()) return null;
+            else if(itemStack.getItem() instanceof ItemScalingKnife && itemStack.getMaxDamage() > itemStack.getItemDamage()) knifeSlot = i;
+            else if(BetterFishUtil.isBetterFish(itemStack) && BetterFishUtil.doesFishHasScale(itemStack)) fishSlot = i;
+            else return null;
+        }
+        Integer[] slots = new Integer[2];
+        slots[0] = knifeSlot;
+        slots[1] = fishSlot;
+        return (knifeSlot != -1 && fishSlot != -1) ? slots : null;
     }
 }

@@ -1,0 +1,22 @@
+{
+    "pools": [
+        {
+			"name": "fishingmadebetter:fishing_combined",
+            "rolls": 1,
+            "entries": [
+                {
+                    "type": "loot_table",
+                    "name": "fishingmadebetter:fishing_junk",
+                    "weight": 10,
+                    "quality": -1
+                },
+                {
+                    "type": "loot_table",
+                    "name": "fishingmadebetter:fishing_treasure",
+                    "weight": 5,
+                    "quality": 2
+                }
+            ]
+        }
+    ]
+}

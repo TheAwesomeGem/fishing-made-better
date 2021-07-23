@@ -5,6 +5,6 @@ package net.theawesomegem.fishingmadebetter.common.item.fishingrod;
  */
 public class ItemDiamondFishingRod extends ItemBetterFishingRod {
     public ItemDiamondFishingRod() {
-        super("diamond_fishing_rod", ReelLength.Long.getLength(), 1, 100);
+        super("fishing_rod_diamond", ToolMaterial.DIAMOND);
     }
 }

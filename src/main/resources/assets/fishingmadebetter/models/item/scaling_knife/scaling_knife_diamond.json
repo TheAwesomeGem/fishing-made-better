@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fishingmadebetter:items/scaling_knife/scaling_knife_diamond"
+  }
+}

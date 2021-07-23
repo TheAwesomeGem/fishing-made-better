@@ -55,7 +55,7 @@ public class FishingCommand extends CommandTreeBase {
 
     @Override
     public int getRequiredPermissionLevel() {
-        return 2;
+        return 4;
     }
 
     //Y u make this private and not protected CommandTreeBase.java class?

@@ -19,7 +19,7 @@ public class CapabilityHandler {
 
     @SubscribeEvent
     public void onAttachCapabilityEntity(AttachCapabilitiesEvent<Entity> e) {
-        if (!(e.getObject() instanceof EntityPlayer)) return;
+        if(!(e.getObject() instanceof EntityPlayer)) return;
 
         e.addCapability(FISHING_DATA_CAP_RESOURCE, new FishingCapabilityProvider());
     }

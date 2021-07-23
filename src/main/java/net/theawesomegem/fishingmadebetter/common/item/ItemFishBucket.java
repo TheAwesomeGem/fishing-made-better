@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -27,19 +28,21 @@ import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.capability.world.ChunkCapabilityProvider;
 import net.theawesomegem.fishingmadebetter.common.capability.world.IChunkFishingData;
 import net.theawesomegem.fishingmadebetter.common.capability.world.PopulationData;
-import net.theawesomegem.fishingmadebetter.common.configuration.CustomFishConfigurationHandler;
+import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
-import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
+import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 public class ItemFishBucket extends Item {
-    //TODO: Add fish quantity in the future.
 
     public ItemFishBucket() {
         super();
 
+        this.setCreativeTab(FMBCreativeTab.instance);
         this.setRegistryName("fish_bucket");
         this.setUnlocalizedName(ModInfo.MOD_ID + ".fish_bucket");
     }
@@ -48,76 +51,52 @@ public class ItemFishBucket extends Item {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         RayTraceResult raytraceresult = this.rayTrace(worldIn, playerIn, true);
         ItemStack itemstack = playerIn.getHeldItem(handIn);
+        if(raytraceresult == null || raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) return new ActionResult<>(EnumActionResult.PASS, itemstack);
 
-        if (raytraceresult == null) {
-            return new ActionResult<>(EnumActionResult.PASS, itemstack);
-        } else if (raytraceresult.typeOfHit != RayTraceResult.Type.BLOCK) {
-            return new ActionResult<>(EnumActionResult.PASS, itemstack);
-        }
-
+        if(worldIn.isRemote) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        
+        String fishId = getFishId(itemstack);
+        if(fishId == null) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);
+        if(fishData == null) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        
         BlockPos blockpos = raytraceresult.getBlockPos();
+        IChunkFishingData chunkFishingData = getChunkFishingData(worldIn.getChunkFromBlockCoords(blockpos));
+        if(chunkFishingData == null) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        
         IBlockState blockState = worldIn.getBlockState(blockpos);
         Material material = blockState.getMaterial();
-
-        if(!(material instanceof MaterialLiquid)){
-            return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        if(material != MaterialLiquid.WATER) {
+        	playerIn.sendMessage(new TextComponentString("This fish can only be placed in water."));
+        	return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
-        if (worldIn.isRemote) {
-            return new ActionResult<>(EnumActionResult.FAIL, itemstack);
-        }
-
-        int waterVolume = 0;
-        int startX = blockpos.getX() - 8;
-        int startY = blockpos.getY() - 8;
-        int startZ = blockpos.getZ() - 8;
-        int endX = blockpos.getX() + 8;
-        int endY = blockpos.getY() + 8;
-        int endZ = blockpos.getZ() + 8;
-
-        for(int x = startX; x <= endX; x++){
-            for(int y = startY; y <= endY; y++){
-                for(int z = startZ; z <= endZ; z++){
-                    IBlockState otherBlockState = worldIn.getBlockState(new BlockPos(x, y, z));
-
-                    if(otherBlockState.getMaterial() instanceof MaterialLiquid){
-                        waterVolume++;
-                    }
-                }
-            }
-        }
-
-        String fishId = getFishId(itemstack);
-
-        if(fishId == null){
-            return new ActionResult<>(EnumActionResult.FAIL, itemstack);
-        }
-
-        FishData fishData = CustomFishConfigurationHandler.fishDataMap.get(fishId);
-        int fishSize = fishData.maxWeight * 2;
-
-        if(waterVolume < fishSize){
-            playerIn.sendMessage(new TextComponentString("The fish is too big for this water."));
-            return new ActionResult<>(EnumActionResult.FAIL, itemstack);
-        }
-
-        IChunkFishingData chunkFishingData = getChunkFishingData(worldIn.getChunkFromBlockCoords(blockpos));
-
-        if(chunkFishingData == null){
-            return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        int waterCount = 0;
+    	for(BlockPos pos : BlockPos.getAllInBox(blockpos.getX()-2, blockpos.getY()-3, blockpos.getZ()-2, blockpos.getX()+2, blockpos.getY(), blockpos.getZ()+2)) {
+    		Material mat = worldIn.getBlockState(pos).getMaterial();
+    		if(mat == MaterialLiquid.WATER) waterCount++;
+    		if(waterCount >= 25) break;
+    	}
+    	if(waterCount < 25) {
+    		playerIn.sendMessage(new TextComponentString("This body of water is too small for this fish."));
+    		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+    	}
+        
+        if(fishData.minYLevel > blockpos.getY() || fishData.maxYLevel < blockpos.getY()) {
+        	playerIn.sendMessage(new TextComponentString("This fish can not survive at this altitiude."));
+    		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
         Map<String, PopulationData> fishMap = chunkFishingData.getRawFishMap();
         PopulationData populationData;
-
         if(!fishMap.containsKey(fishId)) {
             populationData = new PopulationData(fishId, 1, 0, worldIn.getTotalWorldTime());
             fishMap.put(fishId, populationData);
-        } else {
+        } 
+        else {
             populationData = fishMap.get(fishId);
             populationData.setQuantity(populationData.getQuantity() + 1);
         }
-
         chunkFishingData.setPopulationData(fishId, populationData, true);
 
         worldIn.playSound(playerIn, blockpos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -137,26 +116,28 @@ public class ItemFishBucket extends Item {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setString("FishId", fishId);
         itemStack.setTagCompound(tagCompound);
-
-        itemStack = ItemStackUtil.appendToolTip(itemStack, Collections.singleton(TextFormatting.BLUE + "" + TextFormatting.BOLD + fishId + TextFormatting.RESET));
-
+        
         return itemStack;
     }
+    
+    @Override
+    public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    	String fishId = getFishId(itemStack);
+    	if(fishId==null) return;
+    	
+    	tooltip.add(TextFormatting.BLUE + "Contains: " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
+    }
 
-    public static String getFishId(ItemStack itemStack){
-        if(!itemStack.hasTagCompound()){
-            return null;
-        }
+    @Nullable
+    public static String getFishId(ItemStack itemStack) {
+        if(!itemStack.hasTagCompound()) return null;
 
         NBTTagCompound tagCompound = itemStack.getTagCompound();
 
-        if(!tagCompound.hasKey("FishId")){
-            return null;
-        }
-
-        return tagCompound.getString("FishId");
+        return tagCompound.hasKey("FishId") ? tagCompound.getString("FishId") : null;
     }
 
+    @Nullable
     private IChunkFishingData getChunkFishingData(Chunk chunk) {
         return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
     }

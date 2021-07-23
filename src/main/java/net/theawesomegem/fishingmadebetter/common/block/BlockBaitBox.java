@@ -12,15 +12,13 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.theawesomegem.fishingmadebetter.common.block.tileentity.TileEntityBaitBox;
+import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -30,107 +28,22 @@ public class BlockBaitBox extends BlockTileEntityBase<TileEntityBaitBox> {
     public BlockBaitBox() {
         super(Material.WOOD, "baitbox");
 
+        this.setCreativeTab(FMBCreativeTab.instance);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.WOOD);
     }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!hand.equals(EnumHand.MAIN_HAND))
-            return false;
+        if (world.isRemote || !hand.equals(EnumHand.MAIN_HAND)) return true;
 
-        player.setActiveHand(EnumHand.MAIN_HAND);
-        player.swingArm(EnumHand.MAIN_HAND);
-
-        if (world.isRemote) {
-            return false;
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if(tileEntity instanceof TileEntityBaitBox) {
+        	((TileEntityBaitBox)tileEntity).handleRightClick(world, pos, state, player);
         }
-
-        TileEntity tileentity = world.getTileEntity(pos);
-
-        if(tileentity == null){
-            return false;
-        }
-
-        IItemHandler inventory = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-
-        if(inventory == null){
-            return false;
-        }
-
-        ItemStack itemStack = player.getHeldItemMainhand();
-
-        if(!itemStack.isEmpty()) {
-            int freeSlot = -1;
-            int nextSlot = -1;
-            int lastSlot = -1;
-
-            for(int i = 0; i < inventory.getSlots(); i++){
-                ItemStack stack = inventory.getStackInSlot(i);
-
-                if(stack.isEmpty()){
-                    freeSlot = i;
-                    break;
-                }
-
-                if(isItemStackEqual(itemStack, stack) && (stack.getMaxStackSize() - stack.getCount()) >= itemStack.getCount()){
-                    nextSlot = i;
-                }
-
-                if(isItemStackEqual(itemStack, stack) && (stack.getCount() < stack.getMaxStackSize())){
-                    lastSlot = i;
-                }
-            }
-
-            if(freeSlot != -1){
-                inventory.insertItem(freeSlot, itemStack, false);
-                player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-            } else if(nextSlot != -1){
-                inventory.insertItem(nextSlot, itemStack, false);
-                player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-            } else if(lastSlot != -1){
-                int count = inventory.insertItem(nextSlot, itemStack, false).getCount();
-                ItemStack newStack = itemStack.copy();
-                newStack.setCount(count);
-                player.setHeldItem(EnumHand.MAIN_HAND, newStack);
-            } else {
-                player.sendMessage(new TextComponentString("Bait Box is full!"));
-            }
-
-            return true;
-        } else {
-            Map<String, Integer> baitAmountMap = new HashMap<>();
-
-            for (int i = 0; i < inventory.getSlots(); i++) {
-                ItemStack stack = inventory.getStackInSlot(i);
-
-                if (stack.isEmpty()) {
-                    continue;
-                }
-
-                String name = stack.getDisplayName();
-
-                if (baitAmountMap.containsKey(stack.getDisplayName())) {
-                    baitAmountMap.put(name, baitAmountMap.get(name) + stack.getCount());
-                } else {
-                    baitAmountMap.put(name, stack.getCount());
-                }
-            }
-
-            if(baitAmountMap.isEmpty()){
-                player.sendMessage(new TextComponentString("Bait Box is empty!"));
-            } else {
-                for (Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
-                    player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
-                }
-
-                player.sendMessage(new TextComponentString(" "));
-            }
-
-            return true;
-        }
+        
+        return true;
     }
-
 
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(this);
@@ -138,22 +51,22 @@ public class BlockBaitBox extends BlockTileEntityBase<TileEntityBaitBox> {
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        TileEntity tileentity = world.getTileEntity(pos);
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if(tileEntity instanceof TileEntityBaitBox) {
+        	IItemHandler inventory = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        IItemHandler inventory = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            for(int i = 0; i < inventory.getSlots(); i++) {
+                ItemStack stack = inventory.getStackInSlot(i);
+                EntityItem entityIn;
 
-        for (int i = 0; i < inventory.getSlots(); i++) {
-            ItemStack stack = inventory.getStackInSlot(i);
-            EntityItem entityIn;
+                if(!stack.isEmpty() && !world.isRemote) {
+                    entityIn = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    entityIn.setDefaultPickupDelay();
 
-            if (!stack.isEmpty() && !world.isRemote) {
-                entityIn = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-                entityIn.setDefaultPickupDelay();
-
-                world.spawnEntity(entityIn);
+                    world.spawnEntity(entityIn);
+                }
             }
         }
-
         super.breakBlock(world, pos, state);
     }
 
@@ -171,29 +84,5 @@ public class BlockBaitBox extends BlockTileEntityBase<TileEntityBaitBox> {
     @Override
     public TileEntityBaitBox createTileEntity(World world, IBlockState state) {
         return new TileEntityBaitBox();
-    }
-
-    private boolean isItemStackEqual(ItemStack itemStack, ItemStack other)
-    {
-        if (itemStack.getMaxStackSize() != other.getMaxStackSize())
-        {
-            return false;
-        }
-        else if (itemStack.getItem() != other.getItem())
-        {
-            return false;
-        }
-        else if (itemStack.getItemDamage() != other.getItemDamage())
-        {
-            return false;
-        }
-        else if (itemStack.getTagCompound() == null && other.getTagCompound() != null)
-        {
-            return false;
-        }
-        else
-        {
-            return (itemStack.getTagCompound() == null || itemStack.getTagCompound().equals(other.getTagCompound())) && itemStack.areCapsCompatible(other);
-        }
     }
 }

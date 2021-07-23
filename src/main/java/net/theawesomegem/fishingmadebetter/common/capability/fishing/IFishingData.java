@@ -1,6 +1,8 @@
 package net.theawesomegem.fishingmadebetter.common.capability.fishing;
 
+import net.minecraft.item.ItemStack;
 import net.theawesomegem.fishingmadebetter.common.data.FishCaughtData;
+import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS.Keybind;
 
 import java.util.Random;
 
@@ -62,13 +64,43 @@ public interface IFishingData {
 
     void setFishCaughtData(FishCaughtData fishCaughtData);
 
-    long getTimeSinceTracking();
+    FishCaughtData getFishCaughtData();
+    
+    void setUsingVanillaRod(boolean value);
+    
+    boolean getUsingVanillaRod();
 
     void setTimeSinceTracking(long time);
+    
+    long getTimeSinceTracking();
 
-    FishCaughtData getFishCaughtData();
-
-    void startFishing(Random random);
+    int getFishMomentum();
+    
+    void setFishMomentum(int momentum);
+    
+    int getFishTugging();
+    
+    void setFishTugging(int tugging);
+    
+    int getTensionMomentum();
+    
+    void setTensionMomentum(int momentum);
+    
+    Keybind getKeybind();
+    
+    void setKeybind(Keybind keybind);
+    
+    Integer[] getMinigameBackground();
+    
+    void setMinigameBackground(int a, int b, int c, int d, int e);
+    
+    void setMinigameBackground(Integer[] minigameBackground);
+    
+    int getLineBreak();
+    
+    void setLineBreak(int value);
+    
+    void startFishing(Random random, ItemStack fishingRod, Integer[] minigameBackground);
 
     void reset(boolean alsoResetFishSwimToHook);
 

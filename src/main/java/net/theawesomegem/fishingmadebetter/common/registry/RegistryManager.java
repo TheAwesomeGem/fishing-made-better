@@ -23,7 +23,7 @@ public class RegistryManager {
 
         @SubscribeEvent
         public static void onRegisterBlock(RegistryEvent.Register<Block> e) {
-            BlockManager.register(e.getRegistry());
+            BlockManager.registerBlocks(e.getRegistry());
         }
 
         @SubscribeEvent

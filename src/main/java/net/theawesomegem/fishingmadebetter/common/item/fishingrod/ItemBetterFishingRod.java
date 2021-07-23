@@ -1,25 +1,44 @@
 package net.theawesomegem.fishingmadebetter.common.item.fishingrod;
 
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.EnchantmentDurability;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.theawesomegem.fishingmadebetter.ModInfo;
-import net.theawesomegem.fishingmadebetter.common.configuration.CustomFishConfigurationHandler;
+import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
+import net.theawesomegem.fishingmadebetter.common.entity.EntityFMBCustomFishHook;
+import net.theawesomegem.fishingmadebetter.common.entity.EntityFMBLavaFishHook;
+import net.theawesomegem.fishingmadebetter.common.entity.EntityFMBVoidFishHook;
+import net.theawesomegem.fishingmadebetter.common.item.ItemManager;
+import net.theawesomegem.fishingmadebetter.common.item.attachment.bobber.ItemBobber;
+import net.theawesomegem.fishingmadebetter.common.item.attachment.hook.ItemHook;
+import net.theawesomegem.fishingmadebetter.common.item.attachment.reel.ItemReel;
+import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
 import javax.annotation.Nullable;
+
+import org.lwjgl.input.Keyboard;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -27,129 +46,217 @@ import java.util.Random;
  * Created by TheAwesomeGem on 12/30/2017.
  */
 public abstract class ItemBetterFishingRod extends ItemFishingRod {
-    public enum ReelLength {
-        Normal(1),
-        Long(2);
-
-        private final int length;
-
-        ReelLength(int length) {
-            this.length = length;
-        }
-
-        public int getLength() {
-            return length;
-        }
-
-        public static ReelLength fromLength(int length) {
-            switch (length) {
-                case 1:
-                    return ReelLength.Normal;
-                case 2:
-                    return ReelLength.Long;
-            }
-
-            return null;
-        }
-    }
-
-    protected final int reelRange;
-    protected final int tuggingAmount;
-    protected final int dragSpeed;
-
-    public ItemBetterFishingRod(String name, int reelRange, int tuggingAmount, int dragSpeed) {
+    public ItemBetterFishingRod(String name, ToolMaterial materialIn) {
         super();
-
+        
+        this.setCreativeTab(FMBCreativeTab.instance);
+        this.setNoRepair();
+        this.setMaxDamage(materialIn.getMaxUses());
         this.setRegistryName(name);
         this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
-
-        this.reelRange = reelRange;
-        this.tuggingAmount = tuggingAmount;
-        this.dragSpeed = dragSpeed;
     }
 
-    public int getReelRange() {
-        return reelRange;
-    }
-
-    public int getTuggingAmount() {
-        return tuggingAmount;
-    }
-
-    public int getDragSpeed(){
-        return dragSpeed;
-    }
-
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-        ActionResult<ItemStack> result = super.onItemRightClick(worldIn, playerIn, handIn);
+    	ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        if (playerIn.fishEntity != null) {
-            calculateVelocity(playerIn.fishEntity, reelRange, 1.0f);
+        if(playerIn.fishEntity != null) {
+            int dmg = playerIn.fishEntity.handleHookRetraction();
+            
+            if(!playerIn.capabilities.isCreativeMode && itemstack.isItemStackDamageable()) {
+            	Random rand = playerIn.getRNG();
+            	
+            	if(dmg > 0) {
+                    int i = EnchantmentHelper.getEnchantmentLevel(Enchantments.UNBREAKING, itemstack);
+                    int j = 0;
+
+                    for(int k = 0; i > 0 && k < dmg; ++k) {
+                        if(EnchantmentDurability.negateDamage(itemstack, i, rand)) ++j;
+                    }
+
+                    dmg -= j;
+
+                    if(dmg > 0) {
+                        //Handle attachment breaking
+                        boolean reelAlive = false;
+                        boolean bobberAlive = false;
+                        boolean hookAlive = false;
+                        
+                        if(ItemBetterFishingRod.hasReelItem(itemstack)) {
+                        	ItemBetterFishingRod.setReelDamage(itemstack, ItemBetterFishingRod.getReelDamage(itemstack) + dmg);
+                        	
+                        	if(ItemBetterFishingRod.getReelDamage(itemstack) > ItemBetterFishingRod.getReelItem(itemstack).getMaxDamage()) {
+                            	ItemBetterFishingRod.removeReelItem(itemstack);
+                            	playerIn.renderBrokenItemStack(itemstack);
+                            }
+                        	else reelAlive = true;
+                        }
+                        if(ItemBetterFishingRod.hasBobberItem(itemstack)) {
+                        	ItemBetterFishingRod.setBobberDamage(itemstack, ItemBetterFishingRod.getBobberDamage(itemstack) + dmg);
+                        	
+                        	if(ItemBetterFishingRod.getBobberDamage(itemstack) > ItemBetterFishingRod.getBobberItem(itemstack).getMaxDamage()) {
+                            	ItemBetterFishingRod.removeBobberItem(itemstack);
+                            	playerIn.renderBrokenItemStack(itemstack);
+                            }
+                        	else bobberAlive = true;
+                        }
+
+                        if(ItemBetterFishingRod.hasHookItem(itemstack)) {
+                        	ItemBetterFishingRod.setHookDamage(itemstack, ItemBetterFishingRod.getHookDamage(itemstack) + dmg);
+                        	
+                        	if(ItemBetterFishingRod.getHookDamage(itemstack) > ItemBetterFishingRod.getHookItem(itemstack).getMaxDamage()) {
+                            	ItemBetterFishingRod.removeHookItem(itemstack);
+                            	playerIn.renderBrokenItemStack(itemstack);
+                            }
+                        	else hookAlive = true;
+                        }
+                        
+                        if(itemstack.getItemDamage()+dmg > itemstack.getMaxDamage()) {//Have to check if its going to break before actually breaking it, otherwise Charm dupe
+                        	playerIn.renderBrokenItemStack(itemstack);
+                        	
+                        	if(reelAlive) {
+                        		ItemStack droppedReel = new ItemStack(ItemBetterFishingRod.getReelItem(itemstack));
+                        		droppedReel.setItemDamage(ItemBetterFishingRod.getReelDamage(itemstack));
+                        		playerIn.entityDropItem(droppedReel, 1.0f);
+                        	}
+                        	if(bobberAlive) {
+                        		ItemStack droppedBobber = new ItemStack(ItemBetterFishingRod.getBobberItem(itemstack));
+                        		droppedBobber.setItemDamage(ItemBetterFishingRod.getBobberDamage(itemstack));
+                        		playerIn.entityDropItem(droppedBobber, 1.0f);
+                        	}
+                        	if(hookAlive) {
+                        		ItemStack droppedHook = new ItemStack(ItemBetterFishingRod.getHookItem(itemstack));
+                        		droppedHook.setItemDamage(ItemBetterFishingRod.getHookDamage(itemstack));
+                        		playerIn.entityDropItem(droppedHook, 1.0f);
+                        	}
+                        	
+                        	ItemBetterFishingRod.removeBait(itemstack);
+                        	ItemBetterFishingRod.removeReelItem(itemstack);
+                        	ItemBetterFishingRod.removeBobberItem(itemstack);
+                        	ItemBetterFishingRod.removeHookItem(itemstack);
+                        }
+                        
+                        itemstack.setItemDamage(itemstack.getItemDamage() + dmg);
+                        
+                        if(itemstack.getItemDamage() > itemstack.getMaxDamage()) {
+                            itemstack.shrink(1);
+                            itemstack.setItemDamage(0);
+                        }
+                    }
+                }
+            }
+            
+            playerIn.swingArm(handIn);
+            worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+        }
+        else if(playerIn.getHeldItem(EnumHand.MAIN_HAND) != null && playerIn.getHeldItem(EnumHand.OFF_HAND) != null && playerIn.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemFishingRod && playerIn.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemFishingRod) {
+        	return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
+        }
+        else {
+            worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+            if(!worldIn.isRemote) {
+            	if(getBobberItem(itemstack).isLavaBobber()) {
+            		EntityFMBCustomFishHook entityFishHook = new EntityFMBLavaFishHook(worldIn, playerIn);
+                    worldIn.spawnEntity(entityFishHook);
+            	}
+            	else if((getBobberItem(itemstack).isVoidBobber())) {
+            		EntityFMBCustomFishHook entityFishHook = new EntityFMBVoidFishHook(worldIn, playerIn);
+                    worldIn.spawnEntity(entityFishHook);
+            	}
+            	else {
+            		EntityFishHook entityFishHook = new EntityFishHook(worldIn, playerIn) {
+            			ItemStack parentRod;
+            			
+            			@Override
+            			protected void entityInit() {
+            				super.entityInit();
+            				parentRod = itemstack;
+            			}
+            			
+            			@Override
+            			public void onUpdate() {
+            				super.onUpdate();
+            				
+            				if(getAngler() != null && getAngler().fishEntity != null) {
+            					if( (parentRod == null) ||
+            						(getAngler().getHeldItemMainhand() == null || getAngler().getHeldItemOffhand() == null) ||
+            						(getAngler().getHeldItemMainhand().getItem() instanceof ItemFishingRod == getAngler().getHeldItemOffhand().getItem() instanceof ItemFishingRod) ||
+            						((getAngler().getHeldItemMainhand() == parentRod) == (getAngler().getHeldItemOffhand() == parentRod)) 
+            						) super.setDead();
+            				}
+            			}
+            		};
+                    worldIn.spawnEntity(entityFishHook);
+            	}
+            }
+
+            playerIn.swingArm(handIn);
+            playerIn.addStat(StatList.getObjectUseStats(this));
         }
 
-        return result;
+        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
     }
 
-    @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Reel Length: " + ReelLength.fromLength(reelRange));
-        tooltip.add("Tugging Amount: " + tuggingAmount);
-        tooltip.add("Drag Speed: " + dragSpeed);
-
-        String baitDisplayName = getBaitDisplayName(stack);
-
-        tooltip.add("Bait: " +  ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : "None"));
-    }
-
+    @SuppressWarnings("deprecation")
+	@Override
     @SideOnly(Side.CLIENT)
-    public void registerItemModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
+    	ItemReel reel = getReelItem(stack);
+    	ItemBobber bobber = getBobberItem(stack);
+    	ItemHook hook = getHookItem(stack);
+    	
+    	if(Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(reel.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add((reel.getMaxDamage() != 0) ? ("  Durability: " + (reel.getMaxDamage()-getReelDamage(stack)) + "/" + reel.getMaxDamage()) : ("  Durability: -/-"));
+    		tooltip.add("  Reel Length: " + reel.getReelRange() + "m");
+    		tooltip.add("  Reel Speed: " + reel.getReelSpeed() + "m/s");
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bobber: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(bobber.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add((bobber.getMaxDamage() != 0) ? ("  Durability: " + (bobber.getMaxDamage()-getBobberDamage(stack)) + "/" + bobber.getMaxDamage()) : ("  Durability: -/-"));
+    		if(bobber.isLavaBobber()) tooltip.add("  Can fish in: " + TextFormatting.RED + "Lava" + TextFormatting.RESET);
+    		else if(bobber.isVoidBobber()) tooltip.add("  Can fish in: " + TextFormatting.LIGHT_PURPLE + "Void" + TextFormatting.RESET);
+    		else tooltip.add("  Can fish in: " + TextFormatting.BLUE + "Water" + TextFormatting.RESET);
+    		if(bobber.getVarianceModifier() != 0) tooltip.add("  Tension Bar Size Modifier: +" + bobber.getVarianceModifier());
+    		if(bobber.getTensioningModifier() !=0) tooltip.add("  Tension Bar Speed Modifier: +" + bobber.getTensioningModifier());
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Hook: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(hook.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add((hook.getMaxDamage() != 0) ? ("  Durability: " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  Durability: -/-"));
+    		if(hook.getTuggingReduction() != 0) tooltip.add("  Fish Tugging Modifier: -" + hook.getTuggingReduction());
+    		if(hook.getTreasureModifier() != 0) tooltip.add("  Treasure Chance Modifier: +" + hook.getTreasureModifier());
+    		if(hook.getBiteRateModifier() != 0) tooltip.add("  Fish Bite Rate Modifier: +" + hook.getBiteRateModifier());
+    		if(hook.getWeightModifier() != 0) tooltip.add("  Fish Weight Modifier: +" + hook.getWeightModifier());
+    		String baitDisplayName = getBaitDisplayName(stack);
+            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bait: " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : "None") + TextFormatting.RESET);
+            tooltip.add("");
+    	}
+    	else {
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(reel.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add((reel.getMaxDamage() != 0) ? ("  Durability: " + (reel.getMaxDamage()-getReelDamage(stack)) + "/" + reel.getMaxDamage()) : ("  Durability: -/-"));
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bobber: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(bobber.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add((bobber.getMaxDamage() != 0) ? ("  Durability: " + (bobber.getMaxDamage()-getBobberDamage(stack)) + "/" + bobber.getMaxDamage()) : ("  Durability: -/-"));
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Hook: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(hook.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add((hook.getMaxDamage() != 0) ? ("  Durability: " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  Durability: -/-"));
+    		String baitDisplayName = getBaitDisplayName(stack);
+            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bait: " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : "None") + TextFormatting.RESET);
+    		tooltip.add("");
+            tooltip.add("Hold " + TextFormatting.GOLD + Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName() + TextFormatting.RESET + "" + TextFormatting.GRAY + " for extra information" + TextFormatting.RESET);
+    	}
     }
-
-    private void calculateVelocity(EntityFishHook hook, float velocity, float modifier) {
-        double xMotion = hook.motionX;
-        double yMotion = hook.motionY;
-        double zMotion = hook.motionZ;
-        Random rand = hook.world.rand;
-
-        float f2 = MathHelper.sqrt(xMotion * xMotion + yMotion * yMotion + zMotion * zMotion);
-
-        xMotion /= f2;
-        yMotion /= f2;
-        zMotion /= f2;
-        xMotion += rand.nextGaussian() * 0.007499999832361937D * modifier;
-        yMotion += rand.nextGaussian() * 0.007499999832361937D * modifier;
-        zMotion += rand.nextGaussian() * 0.007499999832361937D * modifier;
-        xMotion *= velocity;
-        yMotion *= velocity;
-        zMotion *= velocity;
-
-        hook.motionX = xMotion;
-        hook.motionY = yMotion;
-        hook.motionZ = zMotion;
-
-        float f3 = MathHelper.sqrt(xMotion * xMotion + zMotion * zMotion);
-        hook.prevRotationYaw = hook.rotationYaw = (float) (Math.atan2(xMotion, zMotion) * 180.0D / Math.PI);
-        hook.prevRotationPitch = hook.rotationPitch = (float) (Math.atan2(yMotion, f3) * 180.0D / Math.PI);
-    }
-
+    
+    //Bait//
+    @Nullable
     public static String getBaitItem(ItemStack itemStack) {
-        return (hasBait(itemStack) ? itemStack.getTagCompound().getString("BaitItem") : null);
+        return(hasBait(itemStack) ? itemStack.getTagCompound().getString("BaitItem") : null);
     }
 
     public static void setBaitItem(ItemStack itemStack, String bait) {
-        if (!itemStack.hasTagCompound()) {
-            itemStack.setTagCompound(new NBTTagCompound());
-        }
+        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
 
         itemStack.getTagCompound().setString("BaitItem", bait);
     }
 
-    public static void removeBait(ItemStack itemStack){
-        if(!itemStack.hasTagCompound()){
-            return;
-        }
+    public static void removeBait(ItemStack itemStack) {
+        if(!itemStack.hasTagCompound()) return;
 
         itemStack.getTagCompound().removeTag("BaitItem");
         itemStack.getTagCompound().removeTag("BaitMetadata");
@@ -161,21 +268,18 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     }
 
     public static void setBaitMetadata(ItemStack itemStack, int metadata) {
-        if (!itemStack.hasTagCompound()) {
-            itemStack.setTagCompound(new NBTTagCompound());
-        }
+        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
 
         itemStack.getTagCompound().setInteger("BaitMetadata", metadata);
     }
 
+    @Nullable
     public static String getBaitDisplayName(ItemStack itemStack) {
         return (hasBait(itemStack) ? itemStack.getTagCompound().getString("BaitDisplayName") : null);
     }
 
     public static void setBaitDisplayName(ItemStack itemStack, String baitDisplayName) {
-        if (!itemStack.hasTagCompound()) {
-            itemStack.setTagCompound(new NBTTagCompound());
-        }
+        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
 
         itemStack.getTagCompound().setString("BaitDisplayName", baitDisplayName);
     }
@@ -183,19 +287,116 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     public static boolean hasBait(ItemStack itemStack) {
         return itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("BaitItem");
     }
+    
     public static boolean isBaitForFish(ItemStack itemStack, String fishId) {
-        if(!hasBait(itemStack)){
-            return false;
-        }
+        if(!hasBait(itemStack)) return false;
 
-        FishData fishData = CustomFishConfigurationHandler.fishDataMap.get(fishId);
-
-        if(fishData == null){
-            return false;
-        }
+        FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);
+        if(fishData == null) return false;
 
         String baitItem = getBaitItem(itemStack);
-
-        return fishData.baitItemMap.containsKey(baitItem) && fishData.baitItemMap.get(baitItem) == getBaitMetadata(itemStack);
+        if(baitItem == null) return false;
+        
+        return fishData.baitItemMap.containsKey(baitItem) && Arrays.asList(fishData.baitItemMap.get(baitItem)).contains(getBaitMetadata(itemStack));
     }
+    //****//
+    
+    //Reel//
+    public static ItemReel getReelItem(ItemStack itemStack) {
+    	return hasReelItem(itemStack) ? (ItemReel)Item.getByNameOrId(itemStack.getTagCompound().getString("ReelItem")) : ItemManager.REEL_BASIC;
+    }
+    
+    public static void setReelItem(ItemStack itemStack, ItemReel itemReel) {
+    	if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+
+        itemStack.getTagCompound().setString("ReelItem", itemReel.getRegistryName().toString());
+    }
+    
+    public static void removeReelItem(ItemStack itemStack) {
+    	if(!itemStack.hasTagCompound()) return;
+
+        itemStack.getTagCompound().removeTag("ReelItem");
+        itemStack.getTagCompound().removeTag("ReelDamage");
+    }
+    
+    public static int getReelDamage(ItemStack itemStack) {
+    	return hasReelItem(itemStack) ? itemStack.getTagCompound().getInteger("ReelDamage") : 0;
+    }
+    
+    public static void setReelDamage(ItemStack itemStack, int newDamage) {
+    	if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+    	
+    	itemStack.getTagCompound().setInteger("ReelDamage", (hasReelItem(itemStack) ? newDamage : 0));
+    }
+    
+    public static boolean hasReelItem(ItemStack itemStack) {
+    	return itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("ReelItem");
+    }
+    //****//
+    
+    //Bobber//
+    public static ItemBobber getBobberItem(ItemStack itemStack) {
+    	return hasBobberItem(itemStack) ? (ItemBobber)Item.getByNameOrId(itemStack.getTagCompound().getString("BobberItem")) : ItemManager.BOBBER_BASIC;
+    }
+    
+    public static void setBobberItem(ItemStack itemStack, ItemBobber itemBobber) {
+    	if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+
+        itemStack.getTagCompound().setString("BobberItem", itemBobber.getRegistryName().toString());
+    }
+    
+    public static void removeBobberItem(ItemStack itemStack) {
+    	if(!itemStack.hasTagCompound()) return;
+
+        itemStack.getTagCompound().removeTag("BobberItem");
+        itemStack.getTagCompound().removeTag("BobberDamage");
+    }
+    
+    public static int getBobberDamage(ItemStack itemStack) {
+    	return hasBobberItem(itemStack) ? itemStack.getTagCompound().getInteger("BobberDamage") : 0;
+    }
+    
+    public static void setBobberDamage(ItemStack itemStack, int newDamage) {
+    	if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+    	
+    	itemStack.getTagCompound().setInteger("BobberDamage", (hasBobberItem(itemStack) ? newDamage : 0));
+    }
+    
+    public static boolean hasBobberItem(ItemStack itemStack) {
+    	return itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("BobberItem");
+    }
+    //****//
+    
+    //Hook//
+    public static ItemHook getHookItem(ItemStack itemStack) {
+    	return hasHookItem(itemStack) ? (ItemHook)Item.getByNameOrId(itemStack.getTagCompound().getString("HookItem")) : ItemManager.HOOK_BASIC;
+    }
+    
+    public static void setHookItem(ItemStack itemStack, ItemHook itemHook) {
+    	if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+
+        itemStack.getTagCompound().setString("HookItem", itemHook.getRegistryName().toString());
+    }
+    
+    public static void removeHookItem(ItemStack itemStack) {
+    	if(!itemStack.hasTagCompound()) return;
+
+        itemStack.getTagCompound().removeTag("HookItem");
+        itemStack.getTagCompound().removeTag("HookDamage");
+    }
+    
+    public static int getHookDamage(ItemStack itemStack) {
+    	return hasHookItem(itemStack) ? itemStack.getTagCompound().getInteger("HookDamage") : 0;
+    }
+    
+    public static void setHookDamage(ItemStack itemStack, int newDamage) {
+    	if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+    	
+    	itemStack.getTagCompound().setInteger("HookDamage", (hasHookItem(itemStack) ? newDamage : 0));
+    }
+    
+    public static boolean hasHookItem(ItemStack itemStack) {
+    	return itemStack.hasTagCompound() && itemStack.getTagCompound().hasKey("HookItem");
+    }
+    //****//
 }

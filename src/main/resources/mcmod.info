@@ -2,14 +2,14 @@
 {
   "modid": "fishingmadebetter",
   "name": "Fishing Made Better",
-  "description": "Fishing is now more better.",
+  "description": "Fishing is now more better-er.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["TheAwesomeGem"],
+  "authorList": ["TheAwesomeGem", "Fonnymunkey"],
   "credits": "Forge Team.",
-  "logoFile": "",
+  "logoFile": "logo.png",
   "screenshots": [],
   "dependencies": []
 }

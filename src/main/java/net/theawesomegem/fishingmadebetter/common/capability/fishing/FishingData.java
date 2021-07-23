@@ -1,9 +1,12 @@
 package net.theawesomegem.fishingmadebetter.common.capability.fishing;
 
-
-import net.theawesomegem.fishingmadebetter.common.configuration.CustomFishConfigurationHandler;
+import net.minecraft.item.ItemStack;
+import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishCaughtData;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
+import net.theawesomegem.fishingmadebetter.common.item.fishingrod.ItemBetterFishingRod;
+import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS.Keybind;
+import net.theawesomegem.fishingmadebetter.util.RandomUtil;
 
 import java.util.Random;
 
@@ -11,7 +14,6 @@ import java.util.Random;
  * Created by TheAwesomeGem on 6/22/2017.
  */
 public class FishingData implements IFishingData {
-    //Temp fishing data
     private int fishTime;
     private boolean fishing;
     private int reelAmount;
@@ -23,6 +25,13 @@ public class FishingData implements IFishingData {
     private int fishDistanceTime;
     private FishCaughtData fishCaughtData;
     private FishPopulation fishPopulation;
+    private boolean usingVanillaRod = false;
+    private int fishMomentum;
+    private int fishTugging;
+    private int tensionMomentum;
+    private Keybind keybind;
+    private Integer[] minigameBackground = new Integer[5];
+    private int lineBreak;
     //========================
 
     private int lastFailedFishing;
@@ -56,6 +65,8 @@ public class FishingData implements IFishingData {
 
     @Override
     public void setReelAmount(int value) {
+    	value = Math.min(1100-this.errorVariance, Math.max(this.errorVariance, value));//Clamp target within minigame boundaries, 0-110 but account for size based on variance
+    	
         this.reelAmount = value;
     }
 
@@ -66,8 +77,7 @@ public class FishingData implements IFishingData {
 
     @Override
     public void setReelTarget(int value) {
-        if (value < 0)
-            value = 0;
+        value = Math.min(1070, Math.max(30, value));//Clamp target within minigame boundaries, 0-110 but fish is 6 wide
 
         this.reelTarget = value;
     }
@@ -132,11 +142,7 @@ public class FishingData implements IFishingData {
 
     @Override
     public void setFishDistance(int value) {
-        if(value < 0){
-            value = 0;
-        }
-
-        this.fishDistance = value;
+        this.fishDistance = Math.max(0, value);
     }
 
     @Override
@@ -182,6 +188,16 @@ public class FishingData implements IFishingData {
     public FishCaughtData getFishCaughtData() {
         return fishCaughtData;
     }
+    
+    @Override
+    public boolean getUsingVanillaRod() {
+    	return this.usingVanillaRod;
+    }
+    
+    @Override
+    public void setUsingVanillaRod(boolean value) {
+    	this.usingVanillaRod = value;
+    }
 
     @Override
     public long getTimeSinceTracking() {
@@ -192,33 +208,106 @@ public class FishingData implements IFishingData {
     public void setTimeSinceTracking(long time) {
         this.timeSinceTracking = time;
     }
+    
+    @Override
+    public int getFishMomentum() {
+    	return fishMomentum;
+    }
+    
+    @Override
+    public void setFishMomentum(int momentum) {
+    	this.fishMomentum = momentum;
+    }
+    
+    @Override
+    public int getFishTugging() {
+    	return fishTugging;
+    }
+    
+    @Override
+    public void setFishTugging(int tugging) {
+    	this.fishTugging = tugging;
+    }
+    
+    @Override
+    public int getTensionMomentum() {
+    	return tensionMomentum;
+    }
+    
+    @Override
+    public void setTensionMomentum(int momentum) {
+    	this.tensionMomentum = momentum;
+    }
+    
+    @Override
+    public Keybind getKeybind() {
+    	return keybind;
+    }
+    
+    @Override
+    public void setKeybind(Keybind keybind) {
+    	this.keybind = keybind;
+    }
+    
+    @Override
+    public Integer[] getMinigameBackground() {
+    	return this.minigameBackground;
+    }
+    
+    @Override
+    public void setMinigameBackground(int a, int b, int c, int d, int e) {
+    	this.minigameBackground[0] = a;
+    	this.minigameBackground[1] = b;
+    	this.minigameBackground[2] = c;
+    	this.minigameBackground[3] = d;
+    	this.minigameBackground[4] = e;
+    }
+    
+    @Override
+    public int getLineBreak() {
+    	return this.lineBreak;
+    }
+    
+    @Override
+    public void setLineBreak(int value) {
+    	this.lineBreak = Math.min(60, Math.max(0, value));
+    }
+    
+    @Override
+    public void setMinigameBackground(Integer[] minigameBackground) {
+    	this.minigameBackground = minigameBackground;
+    }
 
     @Override
-    public void startFishing(Random random) {
-        if (isFishing())
-            return;
+    public void startFishing(Random random, ItemStack fishingRod, Integer[] minigameBackground) {
+        if(isFishing()) return;
 
-        if (fishPopulation == null)
-            return;
-
+        if(fishPopulation == null) return;
+        
         String fishId = fishPopulation.fishId;
 
         reset();
 
-        FishData fishData = CustomFishConfigurationHandler.fishDataMap.get(fishId);
+        FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);
         FishCaughtData fishCaughtData = FishCaughtData.fromFishData(fishData, random);
         setFishCaughtData(fishCaughtData);
-
+        		
         setFishTime(fishCaughtData.fishTime);
         setFishing(true);
-        setReelAmount(0);
-        setReelTarget(fishCaughtData.reelAmount);
-        setFishDistance(0);
+        setErrorVariance((2 + fishCaughtData.errorVariance + ItemBetterFishingRod.getBobberItem(fishingRod).getVarianceModifier())*10);
+        setReelAmount(RandomUtil.getRandomInRange(random, 15, 95)*10);
+        setReelTarget(RandomUtil.getRandomInRange(random, 30, 80)*10);
+        setFishDistance((ItemBetterFishingRod.getReelItem(fishingRod).getReelRange()-fishCaughtData.deepLevel)*10);
         setFishDistanceTime(0);
-        setFishDeepLevel(fishCaughtData.deepLevel);
+        setFishDeepLevel(ItemBetterFishingRod.getReelItem(fishingRod).getReelRange()*10);//Multiply by 10 for smoother reeling, divide when called
         setFishWeight(fishCaughtData.weight);
-        setErrorVariance(fishCaughtData.errorVariance);
-
+        setFishMomentum(0);
+        setFishTugging(0);
+        setTensionMomentum(0);
+        setKeybind(Keybind.NONE);
+        setMinigameBackground(minigameBackground);
+        setLineBreak(0);
+        
         setLastFishTime(getFishTime());
     }
 
@@ -230,14 +319,22 @@ public class FishingData implements IFishingData {
         }
 
         fishCaughtData = null;
+        
         setFishTime(0);
         setFishing(false);
+        setErrorVariance(0);
         setReelAmount(0);
         setReelTarget(0);
         setFishDistance(0);
         setFishDistanceTime(0);
         setFishDeepLevel(0);
         setFishWeight(0);
+        setFishMomentum(0);
+        setFishTugging(0);
+        setTensionMomentum(0);
+        setKeybind(Keybind.NONE);
+        setMinigameBackground(new Integer[] {0, 0, 0, 0 ,0});
+        setLineBreak(0);
     }
 
     @Override

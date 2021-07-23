@@ -1,0 +1,82 @@
+{
+    "pools": [
+        {
+			"name": "fishingmadebetter:fishing_aquaculture_junk",
+            "rolls": 1,
+			"weight": 1,
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "aquaculture:food",
+					"entryName": "aquaculture:food",
+                    "weight": 25,
+					"functions": [
+                        {
+                            "function": "set_data",
+                            "data": 1
+                        }
+                    ]
+                },
+				{
+                    "type": "item",
+                    "name": "aquaculture:loot",
+					"entryName": "aquaculture:loot",
+                    "weight": 25,
+					"functions": [
+                        {
+                            "function": "set_data",
+                            "data": 0
+                        }
+					]
+                },
+				{
+                    "type": "item",
+                    "name": "aquaculture:loot",
+					"entryName": "aquaculture:loot#0",
+                    "weight": 10,
+					"functions": [
+                        {
+                            "function": "set_data",
+                            "data": 3
+                        }
+					]
+                },
+				{
+                    "type": "item",
+                    "name": "aquaculture:food",
+					"entryName": "aquaculture:food#0",
+                    "weight": 25,
+					"functions": [
+                        {
+                            "function": "set_data",
+                            "data": 0
+                        }
+					]
+                },
+				{
+                    "type": "item",
+                    "name": "aquaculture:loot",
+					"entryName": "aquaculture:loot#1",
+                    "weight": 25,
+					"functions": [
+                        {
+                            "function": "set_data",
+                            "data": 2
+                        }
+					]
+                },
+				{
+                    "type": "item",
+                    "name": "aquaculture:fish",
+                    "weight": 15,
+					"functions": [
+                        {
+                            "function": "set_data",
+                            "data": 38
+                        }
+					]
+                }
+            ]
+        }
+    ]
+}

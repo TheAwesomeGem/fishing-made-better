@@ -21,68 +21,89 @@ public class ConfigurationManager {
         BOTTOM_CENTER,
         BOTTOM_RIGHT
     }
+    
+    @Config.Comment("Server Config")
+    @Config.Name("Server")
+    public static final ServerConfig server = new ServerConfig();
+    
+    public static class ServerConfig {
+        @Config.Name("Fish Bucket")
+        @Config.Comment("Enable the fish bucket?")
+        public boolean enableFishBucket = true;
 
-    @Config.Name("Reeling Hud")
-    @Config.Comment("Enable/Disable the reeling hud.")
-    public static boolean reelingHud = true;
+        @Config.Name("Automatically Catch Fish When Ready")
+        @Config.Comment("When the distance left is 0m and you can catch the fish, automatically force the player to right-click to reel in?")
+        public boolean autoReel = true;
+        
+        @Config.Name("Require Correct Line")
+        @Config.Comment("When the distance left is 0m and you can catch the fish, does the tension bar also need to be over the fish?")
+        public boolean requireCorrectLine = true;
 
-    @Config.Name("Reeling Hold")
-    @Config.Comment("Allows you to hold the reeling key instead of pressing it.")
-    public static boolean reelingHold = false;
+        @Config.Name("Magnetic Fishing")
+        @Config.Comment("Do fish drop on your player when you successfully reel them in?")
+        public boolean magneticFishing = true;
 
-    @Config.Name("Magnetic Fishing")
-    @Config.Comment("Enable/Disable fishes automatically dropping near you.")
-    public static boolean magneticFishing = true;
+        @Config.Name("Lose Bait")
+        @Config.Comment("Lose the bait whenever a fish bites your hook.")
+        public boolean looseBait = true;
+        
+        @Config.Name("Regenerate Empty Chunks")
+        @Config.Comment("Attempt to regenerate fish if a chunk is empty?")
+        public boolean regenerateEmptyChunks = false;
+        
+        @Config.Name("Aquaculture Recipe Override")
+        @Config.Comment("Replace/remove/override/add Aquaculture recipes to work better with this mod? (Does nothing if Aquaculture is not installed)")
+        public boolean aquacultureRecipeOverride = true;
+        
+        @Config.Name("Fish Regeneration Time")
+        @Config.RangeInt(min=0)
+        @Config.Comment("After a chunk is emptied, how long until it attempts to regenerate the fish population. (Minutes)")
+        public int fishRegenerationTime = 180;
 
-    @Config.Name("Custom Fish Slicing")
-    @Config.Comment("Allows the fish to be cut into custom slices instead of fishes.")
-    public static boolean customFishSlicing = false;
+        @Config.Name("Fish Reproduction Time")
+        @Config.RangeInt(min=0)
+        @Config.Comment("How often the fish population reproduction time should be ticked up. (Minutes) (Ticks required per fish set in Fish-Config)")
+        public int fishReproductionTime = 10;
 
-    @Config.Name("Reeling Meter Position")
-    @Config.Comment("Move the Reeling Meter.")
-    public static ReelingHubPos reelingHubPos = ReelingHubPos.TOP_CENTER;
+        @Config.Name("Bait Box Update Interval")
+        @Config.RangeInt(min=0)
+        @Config.Comment("How often a bait-box checks for hungry fish. (Minutes)")
+        public int baitBoxUpdateInterval = 5;
 
-    @Config.Name("Reeling Meter X-Offset")
-    @Config.Comment("Changes the X-Offset of the reeling meter.")
-    public static int reelingMeterXOffset = 0;
+        @Config.Name("Tracking Time")
+        @Config.RangeInt(min=0)
+        @Config.Comment("Time it takes to probe for fish with the tracker in seconds.")
+        public int trackingTime = 5;
 
-    @Config.Name("Reeling Meter Y-Offset")
-    @Config.Comment("Changes the Y-Offset of the reeling meter.")
-    public static int reelingMeterYOffset = 4;
+        @Config.Name("Random Population Factor")
+        @Config.RangeInt(min=0)
+        @Config.Comment("When populating chunks, each population is increased or decreased by a random percent chosen between 0 and this.")
+        public int randomPopulationFactor = 50;
+    }
+    
+    @Config.Comment("Client Config")
+    @Config.Name("Client")
+    public static final ClientConfig client = new ClientConfig();
+    
+    public static class ClientConfig {
+        @Config.Name("Reeling Hud")
+        @Config.Comment("Enable/Disable the reeling hud. (Why would you disable it?)")
+        public boolean reelingHud = true;
 
-    @Config.Name("Fish Regeneration Time")
-    @Config.Comment("Get fish regeneration time in a chunk in minutes.")
-    public static int fishRegenerationTime = 60;
+        @Config.Name("Reeling Meter Position")
+        @Config.Comment("Move the Reeling Meter.")
+        public ReelingHubPos reelingHubPos = ReelingHubPos.TOP_CENTER;
 
-    @Config.Name("Fish Reproduction Time")
-    @Config.Comment("Get how fast it should lower a reproduction tick of fishes in a chunk in minutes.")
-    public static int fishReproductionTime = 4;
+        @Config.Name("Reeling Meter X-Offset")
+        @Config.Comment("Changes the X-Offset of the reeling meter.")
+        public int reelingMeterXOffset = 0;
 
-    @Config.Name("Bait Box Update Interval")
-    @Config.Comment("Check when to update the bait box in minutes.")
-    public static int baitBoxUpdateInterval = 5;
+        @Config.Name("Reeling Meter Y-Offset")
+        @Config.Comment("Changes the Y-Offset of the reeling meter.")
+        public int reelingMeterYOffset = 4;
+    }
 
-    @Config.Name("Tracking Time")
-    @Config.Comment("Time it takes to track fishes in seconds.")
-    public static int trackingTime = 8;
-
-    @Config.Name("Fish Bucket")
-    @Config.Comment("Enable/disable fish bucket.")
-    public static boolean enableFishBucket = true;
-
-    @Config.Name("Random Population Factor")
-    @Config.Comment("The random factor that gets added/substracted from the rarity to count population.")
-    public static int randomPopulationFactor = 24;
-
-    @Config.Name("Require Correct Line")
-    @Config.Comment("When the distance is 0 and you are about to catch the fish, does the reel also needs to be correct? (Only for Difficulty)")
-    public static boolean requireCorrectLine = false;
-
-    @Config.Name("Loose Bait")
-    @Config.Comment("Loose the bait whenever a fish bites to it.")
-    public static boolean looseBait = true;
-
-    @Mod.EventBusSubscriber
+    @Mod.EventBusSubscriber(modid = ModInfo.MOD_ID)
     private static class EventHandler {
         @SubscribeEvent
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent e) {

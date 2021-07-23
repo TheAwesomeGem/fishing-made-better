@@ -1,0 +1,6 @@
+{
+    "parent": "fishingmadebetter:item/rod_base",
+    "textures": {
+        "layer0": "fishingmadebetter:items/mesh/hook/hook_barbed"
+    }
+}

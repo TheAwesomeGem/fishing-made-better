@@ -36,6 +36,7 @@ public class ChunkCapabilityProvider implements ICapabilitySerializable<NBTBase>
         return capability == CHUNK_FISHING_DATA_CAP;
     }
 
+    @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         return capability == CHUNK_FISHING_DATA_CAP ? CHUNK_FISHING_DATA_CAP.cast(chunkFishingData) : null;
