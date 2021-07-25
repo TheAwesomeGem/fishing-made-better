@@ -29,6 +29,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -329,6 +330,18 @@ public class FishingEventHandler {//God this handler is a mess
         chunkFishingData.chunkLoad(chunk);
     }
     
+    @SubscribeEvent
+    public void onItemToss(ItemTossEvent event) {//Charm dupe patch
+    	ItemStack stack = event.getEntityItem().getItem();
+    	if(!(stack.getItem() instanceof ItemBetterFishingRod)) return;
+    	if(!(ConfigurationManager.server.charmSalvagePatch)) return;
+    	
+    	if(stack.getItemDamage() >= stack.getMaxDamage()) {
+    		ItemBetterFishingRod.removeReelItem(stack);
+    		ItemBetterFishingRod.removeBobberItem(stack);
+    		ItemBetterFishingRod.removeHookItem(stack);
+    	}
+    }
     
     private int textureIndexFromBiome(Biome biome) {//TODO: config override
     	if(BiomeDictionary.hasType(biome, Type.MUSHROOM)) return 8;

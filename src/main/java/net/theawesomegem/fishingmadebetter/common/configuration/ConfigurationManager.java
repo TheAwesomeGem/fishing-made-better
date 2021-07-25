@@ -55,6 +55,10 @@ public class ConfigurationManager {
         @Config.Comment("Replace/remove/override/add Aquaculture recipes to work better with this mod? (Does nothing if Aquaculture is not installed)")
         public boolean aquacultureRecipeOverride = true;
         
+        @Config.Name("Charm Salvage Patch")
+        @Config.Comment("Attempt to patch the dupe bug caused by Charm's Salvage enchant on rods with attachments? (Will cause attachments to be voided if you drop a rod at 0 durability remaining)")
+        public boolean charmSalvagePatch = false;
+        
         @Config.Name("Fish Regeneration Time")
         @Config.RangeInt(min=0)
         @Config.Comment("After a chunk is emptied, how long until it attempts to regenerate the fish population. (Minutes)")

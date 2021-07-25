@@ -60,7 +60,7 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
 	@Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
     	ItemStack itemstack = playerIn.getHeldItem(handIn);
-
+    	
         if(playerIn.fishEntity != null) {
             int dmg = playerIn.fishEntity.handleHookRetraction();
             
@@ -112,7 +112,9 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
                         	else hookAlive = true;
                         }
                         
-                        if(itemstack.getItemDamage()+dmg > itemstack.getMaxDamage()) {//Have to check if its going to break before actually breaking it, otherwise Charm dupe
+                        itemstack.setItemDamage(itemstack.getItemDamage() + dmg);
+                        
+                        if(itemstack.getItemDamage() > itemstack.getMaxDamage()) {
                         	playerIn.renderBrokenItemStack(itemstack);
                         	
                         	if(reelAlive) {
@@ -131,15 +133,6 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
                         		playerIn.entityDropItem(droppedHook, 1.0f);
                         	}
                         	
-                        	ItemBetterFishingRod.removeBait(itemstack);
-                        	ItemBetterFishingRod.removeReelItem(itemstack);
-                        	ItemBetterFishingRod.removeBobberItem(itemstack);
-                        	ItemBetterFishingRod.removeHookItem(itemstack);
-                        }
-                        
-                        itemstack.setItemDamage(itemstack.getItemDamage() + dmg);
-                        
-                        if(itemstack.getItemDamage() > itemstack.getMaxDamage()) {
                             itemstack.shrink(1);
                             itemstack.setItemDamage(0);
                         }
