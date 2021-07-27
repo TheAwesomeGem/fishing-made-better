@@ -177,7 +177,7 @@ public class FishingEventHandler {//God this handler is a mess
 
             
             chunkFishingData.reducePopulation(fishCaughtData.fishId, 1, world.getTotalWorldTime(), true);
-            player.world.spawnEntity(new EntityXPOrb(player.world, player.posX, player.posY + 0.5D, player.posZ + 0.5D, player.getRNG().nextInt(6) + 1));
+            player.world.spawnEntity(new EntityXPOrb(player.world, player.posX, player.posY + 0.5D, player.posZ + 0.5D, player.getRNG().nextInt(6) + 1));//TODO: exp based on fish rarity
         }
 
         fishingData.reset();

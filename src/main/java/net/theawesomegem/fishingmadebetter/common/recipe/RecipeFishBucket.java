@@ -24,6 +24,8 @@ public class RecipeFishBucket extends net.minecraftforge.registries.IForgeRegist
 
     @Override
     public boolean matches(InventoryCrafting inv, World worldIn) {
+    	if(worldIn == null) return false;
+    	
     	worldTime = worldIn.getTotalWorldTime();
         return validInput(inv) != null;
     }
