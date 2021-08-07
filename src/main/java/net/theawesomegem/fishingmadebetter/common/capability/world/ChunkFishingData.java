@@ -1,7 +1,8 @@
 package net.theawesomegem.fishingmadebetter.common.capability.world;
 
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
@@ -215,11 +216,12 @@ public class ChunkFishingData implements IChunkFishingData {
 
     private boolean isChunkBiomeInBiomeList(List<String> biomeTagList) {
         if(chunk == null) return false;
-
+        
         if(biomeTagList.isEmpty()) return false;
         
         if(byName.isEmpty()) initByName();
-
+        
+        /*
         byte[] biomeIds = chunk.getBiomeArray();
 
         for(String biomeTag : biomeTagList) {//No need to check every single block, just check chunk corners and middle side
@@ -232,6 +234,22 @@ public class ChunkFishingData implements IChunkFishingData {
         			(biomeIds[240] >= 0 ? BiomeDictionary.hasType(Biome.getBiome(biomeIds[240]), byName.get(biomeTag)) : false) ||
         			(biomeIds[249] >= 0 ? BiomeDictionary.hasType(Biome.getBiome(biomeIds[249]), byName.get(biomeTag)) : false) ||
         			(biomeIds[255] >= 0 ? BiomeDictionary.hasType(Biome.getBiome(biomeIds[255]), byName.get(biomeTag)) : false) )
+        	) return true;
+        }
+        */
+        ChunkPos chunkPos = chunk.getPos();
+        BiomeProvider biomeProv = world.getBiomeProvider();
+        
+        for(String biomeTag : biomeTagList) {//No need to check every single block, just check chunk corners and middle side
+        	if(byName.get(biomeTag) != null && (
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(0, 60, 0), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(8, 60, 0), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(15, 60, 0), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(0, 60, 0), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(0, 60, 8), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(0, 60, 15), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(8, 60, 15), biomeProv), byName.get(biomeTag)) ||
+        			BiomeDictionary.hasType(chunk.getBiome(chunkPos.getBlock(15, 60, 8), biomeProv), byName.get(biomeTag)) )
         	) return true;
         }
         
