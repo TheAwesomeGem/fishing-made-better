@@ -46,13 +46,13 @@ public class GuiReelingOverlay extends Gui {
     }
 
     @SubscribeEvent
-    public void onRenderGameOverlay(RenderGameOverlayEvent e) {
-        if(e.isCancelable() || e.getType() != ElementType.EXPERIENCE || !ConfigurationManager.client.reelingHud) return;
-
+    public void onRenderGameOverlay(RenderGameOverlayEvent.Post e) {
+        if(e.isCanceled() || e.getType() != ElementType.ALL || !ConfigurationManager.client.reelingHud) return;
+        
         EntityPlayer player = this.mc.player;
 
         if(player == null || !player.isEntityAlive()) return;
-
+        
         IFishingData fishingData = player.getCapability(FishingCapabilityProvider.FISHING_DATA_CAP, null);
 
         if(fishingData == null || !fishingData.isFishing()) return;

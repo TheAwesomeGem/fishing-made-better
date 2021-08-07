@@ -16,13 +16,8 @@ public class DefaultFishes {//TODO: all this shit
         fishDataMap.put("vanilla", getVanillaFishes());
         if(Loader.isModLoaded("advanced-fishing")) fishDataMap.put("advancedfishing", getAdvancedFishingFishes());
         if(Loader.isModLoaded("aquaculture"))fishDataMap.put("aquaculture", getAquacultureFishes());
-        if(Loader.isModLoaded("harvestcraft"))fishDataMap.put("harvestcraft", getHarvestCraftFishes());
 
         return fishDataMap;
-    }
-
-    private static Map<String, FishData> getHarvestCraftFishes() {
-        return new HashMap<>();
     }
 
     private static Map<String, FishData> getAquacultureFishes() {
@@ -640,9 +635,9 @@ public class DefaultFishes {//TODO: all this shit
                 0,//Scaling item Metadata
                 false,//Use weight when scaling
                 true,//Allow filleting
-                true,//Use default fillets
-                "",//Custom fillet item
-                0,//Custom fillet item metadata
+                false,//Use default fillets
+                "aquaculture:food",//Custom fillet item
+                2,//Custom fillet item metadata
                 true,//Fillet uses weight
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.OCEAN_PREDATOR_AQC }//Valid bait items
         ));
@@ -765,7 +760,7 @@ public class DefaultFishes {//TODO: all this shit
                 0,//Scaling item Metadata
                 false,//Use weight when scaling
                 true,//Allow filleting
-                true,//Use default fillets
+                false,//Use default fillets
                 "aquaculture:food",//Custom fillet item
                 7,//Custom fillet item metadata
                 false,//Fillet uses weight
