@@ -55,9 +55,13 @@ public class ConfigurationManager {
         @Config.Comment("Replace/remove/override/add Aquaculture recipes to work better with this mod? (Does nothing if Aquaculture is not installed)")
         public boolean aquacultureRecipeOverride = true;
         
+        @Config.Name("AdvancedFishing Recipe Override")
+        @Config.Comment("Replace/remove/override/add AdvancedFishing recipes to work better with this mod? (Does nothing if AdvancedFishing is not installed)")
+        public boolean advancedFishingRecipeOverride = true;
+        
         @Config.Name("Charm Salvage Patch")
         @Config.Comment("Attempt to patch the dupe bug caused by Charm's Salvage enchant on rods with attachments? (Will cause attachments to be voided if you drop a rod at 0 durability remaining)")
-        public boolean charmSalvagePatch = false;
+        public boolean charmSalvagePatch = true;
         
         @Config.Name("Fish Regeneration Time")
         @Config.RangeInt(min=0)

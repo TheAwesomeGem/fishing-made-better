@@ -32,6 +32,7 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -334,12 +335,13 @@ public class FishingEventHandler {//God this handler is a mess
     public void onItemToss(ItemTossEvent event) {//Charm dupe patch
     	ItemStack stack = event.getEntityItem().getItem();
     	if(!(stack.getItem() instanceof ItemBetterFishingRod)) return;
-    	if(!(ConfigurationManager.server.charmSalvagePatch)) return;
     	
-    	if(stack.getItemDamage() >= stack.getMaxDamage()) {
-    		ItemBetterFishingRod.removeReelItem(stack);
-    		ItemBetterFishingRod.removeBobberItem(stack);
-    		ItemBetterFishingRod.removeHookItem(stack);
+    	if(ConfigurationManager.server.charmSalvagePatch && Loader.isModLoaded("charm")) {
+	    	if(stack.getItemDamage() >= stack.getMaxDamage()) {
+	    		ItemBetterFishingRod.removeReelItem(stack);
+	    		ItemBetterFishingRod.removeBobberItem(stack);
+	    		ItemBetterFishingRod.removeHookItem(stack);
+	    	}
     	}
     }
     

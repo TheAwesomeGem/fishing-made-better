@@ -221,6 +221,7 @@ public class ChunkFishingData implements IChunkFishingData {
         
         if(byName.isEmpty()) initByName();
         
+        //JEID breaks this method, may as well use the other one
         /*
         byte[] biomeIds = chunk.getBiomeArray();
 
@@ -237,6 +238,7 @@ public class ChunkFishingData implements IChunkFishingData {
         	) return true;
         }
         */
+        
         ChunkPos chunkPos = chunk.getPos();
         BiomeProvider biomeProv = world.getBiomeProvider();
         
