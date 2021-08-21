@@ -2,7 +2,6 @@ package net.theawesomegem.fishingmadebetter.common.block.tileentity;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -23,10 +22,10 @@ import net.theawesomegem.fishingmadebetter.common.configuration.ConfigurationMan
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.util.TimeUtil;
-import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
