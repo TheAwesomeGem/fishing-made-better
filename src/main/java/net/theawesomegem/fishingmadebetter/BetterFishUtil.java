@@ -3,10 +3,15 @@ package net.theawesomegem.fishingmadebetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextFormatting;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.common.item.ItemFishBucket;
+import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
 import net.theawesomegem.fishingmadebetter.util.TimeUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -47,6 +52,16 @@ public class BetterFishUtil {
         tagCompound.setBoolean("FishScale", value);
 
         itemStack.setTagCompound(tagCompound);
+        
+        if(!value) {
+        	List<String> tooltipList = new ArrayList<>();
+            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
+            tooltipList.add(String.format("Scale: %s", "Detached"));
+            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Dead" + TextFormatting.RESET);
+            itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+
+            BetterFishUtil.setFishCaughtTime(itemStack, 0);
+        }
     }
 
     public static boolean isBetterFish(ItemStack itemStack) {

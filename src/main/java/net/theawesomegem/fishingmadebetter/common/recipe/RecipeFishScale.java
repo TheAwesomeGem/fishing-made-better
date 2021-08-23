@@ -62,12 +62,14 @@ public class RecipeFishScale extends net.minecraftforge.registries.IForgeRegistr
     	Integer[] slots = validInput(inv);
     	ItemStack itemStackKnife = inv.getStackInSlot(slots[0]).copy();
     	ItemStack itemStackFish = inv.getStackInSlot(slots[1]).copy();
+
+    	itemStackFish = itemStackFish.splitStack(1);
     	
     	FishData fishData = CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStackFish));
     	int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
-    	
-    	BetterFishUtil.setFishHasScale(itemStackFish, false);
 
+    	BetterFishUtil.setFishHasScale(itemStackFish, false);
+    	
         itemStackKnife.setItemDamage(itemStackKnife.getItemDamage() + (fishData.scalingUseWeight ? getScaleAmount(fishWeight) : 1));
         if(itemStackKnife.getItemDamage() >= itemStackKnife.getMaxDamage()) itemStackKnife = ItemStack.EMPTY;
         

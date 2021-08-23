@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
@@ -33,6 +34,10 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
         if(slots==null) return ItemStack.EMPTY;
 
         ItemStack itemStackFish = inv.getStackInSlot(slots[1]);
+        
+        if(!BetterFishUtil.isBetterFish(itemStackFish)) {
+    		return new ItemStack(ItemManager.FISH_SLICE_RAW, 1);
+    	}
         
         String fishId = BetterFishUtil.getFishId(itemStackFish);
         String fishDisplayName = fishId;
@@ -65,7 +70,13 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
     	ItemStack itemStackKnife = inv.getStackInSlot(slots[0]).copy();
     	ItemStack itemStackFish = inv.getStackInSlot(slots[1]);
 
-        itemStackKnife.setItemDamage(itemStackKnife.getItemDamage() + (CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStackFish)).filletUseWeight ? getSliceAmount(BetterFishUtil.getFishWeight(itemStackFish)) : 1));
+    	if(!BetterFishUtil.isBetterFish(itemStackFish)) {
+    		itemStackKnife.setItemDamage(itemStackKnife.getItemDamage() + 1);
+    	}
+    	else {
+    		itemStackKnife.setItemDamage(itemStackKnife.getItemDamage() + (CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStackFish)).filletUseWeight ? getSliceAmount(BetterFishUtil.getFishWeight(itemStackFish)) : 1));
+    	}
+    	
         if(itemStackKnife.getItemDamage() >= itemStackKnife.getMaxDamage()) itemStackKnife = ItemStack.EMPTY;
         
         NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
@@ -102,6 +113,7 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
             if(itemStack.isEmpty()) return null;
             else if(itemStack.getItem() instanceof ItemFilletKnife && itemStack.getMaxDamage() > itemStack.getItemDamage()) knifeSlot = i;
             else if(BetterFishUtil.isBetterFish(itemStack) && CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowFillet) fishSlot = i;
+            else if(itemStack.getItem().getRegistryName().equals(new ResourceLocation("minecraft:fish"))) fishSlot = i;
             else return null;
         }
         Integer[] slots = new Integer[2];

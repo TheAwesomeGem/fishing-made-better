@@ -121,7 +121,7 @@ public class FishingEventHandler {//God this handler is a mess
         
         e.setCanceled(true);
         
-        if(fishingData.getFishDistance() >= fishingData.getFishDeepLevel()) {
+        if(fishingData.getFishDistance() >= fishingData.getFishDeepLevel() && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
         	ItemStack fishingRod = getBetterFishingRod(player);
             ItemHook hookAttachment = ItemBetterFishingRod.getHookItem(fishingRod);
             int weightModifier = hookAttachment.getWeightModifier();
@@ -485,7 +485,7 @@ public class FishingEventHandler {//God this handler is a mess
     }
 
     private int getDistanceTime(int weight) {
-        return (int)(1D+(Math.cbrt((double)(weight*weight))/10D));
+        return (int)(1D+(Math.cbrt((double)(weight*weight))/6D));
     }
 
     private ItemStack getFishItemStack(FishCaughtData fishCaughtData, long currentTime, int weightModifier) {
@@ -562,8 +562,9 @@ public class FishingEventHandler {//God this handler is a mess
 
         if(fishingData.isFishing()) {
             ItemStack betterFishingRodStack = getBetterFishingRod(player);
-
-            int fishSpeed = 8-Math.min(6, (int)(((float)getDistanceTime(fishingData.getFishWeight())/2f)+0.5f));//TODO: cache distanceTime
+            
+            //int fishSpeed = 8-Math.min(6, (int)(((float)getDistanceTime(fishingData.getFishWeight())/2f)+0.5f));//TODO: cache distanceTime
+            int fishSpeed = 4 + (int)((float)getDistanceTime(fishingData.getFishWeight())+0.5f);
             int tensioningSpeed = 8;
             
             fishSpeed -= ItemBetterFishingRod.getHookItem(betterFishingRodStack).getTuggingReduction();
