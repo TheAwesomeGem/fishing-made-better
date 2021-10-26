@@ -22,6 +22,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
@@ -46,14 +47,23 @@ import java.util.Random;
  * Created by TheAwesomeGem on 12/30/2017.
  */
 public abstract class ItemBetterFishingRod extends ItemFishingRod {
+	protected Item.ToolMaterial toolMaterial;
+	
     public ItemBetterFishingRod(String name, ToolMaterial materialIn) {
         super();
-        
+
+        this.toolMaterial = materialIn;
         this.setCreativeTab(FMBCreativeTab.instance);
-        this.setNoRepair();
         this.setMaxDamage(materialIn.getMaxUses());
         this.setRegistryName(name);
         this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
+    }
+    
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
+    {
+        ItemStack mat = this.toolMaterial.getRepairItemStack();
+        if (!mat.isEmpty() && OreDictionary.itemMatches(mat, repair, false)) return true;
+        return super.getIsRepairable(toRepair, repair);
     }
 
     @SuppressWarnings("deprecation")

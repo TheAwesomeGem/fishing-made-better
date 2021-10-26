@@ -627,6 +627,7 @@ public class FishingEventHandler {//God this handler is a mess
         int pop = population.population;
 
         int rate = (int)(900f * ((float)(100f-ItemBetterFishingRod.getHookItem(itemFishingRod).getBiteRateModifier())/100f));//Percentage reduction based on modifier
+        
         rate -= (100*EnchantmentHelper.getFishingSpeedBonus(itemFishingRod));//Max 60 seconds, -5 per lure level
         rate -= 4*pop;//-4 ticks per fish in population
         
