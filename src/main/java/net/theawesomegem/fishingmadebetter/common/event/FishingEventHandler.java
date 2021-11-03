@@ -121,11 +121,49 @@ public class FishingEventHandler {//God this handler is a mess
         
         e.setCanceled(true);
         
+        /*
+        //Loot table debug
+        if(true) {
+        	ItemStack fishingRod = getBetterFishingRod(player);
+            ItemHook hookAttachment = ItemBetterFishingRod.getHookItem(fishingRod);
+            int treasureChance = 15 + hookAttachment.getTreasureModifier();
+            EntityFishHook hook = e.getHookEntity();
+            HashMap<String, Integer> treasureMap = new HashMap<String, Integer>();
+            
+            System.out.println("Beginning FMB loot generator at 10,000 passes.");
+            System.out.println("Chance for treasure: " + treasureChance + "/100");
+            System.out.println("Luck: " + EnchantmentHelper.getFishingLuckBonus(fishingRod) + player.getLuck());
+            System.out.println("-------------");
+            
+            //lag goes brr
+            for(int i = 0; i < 10000; i++) {
+                ItemStack treasure = ItemStack.EMPTY;
+                if(treasureChance > RandomUtil.getRandomInRange(player.getRNG(), 0, 100)) {
+                    LootContext.Builder lootBuilder = new LootContext.Builder((WorldServer)world);
+                    lootBuilder.withLuck(EnchantmentHelper.getFishingLuckBonus(fishingRod) + player.getLuck()).withPlayer(player).withLootedEntity(hook);
+                    List<ItemStack> result = world.getLootTableManager().getLootTableFromLocation(LootHandler.FMB_COMBINED).generateLootForPools(player.getRNG(), lootBuilder.build());
+                    
+                    if(result.size()>0) treasure = result.get(0);
+                }
+                if(treasureMap.containsKey(treasure.getDisplayName())) treasureMap.put(treasure.getDisplayName(), treasureMap.get(treasure.getDisplayName()) + 1);
+                else treasureMap.put(treasure.getDisplayName(), 1);
+            }
+            
+            for(Map.Entry<String, Integer> entry : treasureMap.entrySet()) {
+            	System.out.println("Item: " + entry.getKey() + " Count: " + entry.getValue());
+            }
+            
+            System.out.println("-------------");
+            System.out.println("Total Individual Items: " + treasureMap.size());
+        }
+        //Loot table debug end
+        */
+        
         if(fishingData.getFishDistance() >= fishingData.getFishDeepLevel() && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
         	ItemStack fishingRod = getBetterFishingRod(player);
             ItemHook hookAttachment = ItemBetterFishingRod.getHookItem(fishingRod);
             int weightModifier = hookAttachment.getWeightModifier();
-            int treasureChance = 15 + hookAttachment.getTreasureModifier();
+            int treasureChance = ConfigurationManager.server.baseTreasureChance + hookAttachment.getTreasureModifier();
             
             EntityFishHook hook = e.getHookEntity();
             ItemStack treasure = ItemStack.EMPTY;
@@ -626,9 +664,9 @@ public class FishingEventHandler {//God this handler is a mess
 
         int pop = population.population;
 
-        int rate = (int)(900f * ((float)(100f-ItemBetterFishingRod.getHookItem(itemFishingRod).getBiteRateModifier())/100f));//Percentage reduction based on modifier
+        int rate = (int)(ConfigurationManager.server.baseTimeToBobber * ((float)(100f-ItemBetterFishingRod.getHookItem(itemFishingRod).getBiteRateModifier())/100f));//Percentage reduction based on modifier
         
-        rate -= (100*EnchantmentHelper.getFishingSpeedBonus(itemFishingRod));//Max 60 seconds, -5 per lure level
+        rate -= (100*EnchantmentHelper.getFishingSpeedBonus(itemFishingRod));// -5 second per lure level
         rate -= 4*pop;//-4 ticks per fish in population
         
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(population.fishId);

@@ -87,6 +87,14 @@ public class ConfigurationManager {
         @Config.RangeInt(min=0)
         @Config.Comment("When populating chunks, each population is increased or decreased by a random percent chosen between 0 and this.")
         public int randomPopulationFactor = 50;
+        
+        @Config.Name("Base Treasure Chance")
+        @Config.Comment("Base chance for a fishing rod to get extra treasure. (Out of 100)")
+        public int baseTreasureChance = 15;
+        
+        @Config.Name("Base Fishing Time-To-Bobber")
+        @Config.Comment("How many ticks should the time-to-bobber take before applying modifiers. (Ticks)")
+        public float baseTimeToBobber = 900F;
     }
     
     @Config.Comment("Client Config")
