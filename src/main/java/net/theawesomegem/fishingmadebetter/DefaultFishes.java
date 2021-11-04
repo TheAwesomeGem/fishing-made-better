@@ -436,8 +436,8 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Artic Salmon", FishData.createData(
-        		"Artic Salmon",//Fish ID
+        fishDataMap.put("Arctic Salmon", FishData.createData(
+        		"Arctic Salmon",//Fish ID
                 "aquaculture:fish",//Item
                 10,//Metadata
                 "a large, silvery-red fish known for their taste",//Description
@@ -1014,7 +1014,7 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.FRUIT, BaitEnum.GRAIN, BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        //Artic
+        //Arctic
         
         fishDataMap.put("Polar Cod", FishData.createData(
         		"Polar Cod",//Fish ID
@@ -2385,7 +2385,7 @@ public class DefaultFishes {//TODO: all this shit
         		"Snowy Walleye",//Fish ID
                 "advanced-fishing:fish",//Item
                 22,//Metadata
-                "an artic-dwelling fish with powdery scales that resemble snowflakes",//Description
+                "an arctic-dwelling fish with powdery scales that resemble snowflakes",//Description
                 1000,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2467,7 +2467,7 @@ public class DefaultFishes {//TODO: all this shit
         		"Glacier Anchovy",//Fish ID
                 "advanced-fishing:fish",//Item
                 35,//Metadata
-                "a tiny artic fish, often found as large schools frozen in ice",//Description
+                "a tiny arctic fish, often found as large schools frozen in ice",//Description
                 600,//minFishTime
                 800,//maxFishTime
                 3,//minErrorVariance
