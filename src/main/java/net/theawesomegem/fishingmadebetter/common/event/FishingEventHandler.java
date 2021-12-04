@@ -21,6 +21,7 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -211,7 +212,7 @@ public class FishingEventHandler {//God this handler is a mess
                     entityTreasureItem.motionZ = d2 * 0.1D;
                 }
                 player.world.spawnEntity(entityTreasureItem);
-                player.sendMessage(new TextComponentString("You snagged something extra on the line!"));
+                player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.treasure"), true);
             }
 
             
@@ -306,7 +307,7 @@ public class FishingEventHandler {//God this handler is a mess
 
             if(fishingData.getFishPopulation() == null) {
                 fishingData.reset();
-                if(justChecked && world.getWorldTime() %180 == 0) player.sendMessage(new TextComponentString("There doesn't seem to be anything biting here"));//Output failure message every 9 seconds, only after checking
+                if(justChecked && world.getWorldTime() %180 == 0) player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.failure.empty"), true);//Output failure message every 9 seconds, only after checking
                 return;
             }
         }
@@ -337,7 +338,7 @@ public class FishingEventHandler {//God this handler is a mess
                     minigameBackground[4] = textureIndexFromBiome(chunk.getBiome(hook.getPosition(), world.getBiomeProvider()));//biome
                     
                     fishingData.startFishing(player.getRNG(), betterFishingRodStack, minigameBackground);
-                    player.sendMessage(new TextComponentString("A bite!"));
+                    player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.bite"), true);
                 }
             }
             
@@ -350,8 +351,8 @@ public class FishingEventHandler {//God this handler is a mess
                 setBiteInterval(hook, 20);
             }
             else {
-            	if(fishingData.isFishing() && fishingData.getFishTime() <= 0) player.sendMessage(new TextComponentString("Took too long, the fish got away!"));
-            	else if(fishingData.isFishing() && fishingData.getLineBreak() == 60) player.sendMessage(new TextComponentString("Line snapped! The fish got away!"));
+            	if(fishingData.isFishing() && fishingData.getFishTime() <= 0) player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.failure.time"), true);
+            	else if(fishingData.isFishing() && fishingData.getLineBreak() == 60) player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.failure.snap"), true);
             	setBiteInterval(hook, 0);
                 fishingData.setLastFailedFishing(20);
                 fishingData.reset();
@@ -423,11 +424,11 @@ public class FishingEventHandler {//God this handler is a mess
 
         if((!(mainHandItem.getItem() instanceof ItemFishTracker)) && (!(offHandItem.getItem() instanceof ItemFishTracker))) {
             fishingData.setTimeSinceTracking(0);
-            player.sendMessage(new TextComponentString("You must be holding a fish tracker either on your main hand or your off hand."));
+            player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.tracker.nohand"), true);
         } 
         else if(mainHandItem.getItem() instanceof ItemFishTracker && offHandItem.getItem() instanceof ItemFishTracker) {
             fishingData.setTimeSinceTracking(0);
-            player.sendMessage(new TextComponentString("You cannot hold fish tracker on both hands."));
+            player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.tracker.twohand"), true);
         } 
         else {
             ItemStack fishTrackerItem = (mainHandItem.getItem() instanceof ItemFishTracker) ? mainHandItem : offHandItem;
@@ -437,7 +438,7 @@ public class FishingEventHandler {//God this handler is a mess
             if(fishingData.getTimeSinceTracking() >= maxTrackingTime) {
                 fishingData.setTimeSinceTracking(0);
                 getTrackingFish(player, (ItemFishTracker) fishTrackerItem.getItem());
-                player.sendMessage(new TextComponentString("You have finished tracking."));
+                player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.tracker.finish"), true);
             }
         }
     }
@@ -448,6 +449,7 @@ public class FishingEventHandler {//God this handler is a mess
         IChunkFishingData chunkFishingData = getChunkFishingData(chunk);
         if(chunkFishingData == null) return;
 
+        boolean limitInfo = !player.isSneaking();
         boolean fishFound = false;
         int underYCount = 0;
         int trackerQualityCount = 0;
@@ -501,7 +503,8 @@ public class FishingEventHandler {//God this handler is a mess
             else if(pop > 1) quantity = "sparse";
             else quantity = "meager";
 
-            player.sendMessage(new TextComponentString(String.format("Detected %s in %s quantity.", fishData.description, quantity)));
+            if(limitInfo) player.sendMessage(new TextComponentString(String.format("Detected %s.", fishData.fishId)));
+            else player.sendMessage(new TextComponentString(String.format("Detected %s, %s in %s quantity.", fishData.fishId, fishData.description, quantity)));
         }
         
         if(!fishFound) {
