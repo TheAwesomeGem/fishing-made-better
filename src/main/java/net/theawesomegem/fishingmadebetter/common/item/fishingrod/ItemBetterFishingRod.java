@@ -1,6 +1,7 @@
 package net.theawesomegem.fishingmadebetter.common.item.fishingrod;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentDurability;
@@ -210,7 +211,7 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     	ItemBobber bobber = getBobberItem(stack);
     	ItemHook hook = getHookItem(stack);
     	
-    	if(Keyboard.isKeyDown(Minecraft.getMinecraft().gameSettings.keyBindSneak.getKeyCode())) {
+    	if(GuiScreen.isShiftKeyDown()) {
     		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(reel.getUnlocalizedName() + ".name") + TextFormatting.RESET);
     		tooltip.add((reel.getMaxDamage() != 0) ? ("  Durability: " + (reel.getMaxDamage()-getReelDamage(stack)) + "/" + reel.getMaxDamage()) : ("  Durability: -/-"));
     		tooltip.add("  Reel Length: " + reel.getReelRange() + "m");
@@ -242,7 +243,7 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     		String baitDisplayName = getBaitDisplayName(stack);
             tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bait: " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : "None") + TextFormatting.RESET);
     		tooltip.add("");
-            tooltip.add("Hold " + TextFormatting.GOLD + Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName() + TextFormatting.RESET + "" + TextFormatting.GRAY + " for extra information" + TextFormatting.RESET);
+            tooltip.add("Hold " + TextFormatting.GOLD + "Shift" + TextFormatting.RESET + "" + TextFormatting.GRAY + " for extra information" + TextFormatting.RESET);
     	}
     }
     
