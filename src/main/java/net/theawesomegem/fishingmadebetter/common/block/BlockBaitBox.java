@@ -3,6 +3,8 @@ package net.theawesomegem.fishingmadebetter.common.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,13 +14,19 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.theawesomegem.fishingmadebetter.common.block.tileentity.TileEntityBaitBox;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
 import javax.annotation.Nullable;
+
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -31,6 +39,12 @@ public class BlockBaitBox extends BlockTileEntityBase<TileEntityBaitBox> {
         this.setCreativeTab(FMBCreativeTab.instance);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.WOOD);
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
+    {
+    	tooltip.add(TextFormatting.GRAY + "Feeds fish in the local chunk when filled with bait to aid fish reproduction." + TextFormatting.RESET);
     }
 
     @Override

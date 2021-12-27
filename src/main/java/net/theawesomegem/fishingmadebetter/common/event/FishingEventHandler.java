@@ -281,15 +281,17 @@ public class FishingEventHandler {//God this handler is a mess
         
         if(fishingData.isFishing()) {
         	int distanceTime = fishingData.getFishDistanceTime();
+        	
             if(distanceTime <= 0) {
-                distanceTime = getDistanceTime(fishingData.getFishWeight());
+                //distanceTime = getDistanceTime(fishingData.getFishWeight());
+                distanceTime = Math.min(10, 1 + (fishingData.getFishWeight()/100));
 
                 int reelDiff = fishingData.getReelTarget() - fishingData.getReelAmount();
                 reelDiff = Math.abs(reelDiff);
                 
                 int distanceMod = (reelDiff <= fishingData.getErrorVariance()) ? ItemBetterFishingRod.getReelItem(betterFishingRodStack).getReelSpeed() : -1;
                 fishingData.setFishDistance(Math.min(fishingData.getFishDeepLevel(), Math.max(0, fishingData.getFishDistance() + distanceMod)));
-            } 
+            }
             fishingData.setFishDistanceTime(distanceTime - 1);
         }
 
@@ -346,6 +348,17 @@ public class FishingEventHandler {//God this handler is a mess
             	PrimaryPacketHandler.INSTANCE.sendTo(new PacketUseRodC(true), (EntityPlayerMP)player);//Attempt to automatically right-click
             }
             
+            if(fishingData.getLineBreak() < 60) {
+                spawnParticleBasedOnFishSpeed(player.world, hook, fishingData);
+                setBiteInterval(hook, 20);
+            }
+            else {
+            	if(fishingData.isFishing() && fishingData.getLineBreak() == 60) player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.failure.snap"), true);
+            	setBiteInterval(hook, 0);
+                fishingData.setLastFailedFishing(20);
+                fishingData.reset();
+            }
+            /*
             if(fishingData.getFishTime() > 0 && fishingData.getLineBreak() < 60) {
                 spawnParticleBasedOnFishSpeed(player.world, hook, fishingData);
                 setBiteInterval(hook, 20);
@@ -357,6 +370,7 @@ public class FishingEventHandler {//God this handler is a mess
                 fishingData.setLastFailedFishing(20);
                 fishingData.reset();
             }
+            */
         } 
         else fishingData.reset(false);
     }
@@ -615,8 +629,8 @@ public class FishingEventHandler {//God this handler is a mess
             updateReelPosition(fishingData, tensioningSpeed, player);
             updateLineBreak(fishingData);
             
-            fishingData.setFishTime(fishingData.getFishTime() - 1);
-            if(fishingData.getFishTime() < 0) fishingData.setFishTime(0);
+            //fishingData.setFishTime(fishingData.getFishTime() - 1);
+            //if(fishingData.getFishTime() < 0) fishingData.setFishTime(0);
         }
         PrimaryPacketHandler.INSTANCE.sendTo(new PacketReelingC(fishingData.getReelAmount(), fishingData.getReelTarget(), fishingData.getFishDistance(), fishingData.getFishDeepLevel(), fishingData.getErrorVariance(), fishingData.isFishing(), fishingData.getMinigameBackground()[0], fishingData.getMinigameBackground()[1], fishingData.getMinigameBackground()[2], fishingData.getMinigameBackground()[3], fishingData.getMinigameBackground()[4], fishingData.getLineBreak()), (EntityPlayerMP) player);
     }
@@ -676,8 +690,10 @@ public class FishingEventHandler {//God this handler is a mess
 
         String baitItem = ItemBetterFishingRod.getBaitItem(itemFishingRod);
 
-        if(ItemBetterFishingRod.hasBait(itemFishingRod) && fishData.baitItemMap.containsKey(baitItem) && Arrays.asList(fishData.baitItemMap.get(baitItem)).contains(ItemBetterFishingRod.getBaitMetadata(itemFishingRod))) {
-            rate -= RandomUtil.getRandomInRange(player.getRNG(), 100, 200);
+        if(ItemBetterFishingRod.hasBait(itemFishingRod)) {
+        	if(ConfigurationManager.server.simpleBait || (fishData.baitItemMap.containsKey(baitItem) && Arrays.asList(fishData.baitItemMap.get(baitItem)).contains(ItemBetterFishingRod.getBaitMetadata(itemFishingRod)))) {
+        		rate -= RandomUtil.getRandomInRange(player.getRNG(), 100, 300);
+        	}
         }
         rate = Math.max(60, rate);
         
@@ -738,7 +754,7 @@ public class FishingEventHandler {//God this handler is a mess
             if(fishData.thunderRequired && (!world.isThundering())) continue;
 
             int rarity = fishData.rarity;
-            if(hasFishBait && ItemBetterFishingRod.isBaitForFish(itemFishingRod, populationData.getFishType())) rarity += RandomUtil.getRandomInRange(player.getRNG(), 25, 75);
+            if(!ConfigurationManager.server.simpleBait && hasFishBait && ItemBetterFishingRod.isBaitForFish(itemFishingRod, populationData.getFishType())) rarity += RandomUtil.getRandomInRange(player.getRNG(), 25, 75);
             weightedRandomFishPopulationList.add(new WeightedRandomFishPopulation(rarity, populationData.getFishType(), populationData.getQuantity()));
         }
         if(weightedRandomFishPopulationList.size() <= 0) return null;

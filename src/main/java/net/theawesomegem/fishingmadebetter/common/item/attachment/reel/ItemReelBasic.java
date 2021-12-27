@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class ItemReelBasic extends ItemReel {
 
 	public ItemReelBasic() {
-		super("reel_basic", 0, 40, 1);
+		super("reel_basic", 0, 40, 2);
 		this.setMaxStackSize(16);
 	}
 

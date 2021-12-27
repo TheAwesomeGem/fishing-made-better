@@ -152,7 +152,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
 
             String id = itemStack.getItem().getRegistryName().toString();
 
-            if(baitItemMap.containsKey(id) && Arrays.asList(baitItemMap.get(id)).contains(itemStack.getMetadata())) {
+            if(ConfigurationManager.server.simpleBait || (baitItemMap.containsKey(id) && Arrays.asList(baitItemMap.get(id)).contains(itemStack.getMetadata()))) {
                 int itemsToTake = itemsLeft > itemStack.getCount() ? itemStack.getCount() : itemsLeft;
 
                 itemsLeft -= itemsToTake;

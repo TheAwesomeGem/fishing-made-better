@@ -47,6 +47,10 @@ public class ConfigurationManager {
         @Config.Comment("Lose the bait whenever a fish bites your hook.")
         public boolean looseBait = true;
         
+        @Config.Name("Simple Bait")
+        @Config.Comment("All bait listed in the fish configs work for all fish, baited rods catch fish faster and all bait can be used in the bait box.")
+        public boolean simpleBait = true;
+        
         @Config.Name("Regenerate Empty Chunks")
         @Config.Comment("Attempt to regenerate fish if a chunk is empty?")
         public boolean regenerateEmptyChunks = false;
