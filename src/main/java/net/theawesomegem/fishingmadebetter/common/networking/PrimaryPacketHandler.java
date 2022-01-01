@@ -4,6 +4,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.theawesomegem.fishingmadebetter.ModInfo;
+import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketFishingHandshakeS;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketReelingC;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketUseRodC;
@@ -20,5 +21,7 @@ public class PrimaryPacketHandler {
         INSTANCE.registerMessage(PacketReelingC.ReelingMessageHandler.class, PacketReelingC.class, 2, Side.CLIENT);
         
         INSTANCE.registerMessage(PacketUseRodC.UseRodMessageHandler.class, PacketUseRodC.class, 3, Side.CLIENT);
+
+        INSTANCE.registerMessage(PacketFishingHandshakeS.HandshakeMessageHandler.class, PacketFishingHandshakeS.class, 4, Side.SERVER);
     }
 }

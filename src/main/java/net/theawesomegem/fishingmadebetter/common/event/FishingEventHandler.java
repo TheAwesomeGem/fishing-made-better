@@ -38,6 +38,7 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishPopulation;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishingCapabilityProvider;
@@ -60,6 +61,8 @@ import net.theawesomegem.fishingmadebetter.common.item.tracker.ItemFishTracker;
 import net.theawesomegem.fishingmadebetter.common.item.tracker.ItemFishTracker.TrackingVision;
 import net.theawesomegem.fishingmadebetter.common.loottable.LootHandler;
 import net.theawesomegem.fishingmadebetter.common.networking.PrimaryPacketHandler;
+import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketFishingHandshakeS;
+import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketReelingC;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketUseRodC;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS.Keybind;
@@ -223,6 +226,19 @@ public class FishingEventHandler {//God this handler is a mess
         fishingData.reset();
     }
 
+    @SubscribeEvent
+    public void onPlayerTickClient(PlayerTickEvent e) {
+    	EntityPlayer player = e.player;
+        if(!player.world.isRemote || e.phase == TickEvent.Phase.END) return;
+        
+        IFishingData fishingData = player.getCapability(FishingCapabilityProvider.FISHING_DATA_CAP, null);
+        if(fishingData == null) return;
+        
+        if(fishingData.isFishing()) {//Send handshake to reset fishing on client when not fishing
+        	PrimaryPacketHandler.INSTANCE.sendToServer(new PacketFishingHandshakeS(true));
+        }
+    }
+    
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent e) {
         EntityPlayer player = e.player;
@@ -464,6 +480,7 @@ public class FishingEventHandler {//God this handler is a mess
         if(chunkFishingData == null) return;
 
         boolean limitInfo = !player.isSneaking();
+        boolean creative = player.isCreative();
         boolean fishFound = false;
         int underYCount = 0;
         int trackerQualityCount = 0;
@@ -474,6 +491,13 @@ public class FishingEventHandler {//God this handler is a mess
         for(PopulationData populationData : chunkFishingData.getFishes(world.getTotalWorldTime()).values()) {
             FishData fishData = CustomConfigurationHandler.fishDataMap.get(populationData.getFishType());
             if(fishData == null) continue;
+            
+            if(creative) {
+            	player.sendMessage(new TextComponentString(String.format("%s %s in %s at Y%s-%s", populationData.getQuantity(), fishData.fishId, fishData.liquid.toString(), fishData.minYLevel, fishData.maxYLevel)));
+            	player.sendMessage(new TextComponentString(String.format("MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s", fishData.minDeepLevel, fishData.time.toString(), fishData.maxLightLevel, fishData.rainRequired, fishData.thunderRequired)));
+            	continue;
+            }
+            
             if(!fishData.trackable) continue;
             if(!fishData.liquid.equals(FishingLiquid.ANY) && !item.getLiquidEnum().equals(fishData.liquid)) continue;
             if(fishData.minYLevel > player.posY) continue;
@@ -516,12 +540,16 @@ public class FishingEventHandler {//God this handler is a mess
             else if(pop > 3) quantity = "light";
             else if(pop > 1) quantity = "sparse";
             else quantity = "meager";
-
+            
             if(limitInfo) player.sendMessage(new TextComponentString(String.format("Detected %s.", fishData.fishId)));
             else player.sendMessage(new TextComponentString(String.format("Detected %s, %s in %s quantity.", fishData.fishId, fishData.description, quantity)));
         }
         
-        if(!fishFound) {
+        if(creative) {
+        	player.sendMessage(new TextComponentString("-----"));
+        	return;
+        }
+        else if(!fishFound) {
         	player.sendMessage(new TextComponentString("Probe failed to detect any fish in this location"));
         }
         else {
@@ -631,8 +659,9 @@ public class FishingEventHandler {//God this handler is a mess
             
             //fishingData.setFishTime(fishingData.getFishTime() - 1);
             //if(fishingData.getFishTime() < 0) fishingData.setFishTime(0);
+            
+            PrimaryPacketHandler.INSTANCE.sendTo(new PacketReelingC(fishingData.getReelAmount(), fishingData.getReelTarget(), fishingData.getFishDistance(), fishingData.getFishDeepLevel(), fishingData.getErrorVariance(), fishingData.isFishing(), fishingData.getMinigameBackground()[0], fishingData.getMinigameBackground()[1], fishingData.getMinigameBackground()[2], fishingData.getMinigameBackground()[3], fishingData.getMinigameBackground()[4], fishingData.getLineBreak()), (EntityPlayerMP) player);
         }
-        PrimaryPacketHandler.INSTANCE.sendTo(new PacketReelingC(fishingData.getReelAmount(), fishingData.getReelTarget(), fishingData.getFishDistance(), fishingData.getFishDeepLevel(), fishingData.getErrorVariance(), fishingData.isFishing(), fishingData.getMinigameBackground()[0], fishingData.getMinigameBackground()[1], fishingData.getMinigameBackground()[2], fishingData.getMinigameBackground()[3], fishingData.getMinigameBackground()[4], fishingData.getLineBreak()), (EntityPlayerMP) player);
     }
     
     private void updateReelTarget(Random random, IFishingData fishingData, int fishSpeed) {

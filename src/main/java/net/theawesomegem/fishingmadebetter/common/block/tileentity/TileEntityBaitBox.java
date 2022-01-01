@@ -124,7 +124,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                 FishData fishData = CustomConfigurationHandler.fishDataMap.get(populationData.getFishType());
                 if(fishData == null) continue;
 
-                checkBait(fishData.baitItemMap, populationData.getQuantity(), populationData, worldTime);
+                checkBait(fishData.baitItemMap, populationData.getQuantity(), populationData, worldTime, (fishData.maxWeight+fishData.minWeight)/2);
             }
         }
     }
@@ -140,12 +140,12 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
     	baitUpdateTime = worldTime + TimeUtil.minutesToMinecraftTicks(ConfigurationManager.server.baitBoxUpdateInterval);
     }
 
-    private void checkBait(Map<String, Integer[]> baitItemMap, int population, PopulationData populationData, long worldTime) {
-        int itemsLeft = population;
+    private void checkBait(Map<String, Integer[]> baitItemMap, int population, PopulationData populationData, long worldTime, int avgWeight) {
+        if(population < 2) return;
+        int itemsLeft = Math.min(16, Math.max(1, avgWeight/100));
 
         for(int i = 0; i < inventory.getSlots(); i++) {
-            if(itemsLeft < 1) return;
-
+        	if(itemsLeft<=0) break;
             ItemStack itemStack = inventory.getStackInSlot(i);
 
             if(itemStack.isEmpty()) continue;
@@ -158,10 +158,9 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                 itemsLeft -= itemsToTake;
 
                 inventory.extractItem(i, itemsToTake, false);
-
-                populationData.setLastEatenTime(worldTime);
             }
         }
+        if(itemsLeft<=0) populationData.setLastEatenTime(worldTime);
     }
 
     @Override
