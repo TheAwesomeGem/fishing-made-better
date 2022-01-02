@@ -1,6 +1,5 @@
 package net.theawesomegem.fishingmadebetter.common.item.fishingrod;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -37,8 +36,6 @@ import net.theawesomegem.fishingmadebetter.common.item.attachment.reel.ItemReel;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
 import javax.annotation.Nullable;
-
-import org.lwjgl.input.Keyboard;
 
 import java.util.Arrays;
 import java.util.List;

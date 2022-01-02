@@ -7,7 +7,6 @@ import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketFishingHandshakeS;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketReelingC;
-import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketUseRodC;
 
 /**
  * Created by TheAwesomeGem on 6/22/2017.
@@ -19,9 +18,7 @@ public class PrimaryPacketHandler {
         INSTANCE.registerMessage(PacketKeybindS.KeybindMessageHandler.class, PacketKeybindS.class, 1, Side.SERVER);
 
         INSTANCE.registerMessage(PacketReelingC.ReelingMessageHandler.class, PacketReelingC.class, 2, Side.CLIENT);
-        
-        INSTANCE.registerMessage(PacketUseRodC.UseRodMessageHandler.class, PacketUseRodC.class, 3, Side.CLIENT);
 
-        INSTANCE.registerMessage(PacketFishingHandshakeS.HandshakeMessageHandler.class, PacketFishingHandshakeS.class, 4, Side.SERVER);
+        INSTANCE.registerMessage(PacketFishingHandshakeS.HandshakeMessageHandler.class, PacketFishingHandshakeS.class, 3, Side.SERVER);
     }
 }

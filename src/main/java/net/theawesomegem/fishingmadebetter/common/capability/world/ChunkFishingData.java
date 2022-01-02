@@ -138,10 +138,11 @@ public class ChunkFishingData implements IChunkFishingData {
 
         long timeDiff = currentTime - timeSinceReproduction;
         int steps = (int)(timeDiff/getReproductionTime());
-
+        
         if(steps < 1) return;
 
         for(int i = 0; i < steps; i++) {
+        	
             for(PopulationData populationData : fishPopulationMap.values()) {
                 FishData fishData = CustomConfigurationHandler.fishDataMap.get(populationData.getFishType());
 
@@ -150,7 +151,7 @@ public class ChunkFishingData implements IChunkFishingData {
                 if(populationData.getQuantity() < 2) continue;
 
                 if(populationData.isHungry(currentTime)) continue;
-
+                
                 updated = true;
                 this.timeSinceReproduction = currentTime;
 

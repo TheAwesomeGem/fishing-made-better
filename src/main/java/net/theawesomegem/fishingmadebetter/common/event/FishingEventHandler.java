@@ -38,7 +38,6 @@ import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishPopulation;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishingCapabilityProvider;
@@ -62,9 +61,7 @@ import net.theawesomegem.fishingmadebetter.common.item.tracker.ItemFishTracker.T
 import net.theawesomegem.fishingmadebetter.common.loottable.LootHandler;
 import net.theawesomegem.fishingmadebetter.common.networking.PrimaryPacketHandler;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketFishingHandshakeS;
-import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketReelingC;
-import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketUseRodC;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS.Keybind;
 import net.theawesomegem.fishingmadebetter.common.registry.RegistryManager.RegistryHandler;
 import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
@@ -78,6 +75,8 @@ import java.util.*;
 /**
  * Created by TheAwesomeGem on 12/27/2017.
  */
+
+@SuppressWarnings("rawtypes")
 public class FishingEventHandler {//God this handler is a mess 
     enum HookState {
         FLYING,
@@ -163,7 +162,7 @@ public class FishingEventHandler {//God this handler is a mess
         //Loot table debug end
         */
         
-        if(fishingData.getFishDistance() >= fishingData.getFishDeepLevel() && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
+        if(fishingData.getFishDistance() >= (fishingData.getFishDeepLevel()-10) && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
         	ItemStack fishingRod = getBetterFishingRod(player);
             ItemHook hookAttachment = ItemBetterFishingRod.getHookItem(fishingRod);
             int weightModifier = hookAttachment.getWeightModifier();
@@ -361,7 +360,11 @@ public class FishingEventHandler {//God this handler is a mess
             }
             
             if(ConfigurationManager.server.autoReel && player.ticksExisted%3==0 && fishingData.getFishDistance()==fishingData.getFishDeepLevel() && fishingData.getFishDistance()!=0) {
-            	PrimaryPacketHandler.INSTANCE.sendTo(new PacketUseRodC(true), (EntityPlayerMP)player);//Attempt to automatically right-click
+            	EnumHand hand = null;
+            	if(player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) hand = EnumHand.MAIN_HAND;
+            	else if(player.getHeldItemOffhand().getItem() instanceof ItemFishingRod) hand = EnumHand.OFF_HAND;
+            	
+            	if(hand!=null) ((ItemFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
             }
             
             if(fishingData.getLineBreak() < 60) {
@@ -879,7 +882,7 @@ public class FishingEventHandler {//God this handler is a mess
         }
     }
 
-    private HookState getHookState(EntityFishHook hook) {
+	private HookState getHookState(EntityFishHook hook) {
     	if(currentStateField == null) return null;
     	
         try {

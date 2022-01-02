@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class FishData {
     public enum TimeToFish {
         @SerializedName("day")      DAY,
@@ -32,7 +33,7 @@ public class FishData {
     	@SerializedName("oceanPredatorAQC") OCEAN_PREDATOR_AQC,
     	@SerializedName("herbivoreAQC") HERBIVORE_AQC;
     	
-    	Map<String, Integer[]> fruit = new HashMap<String, Integer[]>(){{
+		Map<String, Integer[]> fruit = new HashMap<String, Integer[]>(){{
         	put("minecraft:apple", new Integer[] {0});
         	put("minecraft:melon", new Integer[] {0});
         	}};

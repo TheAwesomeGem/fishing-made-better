@@ -30,6 +30,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.theawesomegem.fishingmadebetter.common.item.fishingrod.ItemBetterFishingRod;
 
+@SuppressWarnings("rawtypes")
 public class EntityFMBCustomFishHook extends EntityFishHook {
 	static enum State
     {

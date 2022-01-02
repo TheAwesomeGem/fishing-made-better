@@ -75,7 +75,7 @@ public class ConfigurationManager {
         @Config.Name("Fish Reproduction Time")
         @Config.RangeInt(min=0)
         @Config.Comment("How often the fish population reproduction time should be ticked up. (Minutes) (Ticks required per fish set in Fish-Config)")
-        public int fishReproductionTime = 10;
+        public int fishReproductionTime = 1;
 
         @Config.Name("Bait Box Update Interval")
         @Config.RangeInt(min=0)

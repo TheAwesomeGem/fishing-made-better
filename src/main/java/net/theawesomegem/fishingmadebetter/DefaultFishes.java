@@ -3023,7 +3023,7 @@ public class DefaultFishes {//TODO: all this shit
                 true,//Biome list is blacklist?
                 true,//Dimension list is blacklist?
                 new String[] { },//Biome Tag List
-                new int[]{ },//Dimension list
+                new int[]{ 1 },//Dimension list
                 8,//Time alive outside of water
                 true,//Allow scaling?
                 "minecraft:obsidian",//Scaling item
@@ -3064,7 +3064,7 @@ public class DefaultFishes {//TODO: all this shit
                 true,//Biome list is blacklist?
                 true,//Dimension list is blacklist?
                 new String[] { },//Biome Tag List
-                new int[]{ },//Dimension list
+                new int[]{ 1 },//Dimension list
                 8,//Time alive outside of water
                 false,//Allow scaling?
                 "",//Scaling item
