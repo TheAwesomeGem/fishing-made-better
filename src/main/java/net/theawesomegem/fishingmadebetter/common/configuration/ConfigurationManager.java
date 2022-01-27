@@ -34,10 +34,6 @@ public class ConfigurationManager {
         @Config.Name("Automatically Catch Fish When Ready")
         @Config.Comment("When the distance left is 0m and you can catch the fish, automatically force the player to right-click to reel in?")
         public boolean autoReel = true;
-        
-        @Config.Name("Require Correct Line")
-        @Config.Comment("When the distance left is 0m and you can catch the fish, does the tension bar also need to be over the fish?")
-        public boolean requireCorrectLine = true;
 
         @Config.Name("Magnetic Fishing")
         @Config.Comment("Do fish drop on your player when you successfully reel them in?")
@@ -54,6 +50,10 @@ public class ConfigurationManager {
         @Config.Name("Regenerate Empty Chunks")
         @Config.Comment("Attempt to regenerate fish if a chunk is empty?")
         public boolean regenerateEmptyChunks = false;
+        
+        @Config.Name("Disable Minigame")
+        @Config.Comment("Skips the minigame when a fish bites the hook and just reels it in instead.")
+        public boolean skipMinigame = false;
         
         @Config.Name("Aquaculture Recipe Override")
         @Config.Comment("Replace/remove/override/add Aquaculture recipes to work better with this mod? (Does nothing if Aquaculture is not installed)")

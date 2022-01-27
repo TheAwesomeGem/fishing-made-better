@@ -104,7 +104,7 @@ public class FishingEventHandler {//God this handler is a mess
             e.setCanceled(true);
             return;
         }
-
+        
         IChunkFishingData chunkFishingData = world.getChunkFromBlockCoords(e.getHookEntity().getPosition()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
         if(chunkFishingData == null) {
             e.setCanceled(true);
@@ -162,7 +162,7 @@ public class FishingEventHandler {//God this handler is a mess
         //Loot table debug end
         */
         
-        if(fishingData.getFishDistance() >= (fishingData.getFishDeepLevel()-10) && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
+        if((ConfigurationManager.server.skipMinigame || fishingData.getFishDistance() >= (fishingData.getFishDeepLevel()-10)) && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
         	ItemStack fishingRod = getBetterFishingRod(player);
             ItemHook hookAttachment = ItemBetterFishingRod.getHookItem(fishingRod);
             int weightModifier = hookAttachment.getWeightModifier();
@@ -335,6 +335,9 @@ public class FishingEventHandler {//God this handler is a mess
 
         int delayBeforeBite = getDelayBeforeBite(hook);
         if(delayBeforeBite > 0 && delayBeforeBite <= 10) {
+        	
+        	Boolean caughtTick = false;
+        	
             //Fish just bit the hook
             if(fishingData.getLastFailedFishing() <= 0) {
                 if(!fishingData.isFishing()) {//Brackets need to be around all this, otherwise it spams it for 10 ticks
@@ -356,15 +359,17 @@ public class FishingEventHandler {//God this handler is a mess
                     
                     fishingData.startFishing(player.getRNG(), betterFishingRodStack, minigameBackground);
                     player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.bite"), true);
+                    
+                    caughtTick = true;
                 }
             }
             
-            if(ConfigurationManager.server.autoReel && player.ticksExisted%3==0 && fishingData.getFishDistance()==fishingData.getFishDeepLevel() && fishingData.getFishDistance()!=0) {
+            if(player.ticksExisted%3==0 && !caughtTick && fishingData.isFishing() && (ConfigurationManager.server.skipMinigame || (ConfigurationManager.server.autoReel && fishingData.getFishDistance()==fishingData.getFishDeepLevel() && fishingData.getFishDistance()!=0))) {
             	EnumHand hand = null;
-            	if(player.getHeldItemMainhand().getItem() instanceof ItemFishingRod) hand = EnumHand.MAIN_HAND;
-            	else if(player.getHeldItemOffhand().getItem() instanceof ItemFishingRod) hand = EnumHand.OFF_HAND;
+            	if(player.getHeldItemMainhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.MAIN_HAND;
+            	else if(player.getHeldItemOffhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.OFF_HAND;
             	
-            	if(hand!=null) ((ItemFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
+            	if(hand!=null) ((ItemBetterFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
             }
             
             if(fishingData.getLineBreak() < 60) {
