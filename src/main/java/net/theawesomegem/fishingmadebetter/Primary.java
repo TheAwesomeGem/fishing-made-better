@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.theawesomegem.fishingmadebetter.proxy.CommonProxy;
 
-@Mod(modid = ModInfo.MOD_ID, version = ModInfo.VERSION, name = ModInfo.MOD_NAME, dependencies = "after:advanced-fishing;after:aquaculture")
+@Mod(modid = ModInfo.MOD_ID, version = ModInfo.VERSION, name = ModInfo.MOD_NAME, dependencies = "after:advanced-fishing;after:aquaculture", acceptableRemoteVersions = "[2.2.1,)")
 public class Primary {
     @Mod.Instance(ModInfo.MOD_ID)
     public static Primary Instance;

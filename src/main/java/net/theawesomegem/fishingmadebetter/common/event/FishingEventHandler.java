@@ -29,9 +29,11 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -369,7 +371,13 @@ public class FishingEventHandler {//God this handler is a mess
             	if(player.getHeldItemMainhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.MAIN_HAND;
             	else if(player.getHeldItemOffhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.OFF_HAND;
             	
-            	if(hand!=null) ((ItemBetterFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
+            	if(hand!=null) {
+            		if(Loader.isModLoaded("levelup2")) {//stupid fuckin compat because levelup uses the wrong event, hopefully doesnt break anything?
+            			PlayerInteractEvent.RightClickItem evt = new PlayerInteractEvent.RightClickItem(player, hand);
+            			MinecraftForge.EVENT_BUS.post(evt);
+            		}
+            		((ItemBetterFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
+            	}
             }
             
             if(fishingData.getLineBreak() < 60) {
