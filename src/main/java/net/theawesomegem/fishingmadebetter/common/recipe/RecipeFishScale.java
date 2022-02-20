@@ -42,7 +42,7 @@ public class RecipeFishScale extends net.minecraftforge.registries.IForgeRegistr
         int quantity = 1;
         int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
 
-        if(fishData.scalingUseWeight) quantity = getScaleAmount(fishWeight);
+        if(fishData.scalingUseWeight) quantity = Math.min(getScaleAmount(fishWeight), 64);
 
         return new ItemStack(itemResult, quantity, fishData.scalingItemMetadata);
     }
@@ -62,6 +62,7 @@ public class RecipeFishScale extends net.minecraftforge.registries.IForgeRegistr
     	Integer[] slots = validInput(inv);
     	ItemStack itemStackKnife = inv.getStackInSlot(slots[0]).copy();
     	ItemStack itemStackFish = inv.getStackInSlot(slots[1]).copy();
+    	Integer remain = 0;
 
     	itemStackFish = itemStackFish.splitStack(1);
     	
@@ -75,11 +76,24 @@ public class RecipeFishScale extends net.minecraftforge.registries.IForgeRegistr
         
         NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
+        if(fishData.scalingUseWeight) {
+        	remain = getScaleAmount(fishWeight) - 64;
+        }
+        
         for(int i = 0; i < ret.size(); i++) {
             ItemStack itemStack = inv.getStackInSlot(i);
 
             if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemScalingKnife) ret.set(i, itemStackKnife);
             else if(!itemStack.isEmpty()) ret.set(i, itemStackFish);
+            else if(itemStack.isEmpty() && remain > 0) {
+            	if(remain >= 64) {
+            		ret.set(i, new ItemStack(Item.getByNameOrId(fishData.scalingItem), 64, fishData.scalingItemMetadata));
+            	}
+            	else {
+            		ret.set(i, new ItemStack(Item.getByNameOrId(fishData.scalingItem), remain, fishData.scalingItemMetadata));
+            	}
+            	remain -= 64;
+            }
         }
         return ret;
     }

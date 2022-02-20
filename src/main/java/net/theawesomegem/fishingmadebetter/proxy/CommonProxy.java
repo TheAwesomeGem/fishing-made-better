@@ -47,6 +47,8 @@ import net.theawesomegem.fishingmadebetter.common.recipe.RecipeFishBucket;
 import net.theawesomegem.fishingmadebetter.common.recipe.RecipeFishScale;
 import net.theawesomegem.fishingmadebetter.common.recipe.RecipeFishSliceRaw;
 import net.theawesomegem.fishingmadebetter.common.recipe.RecipeRodAttachment;
+import net.theawesomegem.fishingmadebetter.util.HandlerUtil;
+import net.theawesomegem.fishingmadebetter.util.LevelUpLoot;
 import net.theawesomegem.fishingmadebetter.util.RebornCraftingHelper;
 
 import org.apache.logging.log4j.Level;
@@ -82,6 +84,16 @@ public class CommonProxy {
     public void onPostInit(FMLPostInitializationEvent e) {
         CustomConfigurationHandler.postInit();
         LootHandler.registerLootTable();
+        
+        if(Loader.isModLoaded("levelup2") && ConfigurationManager.server.levelUpPatch) {
+        	try {
+        		HandlerUtil.findAndRemoveHandlerFromEventBus("levelup2.skills.crafting.FishingLootBonus", "onFishInteract");//Old version
+        		HandlerUtil.findAndRemoveHandlerFromEventBus("levelup2.event.CraftingSkillHandler", "onFishInteract");//New version
+        	}
+        	catch(Exception ex) {
+        		System.out.println(ex);
+        	}
+        }
     }
 
     public void onServerStarting(FMLServerStartingEvent e) {

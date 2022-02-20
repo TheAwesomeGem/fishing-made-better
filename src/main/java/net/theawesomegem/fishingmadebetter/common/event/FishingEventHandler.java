@@ -67,6 +67,7 @@ import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketReelin
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS.Keybind;
 import net.theawesomegem.fishingmadebetter.common.registry.RegistryManager.RegistryHandler;
 import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
+import net.theawesomegem.fishingmadebetter.util.LevelUpLoot;
 import net.theawesomegem.fishingmadebetter.util.MathUtil;
 import net.theawesomegem.fishingmadebetter.util.RandomUtil;
 import net.theawesomegem.fishingmadebetter.util.TimeUtil;
@@ -219,6 +220,10 @@ public class FishingEventHandler {//God this handler is a mess
                 player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.treasure"), true);
             }
 
+            //LevelUp loot replacement
+            if(Loader.isModLoaded("levelup2") && ConfigurationManager.server.levelUpPatch) {
+            	LevelUpLoot.doLevelUpLoot(hook, world, player);
+            }
             
             chunkFishingData.reducePopulation(fishCaughtData.fishId, 1, world.getTotalWorldTime(), true);
             player.world.spawnEntity(new EntityXPOrb(player.world, player.posX, player.posY + 0.5D, player.posZ + 0.5D, player.getRNG().nextInt(6) + 1));//TODO: exp based on fish rarity
@@ -372,10 +377,6 @@ public class FishingEventHandler {//God this handler is a mess
             	else if(player.getHeldItemOffhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.OFF_HAND;
             	
             	if(hand!=null) {
-            		if(Loader.isModLoaded("levelup2")) {//stupid fuckin compat because levelup uses the wrong event, hopefully doesnt break anything?
-            			PlayerInteractEvent.RightClickItem evt = new PlayerInteractEvent.RightClickItem(player, hand);
-            			MinecraftForge.EVENT_BUS.post(evt);
-            		}
             		((ItemBetterFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
             	}
             }

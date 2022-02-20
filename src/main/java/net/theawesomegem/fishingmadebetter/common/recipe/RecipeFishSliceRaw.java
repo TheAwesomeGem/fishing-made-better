@@ -46,11 +46,11 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);
         
         if(fishData.defaultFillet) {
-        	return ItemManager.FISH_SLICE_RAW.getItemStack(fishId, fishDisplayName, (fishData.filletUseWeight ? getSliceAmount(fishWeight) : 1));
+        	return ItemManager.FISH_SLICE_RAW.getItemStack(fishId, fishDisplayName, (fishData.filletUseWeight ? Math.min(getSliceAmount(fishWeight), 64) : 1));
         }
         else {
         	Item ret = Item.getByNameOrId(fishData.filletItem);
-        	return new ItemStack(ret, (fishData.filletUseWeight ? getSliceAmount(fishWeight) : 1), fishData.filletItemMetadata);
+        	return new ItemStack(ret, (fishData.filletUseWeight ? Math.min(getSliceAmount(fishWeight), 64) : 1), fishData.filletItemMetadata);
         }
     }
 
@@ -69,6 +69,7 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
     	Integer[] slots = validInput(inv);
     	ItemStack itemStackKnife = inv.getStackInSlot(slots[0]).copy();
     	ItemStack itemStackFish = inv.getStackInSlot(slots[1]);
+    	Integer remain = 0;
 
     	if(!BetterFishUtil.isBetterFish(itemStackFish)) {
     		itemStackKnife.setItemDamage(itemStackKnife.getItemDamage() + 1);
@@ -81,9 +82,25 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
         
         NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
 
+        if(BetterFishUtil.isBetterFish(itemStackFish) && CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStackFish)).filletUseWeight) {
+        	remain = getSliceAmount(BetterFishUtil.getFishWeight(itemStackFish)) - 64;
+        }
+        
         for(int i = 0; i < ret.size(); i++) {
             ItemStack itemStack = inv.getStackInSlot(i);
             if(!itemStack.isEmpty() && itemStack.getItem() instanceof ItemFilletKnife) ret.set(i, itemStackKnife);
+            else if(itemStack.isEmpty() && remain > 0) {
+            	String fishId = BetterFishUtil.getFishId(itemStackFish);
+            	FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);
+            	
+            	if(remain >= 64) {
+                	ret.set(i, fishData.defaultFillet ? ItemManager.FISH_SLICE_RAW.getItemStack(fishId, fishId, 64) : new ItemStack(Item.getByNameOrId(fishData.filletItem), 64, fishData.filletItemMetadata));
+            	}
+            	else {
+                	ret.set(i, fishData.defaultFillet ? ItemManager.FISH_SLICE_RAW.getItemStack(fishId, fishId, remain) : new ItemStack(Item.getByNameOrId(fishData.filletItem), remain, fishData.filletItemMetadata));
+            	}
+            	remain -= 64;
+            }
         }
         return ret;
     }

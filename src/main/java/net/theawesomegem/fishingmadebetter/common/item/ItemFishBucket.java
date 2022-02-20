@@ -42,6 +42,7 @@ public class ItemFishBucket extends Item {
     public ItemFishBucket() {
         super();
 
+        this.maxStackSize = 1;
         this.setCreativeTab(FMBCreativeTab.instance);
         this.setRegistryName("fish_bucket");
         this.setUnlocalizedName(ModInfo.MOD_ID + ".fish_bucket");
