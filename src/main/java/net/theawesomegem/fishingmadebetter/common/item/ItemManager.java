@@ -84,6 +84,7 @@ public class ItemManager {
     public static final ItemHook HOOK_MAGNETIC = new ItemHookMagnetic();
 
     public static final ItemFishBucket FISH_BUCKET = new ItemFishBucket();
+	public static final ItemBaitBucket BAIT_BUCKET = new ItemBaitBucket();
 
     public static void register(IForgeRegistry<Item> registry) {
         registry.registerAll(
@@ -116,7 +117,8 @@ public class ItemManager {
         		HOOK_FATTY,
         		HOOK_SHINY,
         		HOOK_MAGNETIC,
-        		FISH_BUCKET
+        		FISH_BUCKET,
+				BAIT_BUCKET
         		);
     }
     
@@ -176,5 +178,6 @@ public class ItemManager {
         FISH_TRACKER_VOID.registerItemModel(FISH_TRACKER_VOID);
 
         FISH_BUCKET.registerItemModel(FISH_BUCKET);
+		BAIT_BUCKET.registerItemModel(BAIT_BUCKET);
     }
 }

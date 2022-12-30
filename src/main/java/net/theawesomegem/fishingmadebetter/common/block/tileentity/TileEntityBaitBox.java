@@ -113,7 +113,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
     
     private void updateOnSecond(long worldTime) {
     	if(worldTime > baitUpdateTime) {
-            IChunkFishingData chunkFishingData = world.getChunkFromBlockCoords(getPos()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
+            IChunkFishingData chunkFishingData = world.getChunk(getPos()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
             if(chunkFishingData == null) return;
 
             updateBaitTime(worldTime);

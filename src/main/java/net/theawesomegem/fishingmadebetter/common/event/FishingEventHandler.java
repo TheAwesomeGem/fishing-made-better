@@ -56,6 +56,7 @@ import net.theawesomegem.fishingmadebetter.common.data.WeightedRandomFishPopulat
 import net.theawesomegem.fishingmadebetter.common.entity.EntityFMBCustomFishHook;
 import net.theawesomegem.fishingmadebetter.common.entity.EntityFMBLavaFishHook;
 import net.theawesomegem.fishingmadebetter.common.entity.EntityFMBVoidFishHook;
+import net.theawesomegem.fishingmadebetter.common.item.ItemBaitBucket;
 import net.theawesomegem.fishingmadebetter.common.item.attachment.hook.ItemHook;
 import net.theawesomegem.fishingmadebetter.common.item.fishingrod.ItemBetterFishingRod;
 import net.theawesomegem.fishingmadebetter.common.item.tracker.ItemFishTracker;
@@ -108,7 +109,7 @@ public class FishingEventHandler {//God this handler is a mess
             return;
         }
         
-        IChunkFishingData chunkFishingData = world.getChunkFromBlockCoords(e.getHookEntity().getPosition()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
+        IChunkFishingData chunkFishingData = world.getChunk(e.getHookEntity().getPosition()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
         if(chunkFishingData == null) {
             e.setCanceled(true);
             return;
@@ -318,7 +319,7 @@ public class FishingEventHandler {//God this handler is a mess
         }
 
         World world = hook.world;
-        Chunk chunk = world.getChunkFromBlockCoords(hook.getPosition());
+        Chunk chunk = world.getChunk(hook.getPosition());
         IChunkFishingData chunkFishingData = getChunkFishingData(chunk);
 
         if(fishingData.getFishPopulation() == null && !fishingData.isFishing()) {
@@ -352,7 +353,19 @@ public class FishingEventHandler {//God this handler is a mess
                     else if(hook instanceof EntityFMBVoidFishHook) player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_DEATH, SoundCategory.PLAYERS, 1.0f, 1.0f);
                     else player.world.playSound(null, player.posX, player.posY, player.posZ, RegistryHandler.FISH_SPLASHING_EVENT, SoundCategory.PLAYERS, 1.0f, 1.0f);
                     
-                    if(ConfigurationManager.server.looseBait) ItemBetterFishingRod.removeBait(betterFishingRodStack);
+                    if(ConfigurationManager.server.looseBait) {
+                        ItemBetterFishingRod.removeBait(betterFishingRodStack);
+                        if(player.getHeldItemMainhand().getItem() instanceof ItemBaitBucket || player.getHeldItemOffhand().getItem() instanceof ItemBaitBucket) {
+                            ItemStack baitBucket = player.getHeldItemMainhand().getItem() instanceof ItemBaitBucket ? player.getHeldItemMainhand() : player.getHeldItemOffhand();
+                            if(!ItemBaitBucket.getBaitId(baitBucket).isEmpty()) {
+                                ItemBetterFishingRod.setBaitItem(betterFishingRodStack, ItemBaitBucket.getBaitId(baitBucket));
+                                ItemBetterFishingRod.setBaitMetadata(betterFishingRodStack, ItemBaitBucket.getBaitMetadata(baitBucket));
+                                ItemBetterFishingRod.setBaitDisplayName(betterFishingRodStack, ItemBaitBucket.getBaitDisplayName(baitBucket));
+                                ItemBaitBucket.setBaitCount(baitBucket, ItemBaitBucket.getBaitCount(baitBucket) - 1);
+                                if(ItemBaitBucket.getBaitCount(baitBucket) <= 0) ItemBaitBucket.removeBait(baitBucket);
+                            }
+                        }
+                    }
                     
                     //This is gross, will redo better eventually
                     Integer[] minigameBackground = new Integer[5];
@@ -492,7 +505,7 @@ public class FishingEventHandler {//God this handler is a mess
 
     private void getTrackingFish(EntityPlayer player, ItemFishTracker item) {
         World world = player.world;
-        Chunk chunk = world.getChunkFromBlockCoords(player.getPosition());
+        Chunk chunk = world.getChunk(player.getPosition());
         IChunkFishingData chunkFishingData = getChunkFishingData(chunk);
         if(chunkFishingData == null) return;
 

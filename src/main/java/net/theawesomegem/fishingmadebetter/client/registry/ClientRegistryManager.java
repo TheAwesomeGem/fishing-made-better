@@ -37,23 +37,23 @@ public class ClientRegistryManager {
         	ItemHook[] hookList = ItemManager.hookAttachmentList();
         	
             for(ItemBetterFishingRod rod : ItemManager.rodList()) {
-            	ModelLoader.setCustomModelResourceLocation(rod, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getResourcePath() + "/rod", "inventory"));
-            	ModelLoader.setCustomModelResourceLocation(rod, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getResourcePath() + "/rod_cast", "inventory"));
+            	ModelLoader.setCustomModelResourceLocation(rod, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getPath() + "/rod", "inventory"));
+            	ModelLoader.setCustomModelResourceLocation(rod, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getPath() + "/rod_cast", "inventory"));
             }
             for(int i=0;i<reelList.length;i++) {
         		reel = reelList[i];
         		
         		if(reel!=null) {//Use metadata 1 for mesh texture because variants dont seem to work properly for this
-        			ModelLoader.setCustomModelResourceLocation(reel, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":attachment/reel/" + reel.getRegistryName().getResourcePath(), "inventory"));
-        			ModelLoader.setCustomModelResourceLocation(reel, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/reel/" + reel.getRegistryName().getResourcePath(), "inventory"));
+        			ModelLoader.setCustomModelResourceLocation(reel, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":attachment/reel/" + reel.getRegistryName().getPath(), "inventory"));
+        			ModelLoader.setCustomModelResourceLocation(reel, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/reel/" + reel.getRegistryName().getPath(), "inventory"));
         		}
         	}
         	for(int i=0; i<bobberList.length; i++) {
         		bobber = bobberList[i];
 
         		if(bobber!=null) {
-        			ModelLoader.setCustomModelResourceLocation(bobber, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":attachment/bobber/" + bobber.getRegistryName().getResourcePath(), "inventory"));
-        			ModelLoader.setCustomModelResourceLocation(bobber, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/bobber/" + bobber.getRegistryName().getResourcePath(), "inventory"));
+        			ModelLoader.setCustomModelResourceLocation(bobber, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":attachment/bobber/" + bobber.getRegistryName().getPath(), "inventory"));
+        			ModelLoader.setCustomModelResourceLocation(bobber, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/bobber/" + bobber.getRegistryName().getPath(), "inventory"));
         		}
         	}
 
@@ -61,8 +61,8 @@ public class ClientRegistryManager {
         		hook = hookList[i];
         		
         		if(hook!=null) {
-        			ModelLoader.setCustomModelResourceLocation(hook, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":attachment/hook/" + hook.getRegistryName().getResourcePath(), "inventory"));
-        			ModelLoader.setCustomModelResourceLocation(hook, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/hook/" + hook.getRegistryName().getResourcePath(), "inventory"));
+        			ModelLoader.setCustomModelResourceLocation(hook, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":attachment/hook/" + hook.getRegistryName().getPath(), "inventory"));
+        			ModelLoader.setCustomModelResourceLocation(hook, 1, new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/hook/" + hook.getRegistryName().getPath(), "inventory"));
         		}
         	}
         }
@@ -94,26 +94,26 @@ public class ClientRegistryManager {
         		reel = reelList[i];
 
         		if(reel != null) {
-        			models[0][i] = e.getModelRegistry().getObject(new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/reel/" + reel.getRegistryName().getResourcePath(), "inventory"));
+        			models[0][i] = e.getModelRegistry().getObject(new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/reel/" + reel.getRegistryName().getPath(), "inventory"));
         		}
         	}
         	for(int i=0; i<bobberList.length; i++) {
         		bobber = bobberList[i];
         		
         		if(bobber != null) {
-        			models[1][i] = e.getModelRegistry().getObject(new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/bobber/" + bobber.getRegistryName().getResourcePath(), "inventory"));
+        			models[1][i] = e.getModelRegistry().getObject(new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/bobber/" + bobber.getRegistryName().getPath(), "inventory"));
         		}
         	}
         	for(int i=0; i<hookList.length; i++) {
         		hook = hookList[i];
         		
         		if(hook != null) {
-        			models[2][i] = e.getModelRegistry().getObject(new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/hook/" + hook.getRegistryName().getResourcePath(), "inventory"));
+        			models[2][i] = e.getModelRegistry().getObject(new ModelResourceLocation(ModInfo.MOD_ID + ":mesh/hook/" + hook.getRegistryName().getPath(), "inventory"));
         		}
         	}
         	for(ItemBetterFishingRod rod : rodList) {
-	        	mrl = new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getResourcePath() + "/rod", "inventory");
-	        	mrlCast = new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getResourcePath() + "/rod_cast", "inventory");
+	        	mrl = new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getPath() + "/rod", "inventory");
+	        	mrlCast = new ModelResourceLocation(ModInfo.MOD_ID + ":rod/" + rod.getRegistryName().getPath() + "/rod_cast", "inventory");
 	        	
 	        	mainModel = e.getModelRegistry().getObject(mrl);
 	        	mainModelCast = e.getModelRegistry().getObject(mrlCast);

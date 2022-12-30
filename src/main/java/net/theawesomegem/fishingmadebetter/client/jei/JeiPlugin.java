@@ -16,7 +16,8 @@ public class JeiPlugin implements IModPlugin {
 		registry.addRecipes(FishSlicingRecipeMaker.getFishSlicingRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 		registry.addRecipes(FishingRodBaitRecipeMaker.getFishingRodBaitRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 		registry.addRecipes(FishingRodAttachmentRecipeMaker.getFishingRodAttachmentRecipes(), VanillaRecipeCategoryUid.CRAFTING);
-		
+		registry.addRecipes(BaitBucketRecipeMaker.getBaitBucketRecipes(), VanillaRecipeCategoryUid.CRAFTING);
+
 		if(ConfigurationManager.server.enableFishBucket) registry.addRecipes(FishBucketRecipeMaker.getFishBucketRecipes(), VanillaRecipeCategoryUid.CRAFTING);
 	}
 	

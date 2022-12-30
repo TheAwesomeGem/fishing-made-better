@@ -58,7 +58,7 @@ public abstract class ItemFishTracker extends Item {
 
         this.setCreativeTab(FMBCreativeTab.instance);
         this.setRegistryName(name);
-        this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
+        this.setTranslationKey(ModInfo.MOD_ID + "." + name);
         this.trackingVision = trackingVision;
         this.trackingLiquid = trackingLiquid;
         this.maxDepth = maxDepth;
@@ -168,6 +168,6 @@ public abstract class ItemFishTracker extends Item {
 
     @SideOnly(Side.CLIENT)
     public void registerItemModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":tracker/" + getRegistryName().getResourcePath(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":tracker/" + getRegistryName().getPath(), "inventory"));
     }
 }

@@ -41,7 +41,7 @@ public class ChunkFishingStorage implements Capability.IStorage<IChunkFishingDat
             for (String fishType : nbt.getKeySet()) {
                 NBTTagCompound fishDataTag = nbt.getCompoundTag(fishType);
 
-                if(fishDataTag.hasNoTags()){
+                if(fishDataTag.isEmpty()){
                     continue;
                 }
 

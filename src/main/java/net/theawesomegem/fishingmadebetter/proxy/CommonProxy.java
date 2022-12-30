@@ -42,11 +42,7 @@ import net.theawesomegem.fishingmadebetter.common.event.FishingEventHandler;
 import net.theawesomegem.fishingmadebetter.common.item.ItemManager;
 import net.theawesomegem.fishingmadebetter.common.loottable.LootHandler;
 import net.theawesomegem.fishingmadebetter.common.networking.PrimaryPacketHandler;
-import net.theawesomegem.fishingmadebetter.common.recipe.RecipeBaitedRod;
-import net.theawesomegem.fishingmadebetter.common.recipe.RecipeFishBucket;
-import net.theawesomegem.fishingmadebetter.common.recipe.RecipeFishScale;
-import net.theawesomegem.fishingmadebetter.common.recipe.RecipeFishSliceRaw;
-import net.theawesomegem.fishingmadebetter.common.recipe.RecipeRodAttachment;
+import net.theawesomegem.fishingmadebetter.common.recipe.*;
 import net.theawesomegem.fishingmadebetter.util.HandlerUtil;
 import net.theawesomegem.fishingmadebetter.util.LevelUpLoot;
 import net.theawesomegem.fishingmadebetter.util.RebornCraftingHelper;
@@ -130,6 +126,7 @@ public class CommonProxy {
     	recipeRegistry.register(new RecipeFishScale().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "fish_scale")));
     	recipeRegistry.register(new RecipeBaitedRod().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "baited_rod")));
     	recipeRegistry.register(new RecipeRodAttachment().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "rod_attachment")));
+        recipeRegistry.register(new RecipeBaitBucket().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "baited_bucket")));
 
         if(ConfigurationManager.server.enableFishBucket) {
         	recipeRegistry.register(new RecipeFishBucket().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "fish_bucket")));
@@ -175,6 +172,7 @@ public class CommonProxy {
         RebornCraftingHelper.addShapedOreRecipe(new ItemStack(ItemManager.FISH_TRACKER_VOID, 1), " O ", "ODO", " O ", 'O', Items.ENDER_EYE, 'D', ItemManager.FISH_TRACKER_DIAMOND);
 
         RebornCraftingHelper.addShapedRecipe(new ItemStack(BlockManager.ITEM_BLOCK_BAIT_BOX, 1), "WIW", "I I", "WWW", 'W', "plankWood", 'I', Blocks.IRON_BARS);
+        RebornCraftingHelper.addShapedRecipe(new ItemStack(ItemManager.BAIT_BUCKET, 1), "SES", "EBE", "SES", 'S', Items.WHEAT_SEEDS, 'E', Items.SPIDER_EYE, 'B', Items.BUCKET);
         
     	IForgeRegistryModifiable<IRecipe> craftingRegistry = (IForgeRegistryModifiable<IRecipe>)recipeRegistry;
     	
@@ -222,7 +220,7 @@ public class CommonProxy {
         	int advCraftingRemoved = 0;
         	ArrayList<IRecipe> craftingRecipesRemove = new ArrayList<IRecipe>();
         	for(IRecipe recipe : craftingRegistry.getValuesCollection()) {
-        		if(recipe.getRegistryName().getResourceDomain().equalsIgnoreCase("advanced-fishing")) {
+        		if(recipe.getRegistryName().getNamespace().equalsIgnoreCase("advanced-fishing")) {
         			craftingRecipesRemove.add(recipe);
         		}
         	}

@@ -54,7 +54,7 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
         this.setCreativeTab(FMBCreativeTab.instance);
         this.setMaxDamage(materialIn.getMaxUses());
         this.setRegistryName(name);
-        this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
+        this.setTranslationKey(ModInfo.MOD_ID + "." + name);
     }
     
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
@@ -209,18 +209,18 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     	ItemHook hook = getHookItem(stack);
     	
     	if(GuiScreen.isShiftKeyDown()) {
-    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(reel.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + reel.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((reel.getMaxDamage() != 0) ? ("  Durability: " + (reel.getMaxDamage()-getReelDamage(stack)) + "/" + reel.getMaxDamage()) : ("  Durability: -/-"));
     		tooltip.add("  Reel Length: " + reel.getReelRange() + "m");
     		tooltip.add("  Reel Speed: " + reel.getReelSpeed() + "m/s");
-    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bobber: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(bobber.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bobber: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + bobber.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((bobber.getMaxDamage() != 0) ? ("  Durability: " + (bobber.getMaxDamage()-getBobberDamage(stack)) + "/" + bobber.getMaxDamage()) : ("  Durability: -/-"));
     		if(bobber.isLavaBobber()) tooltip.add("  Can fish in: " + TextFormatting.RED + "Lava" + TextFormatting.RESET);
     		else if(bobber.isVoidBobber()) tooltip.add("  Can fish in: " + TextFormatting.LIGHT_PURPLE + "Void" + TextFormatting.RESET);
     		else tooltip.add("  Can fish in: " + TextFormatting.BLUE + "Water" + TextFormatting.RESET);
     		if(bobber.getVarianceModifier() != 0) tooltip.add("  Tension Bar Size Modifier: +" + bobber.getVarianceModifier());
     		if(bobber.getTensioningModifier() !=0) tooltip.add("  Tension Bar Speed Modifier: +" + bobber.getTensioningModifier());
-    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Hook: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(hook.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Hook: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + hook.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((hook.getMaxDamage() != 0) ? ("  Durability: " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  Durability: -/-"));
     		if(hook.getTuggingReduction() != 0) tooltip.add("  Fish Tugging Modifier: -" + hook.getTuggingReduction());
     		if(hook.getTreasureModifier() != 0) tooltip.add("  Treasure Chance Modifier: +" + hook.getTreasureModifier());
@@ -231,11 +231,11 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
             tooltip.add("");
     	}
     	else {
-    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(reel.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Reel: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + reel.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((reel.getMaxDamage() != 0) ? ("  Durability: " + (reel.getMaxDamage()-getReelDamage(stack)) + "/" + reel.getMaxDamage()) : ("  Durability: -/-"));
-    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bobber: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(bobber.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bobber: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + bobber.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((bobber.getMaxDamage() != 0) ? ("  Durability: " + (bobber.getMaxDamage()-getBobberDamage(stack)) + "/" + bobber.getMaxDamage()) : ("  Durability: -/-"));
-    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Hook: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format(hook.getUnlocalizedName() + ".name") + TextFormatting.RESET);
+    		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Hook: " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + hook.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((hook.getMaxDamage() != 0) ? ("  Durability: " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  Durability: -/-"));
     		String baitDisplayName = getBaitDisplayName(stack);
             tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Bait: " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : "None") + TextFormatting.RESET);

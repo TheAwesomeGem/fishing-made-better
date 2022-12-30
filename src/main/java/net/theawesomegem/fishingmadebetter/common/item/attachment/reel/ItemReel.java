@@ -24,7 +24,7 @@ public abstract class ItemReel extends Item {
 		this.setMaxStackSize(1);
 		this.setMaxDamage(maxDamage);
 		this.setRegistryName(name);
-		this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
+		this.setTranslationKey(ModInfo.MOD_ID + "." + name);
 	}
 	
 	public int getReelRange() {

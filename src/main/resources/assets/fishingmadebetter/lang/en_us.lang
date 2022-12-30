@@ -32,6 +32,7 @@ item.fishingmadebetter.hook_fatty.name=Fatty Hook
 item.fishingmadebetter.hook_shiny.name=Shiny Hook
 item.fishingmadebetter.hook_magnetic.name=Magnetic Hook
 item.fishingmadebetter.fish_bucket.name=Fish Bucket
+item.fishingmadebetter.bait_bucket.name=Bait Bucket
 item.fishingmadebetter.fish_slice_raw.name=Raw Fish Slice
 item.fishingmadebetter.fish_slice_cooked.name=Cooked Fish Slice
 tile.fishingmadebetter.baitbox.name=Bait Box

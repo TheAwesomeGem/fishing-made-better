@@ -19,7 +19,7 @@ public abstract class BlockBase extends Block {
         super(material, mapColor);
 
         this.setRegistryName(name);
-        this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
+        this.setTranslationKey(ModInfo.MOD_ID + "." + name);
     }
 
     public BlockBase(final Material material, final String blockName) {

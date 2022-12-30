@@ -45,7 +45,7 @@ public class ItemFishBucket extends Item {
         this.maxStackSize = 1;
         this.setCreativeTab(FMBCreativeTab.instance);
         this.setRegistryName("fish_bucket");
-        this.setUnlocalizedName(ModInfo.MOD_ID + ".fish_bucket");
+        this.setTranslationKey(ModInfo.MOD_ID + ".fish_bucket");
     }
 
     @Override
@@ -62,7 +62,7 @@ public class ItemFishBucket extends Item {
         if(fishData == null) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         
         BlockPos blockpos = raytraceresult.getBlockPos();
-        IChunkFishingData chunkFishingData = getChunkFishingData(worldIn.getChunkFromBlockCoords(blockpos));
+        IChunkFishingData chunkFishingData = getChunkFishingData(worldIn.getChunk(blockpos));
         if(chunkFishingData == null) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         
         IBlockState blockState = worldIn.getBlockState(blockpos);

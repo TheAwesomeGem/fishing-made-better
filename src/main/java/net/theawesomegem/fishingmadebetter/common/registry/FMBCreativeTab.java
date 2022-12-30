@@ -12,7 +12,7 @@ public class FMBCreativeTab extends CreativeTabs {
 	}
 	
 	@Override
-	public ItemStack getTabIconItem() {
+	public ItemStack createIcon() {
 		return new ItemStack(ItemManager.FISHING_ROD_DIAMOND);
 	}
 }

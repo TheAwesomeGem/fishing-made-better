@@ -27,7 +27,7 @@ public abstract class ItemScalingKnife extends ItemTool
 
         this.setCreativeTab(FMBCreativeTab.instance);
         this.setRegistryName(name);
-        this.setUnlocalizedName(ModInfo.MOD_ID + "." + name);
+        this.setTranslationKey(ModInfo.MOD_ID + "." + name);
     }
 
     @Override
@@ -38,7 +38,7 @@ public abstract class ItemScalingKnife extends ItemTool
     @SideOnly(Side.CLIENT)
     public void registerItemModel(Item item)
     {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":scaling_knife/" + getRegistryName().getResourcePath(), "inventory"));
+        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":scaling_knife/" + getRegistryName().getPath(), "inventory"));
     }
 
     @Override
