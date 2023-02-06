@@ -7,6 +7,8 @@ import net.theawesomegem.fishingmadebetter.common.data.FishData.BaitEnum;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.client.resources.I18n;
+
 public class DefaultFishes {//TODO: all this shit
 	
     public static Map<String, Map<String, FishData>> getDefaultFishMap(){
@@ -24,11 +26,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Freshwater
         
-        fishDataMap.put("Bluegill", FishData.createData(
-        		"Bluegill",//Fish ID
+        fishDataMap.put("item.Fish.Bluegill.name", FishData.createData(
+                "item.Fish.Bluegill.name",//Fish ID
                 "aquaculture:fish",//Item
                 0,//Metadata
-                "a small yellow and blue fish",//Description
+                "item.Fish.Bluegill.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 3,//minErrorVariance
@@ -65,11 +67,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Perch", FishData.createData(
-        		"Perch",//Fish ID
+        fishDataMap.put("item.Fish.Perch.name", FishData.createData(
+        		"item.Fish.Perch.name",//Fish ID
                 "aquaculture:fish",//Item
                 1,//Metadata
-                "a long, rounded fish with rough scales",//Description
+                "item.Fish.Perch.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 3,//minErrorVariance
@@ -106,11 +108,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Gar", FishData.createData(
-        		"Gar",//Fish ID
+        fishDataMap.put("item.Fish.Gar.name", FishData.createData(
+        		"item.Fish.Gar.name",//Fish ID
                 "aquaculture:fish",//Item
                 2,//Metadata
-                "a long, armored fish with elongated jaws filled with sharp teeth",//Description
+                "item.Fish.Gar.desc",//Description
                 1600,//minFishTime
                 2000,//maxFishTime
                 1,//minErrorVariance
@@ -147,11 +149,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Bass", FishData.createData(
-        		"Bass",//Fish ID
+        fishDataMap.put("item.Fish.Bass.name", FishData.createData(
+        		"item.Fish.Bass.name",//Fish ID
                 "aquaculture:fish",//Item
                 3,//Metadata
-                "a decently sized black and green fish",//Description
+                "item.Fish.Bass.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -188,11 +190,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Muskellunge", FishData.createData(
-        		"Muskellunge",//Fish ID
+        fishDataMap.put("item.Fish.Muskellunge.name", FishData.createData(
+        		"item.Fish.Muskellunge.name",//Fish ID
                 "aquaculture:fish",//Item
                 4,//Metadata
-                "a large aggressive silvery fish",//Description
+                "item.Fish.Muskellunge.desc",//Description
                 1600,//minFishTime
                 2000,//maxFishTime
                 1,//minErrorVariance
@@ -229,11 +231,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Brown Trout", FishData.createData(
-        		"Brown Trout",//Fish ID
+        fishDataMap.put("item.Fish.Brown_Trout.name", FishData.createData(
+        		"item.Fish.Brown_Trout.name",//Fish ID
                 "aquaculture:fish",//Item
                 5,//Metadata
-                "a common, medium sized brown fish",//Description
+                "item.Fish.Brown_Trout.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -270,11 +272,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
 
-        fishDataMap.put("Catfish", FishData.createData(
-        		"Catfish",//Fish ID
+        fishDataMap.put("item.Fish.Catfish.name", FishData.createData(
+        		"item.Fish.Catfish.name",//Fish ID
                 "aquaculture:fish",//Item
                 6,//Metadata
-                "a large, widemouthed fish with whisker-like barbels",//Description
+                "item.Fish.Catfish.desc",//Description
                 1600,//minFishTime
                 2200,//maxFishTime
                 1,//minErrorVariance
@@ -311,11 +313,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Carp", FishData.createData(
-        		"Carp",//Fish ID
+        fishDataMap.put("item.Fish.Carp.name", FishData.createData(
+        		"item.Fish.Carp.name",//Fish ID
                 "aquaculture:fish",//Item
                 7,//Metadata
-                "a large, brown, invasive fish",//Description
+                "item.Fish.Carp.desc",//Description
                 1800,//minFishTime
                 2200,//maxFishTime
                 1,//minErrorVariance
@@ -354,11 +356,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Saltwater
         
-        fishDataMap.put("Blowfish", FishData.createData(
-        		"Blowfish",//Fish ID
+        fishDataMap.put("item.Fish.Blowfish.name", FishData.createData(
+        		"item.Fish.Blowfish.name",//Fish ID
                 "aquaculture:fish",//Item
                 8,//Metadata
-                "a small, brown, boney fish that inflates when threatened",//Description
+                "item.Fish.Blowfish.desc",//Description
                 1100,
                 1500,
                 2,
@@ -395,11 +397,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Red Grouper", FishData.createData(
-        		"Red Grouper",//Fish ID
+        fishDataMap.put("item.Fish.Red_Grouper.name", FishData.createData(
+        		"item.Fish.Red_Grouper.name",//Fish ID
                 "aquaculture:fish",//Item
                 9,//Metadata
-                "a decently sized reddish-brown ray-finned fish",//Description
+                "item.Fish.Red_Grouper.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 1,//minErrorVariance
@@ -436,11 +438,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Arctic Salmon", FishData.createData(
-        		"Arctic Salmon",//Fish ID
+        fishDataMap.put("item.Fish.Salmon.name", FishData.createData(
+        		"item.Fish.Salmon.name",//Fish ID
                 "aquaculture:fish",//Item
                 10,//Metadata
-                "a large, silvery-red fish known for their taste",//Description
+                "item.Fish.Salmon.desc",//Description
                 1600,//minFishTime
                 2000,//maxFishTime
                 1,//minErrorVariance
@@ -477,11 +479,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Tuna", FishData.createData(
-        		"Tuna",//Fish ID
+        fishDataMap.put("item.Fish.Tuna.name", FishData.createData(
+        		"item.Fish.Tuna.name",//Fish ID
                 "aquaculture:fish",//Item
                 11,//Metadata
-                "a very large blue-finned fish",//Description
+                "item.Fish.Tuna.desc",//Description
                 2200,//minFishTime
                 2600,//maxFishTime
                 1,//minErrorVariance
@@ -518,11 +520,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC, BaitEnum.OCEAN_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Swordfish", FishData.createData(
-        		"Swordfish",//Fish ID
+        fishDataMap.put("item.Fish.Swordfish.name", FishData.createData(
+        		"item.Fish.Swordfish.name",//Fish ID
                 "aquaculture:fish",//Item
                 12,//Metadata
-                "a large fish with a large pointed bill",//Description
+                "item.Fish.Swordfish.desc",//Description
                 2200,//minFishTime
                 2600,//maxFishTime
                 1,//minErrorVariance
@@ -559,11 +561,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC, BaitEnum.OCEAN_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Shark", FishData.createData(
-        		"Shark",//Fish ID
+        fishDataMap.put("item.Fish.Shark.name", FishData.createData(
+        		"item.Fish.Shark.name",//Fish ID
                 "aquaculture:fish",//Item
                 13,//Metadata
-                "a very large predator",//Description
+                "item.Fish.Shark.desc",//Description
                 2000,//minFishTime
                 2400,//maxFishTime
                 1,//minErrorVariance
@@ -600,11 +602,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC, BaitEnum.OCEAN_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Whale", FishData.createData(
-        		"Whale",//Fish ID
+        fishDataMap.put("item.Fish.Whale.name", FishData.createData(
+        		"item.Fish.Whale.name",//Fish ID
                 "aquaculture:fish",//Item
                 14,//Metadata
-                "a massive sea-dwelling mammal",//Description
+                "item.Fish.Whale.desc",//Description
                 2800,//minFishTime
                 3200,//maxFishTime
                 1,//minErrorVariance
@@ -641,11 +643,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.OCEAN_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Giant Squid", FishData.createData(
-        		"Giant Squid",//Fish ID
+        fishDataMap.put("item.Fish.Squid.name", FishData.createData(
+        		"item.Fish.Squid.name",//Fish ID
                 "aquaculture:fish",//Item
                 15,//Metadata
-                "a very large fleshy sea-organism with long tentacles",//Description
+                "item.Fish.Squid.desc",//Description
                 2200,//minFishTime
                 2400,//maxFishTime
                 1,//minErrorVariance
@@ -682,11 +684,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC, BaitEnum.OCEAN_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Jellyfish", FishData.createData(
-        		"Jellyfish",//Fish ID
+        fishDataMap.put("item.Fish.Jellyfish.name", FishData.createData(
+        		"item.Fish.Jellyfish.name",//Fish ID
                 "aquaculture:fish",//Item
                 16,//Metadata
-                "a gelatinous sea-organism with venomous tentacles",//Description
+                "item.Fish.Jellyfish.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 2,//minErrorVariance
@@ -725,11 +727,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Brackish
         
-        fishDataMap.put("Frog", FishData.createData(
-        		"Frog",//Fish ID
+        fishDataMap.put("item.Fish.Frog.name", FishData.createData(
+        		"item.Fish.Frog.name",//Fish ID
                 "aquaculture:fish",//Item
                 17,//Metadata
-                "a small amphibian with good jumping capability",//Description
+                "item.Fish.Frog.desc",//Description
                 600,//minFishTime
                 1000,//maxFishTime
                 2,//minErrorVariance
@@ -766,11 +768,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Turtle", FishData.createData(
-        		"Turtle",//Fish ID
+        fishDataMap.put("item.Fish.Turtle.name", FishData.createData(
+        		"item.Fish.Turtle.name",//Fish ID
                 "aquaculture:fish",//Item
                 18,//Metadata
-                "a small reptile with a hard shell for protection",//Description
+                "item.Fish.Turtle.desc",//Description
                 800,//minFishTime
                 1200,//maxFishTime
                 2,//minErrorVariance
@@ -807,11 +809,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Leech", FishData.createData(
-        		"Leech",//Fish ID
+        fishDataMap.put("item.Fish.Leech.name", FishData.createData(
+        		"item.Fish.Leech.name",//Fish ID
                 "aquaculture:fish",//Item
                 19,//Metadata
-                "a parasitic insect that feeds on blood",//Description
+                "item.Fish.Leech.desc",//Description
                 400,//minFishTime
                 800,//maxFishTime
                 3,//minErrorVariance
@@ -850,11 +852,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Tropical
         
-        fishDataMap.put("Piranha", FishData.createData(
-        		"Piranha",//Fish ID
+        fishDataMap.put("item.Fish.Pirahna.name", FishData.createData(
+        		"item.Fish.Pirahna.name",//Fish ID
                 "aquaculture:fish",//Item
                 20,//Metadata
-                "a small vicious predator fish",//Description
+                "item.Fish.Pirahna.desc",//Description
                 400,//minFishTime
                 800,//maxFishTime
                 2,//minErrorVariance
@@ -891,11 +893,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Electric Eel", FishData.createData(
-        		"Electric Eel",//Fish ID
+        fishDataMap.put("item.Fish.Electric_Eel.name", FishData.createData(
+        		"item.Fish.Electric_Eel.name",//Fish ID
                 "aquaculture:fish",//Item
                 21,//Metadata
-                "a snake-like fish that shocks it's prey",//Description
+                "item.Fish.Electric_Eel.desc",//Description
                 1000,//minFishTime
                 1200,//maxFishTime
                 2,//minErrorVariance
@@ -932,11 +934,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Tambaqui", FishData.createData(
-        		"Tambaqui",//Fish ID
+        fishDataMap.put("item.Fish.Tambaqui.name", FishData.createData(
+        		"item.Fish.Tambaqui.name",//Fish ID
                 "aquaculture:fish",//Item
                 22,//Metadata
-                "a large freshwater fish similiar in appearance to the piranha",//Description
+                "item.Fish.Tambaqui.desc",//Description
                 1600,//minFishTime
                 1800,//maxFishTime
                 1,//minErrorVariance
@@ -973,11 +975,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.FRUIT, BaitEnum.GRAIN, BaitEnum.HERBIVORE_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Arapaima", FishData.createData(
-        		"Arapaima",//Fish ID
+        fishDataMap.put("item.Fish.Arapaima.name", FishData.createData(
+        		"item.Fish.Arapaima.name",//Fish ID
                 "aquaculture:fish",//Item
                 23,//Metadata
-                "a very large, sleek, freshwater fish that has to breath surface air occasionaly",//Description
+                "item.Fish.Arapaima.desc",//Description
                 1800,//minFishTime
                 2200,//maxFishTime
                 1,//minErrorVariance
@@ -1016,11 +1018,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Arctic
         
-        fishDataMap.put("Polar Cod", FishData.createData(
-        		"Polar Cod",//Fish ID
+        fishDataMap.put("item.Fish.Cod.name", FishData.createData(
+        		"item.Fish.Cod.name",//Fish ID
                 "aquaculture:fish",//Item
                 24,//Metadata
-                "a large cold-dwelling fish",//Description
+                "item.Fish.Cod.desc",//Description
                 1800,//minFishTime
                 2200,//maxFishTime
                 1,//minErrorVariance
@@ -1057,11 +1059,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Pollock", FishData.createData(
-        		"Pollock",//Fish ID
+        fishDataMap.put("item.Fish.Pollock.name", FishData.createData(
+        		"item.Fish.Pollock.name",//Fish ID
                 "aquaculture:fish",//Item
                 25,//Metadata
-                "a decent-sized silvery fish often used for food",//Description
+                "item.Fish.Pollock.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -1098,11 +1100,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Herring", FishData.createData(
-        		"Herring",//Fish ID
+        fishDataMap.put("item.Fish.Herring.name", FishData.createData(
+        		"item.Fish.Herring.name",//Fish ID
                 "aquaculture:fish",//Item
                 26,//Metadata
-                "a small, silvery fish that travels in large schools",//Description
+                "item.Fish.Herring.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 3,//minErrorVariance
@@ -1139,11 +1141,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE, BaitEnum.HERBIVORE_AQC}//Valid bait items
         ));
         
-        fishDataMap.put("Halibut", FishData.createData(
-        		"Halibut",//Fish ID
+        fishDataMap.put("item.Fish.Halibut.name", FishData.createData(
+        		"item.Fish.Halibut.name",//Fish ID
                 "aquaculture:fish",//Item
                 27,//Metadata
-                "a large brown fish that hides by laying on the seafloor",//Description
+                "item.Fish.Halibut.desc",//Description
                 1800,//minFishTime
                 2200,//maxFishTime
                 1,//minErrorVariance
@@ -1180,11 +1182,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Chinook Salmon", FishData.createData(
-        		"Chinook Salmon",//Fish ID
+        fishDataMap.put("item.Fish.Pink_Salmon.name", FishData.createData(
+        		"item.Fish.Pink_Salmon.name",//Fish ID
                 "aquaculture:fish",//Item
                 28,//Metadata
-                "a very large salmon species",//Description
+                "item.Fish.Pink_Salmon.desc",//Description
                 1800,//minFishTime
                 2200,//maxFishTime
                 1,//minErrorVariance
@@ -1221,11 +1223,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Rainbow Trout", FishData.createData(
-        		"Rainbow Trout",//Fish ID
+        fishDataMap.put("item.Fish.Rainbow_Trout.name", FishData.createData(
+        		"item.Fish.Rainbow_Trout.name",//Fish ID
                 "aquaculture:fish",//Item
                 29,//Metadata
-                "a decent-sized irridescent fish",//Description
+                "item.Fish.Rainbow_Trout.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -1262,11 +1264,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Tautog", FishData.createData(
-        		"Tautog",//Fish ID
+        fishDataMap.put("item.Fish.Blackfish.name", FishData.createData(
+        		"item.Fish.Blackfish.name",//Fish ID
                 "aquaculture:fish",//Item
                 30,//Metadata
-                "a small, black fish with powerful crushing jaws",//Description
+                "item.Fish.Blackfish.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -1305,11 +1307,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Arid
         
-        fishDataMap.put("Capitaine", FishData.createData(
-        		"Capitaine",//Fish ID
+        fishDataMap.put("item.Fish.Capitaine.name", FishData.createData(
+        		"item.Fish.Capitaine.name",//Fish ID
                 "aquaculture:fish",//Item
                 31,//Metadata
-                "a very large fish known as the water elephant",//Description
+                "item.Fish.Capitaine.desc",//Description
                 2200,//minFishTime
                 2400,//maxFishTime
                 1,//minErrorVariance
@@ -1346,11 +1348,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.SMALL_PREDATOR_AQC, BaitEnum.LARGE_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Boulti", FishData.createData(
-        		"Boulti",//Fish ID
+        fishDataMap.put("item.Fish.Boulti.name", FishData.createData(
+        		"item.Fish.Boulti.name",//Fish ID
                 "aquaculture:fish",//Item
                 32,//Metadata
-                "a small fish known as the mango fish",//Description
+                "item.Fish.Boulti.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 3,//minErrorVariance
@@ -1387,11 +1389,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
 
-        fishDataMap.put("Bagrid", FishData.createData(
-        		"Bagrid",//Fish ID
+        fishDataMap.put("item.Fish.Bagrid.name", FishData.createData(
+        		"item.Fish.Bagrid.name",//Fish ID
                 "aquaculture:fish",//Item
                 33,//Metadata
-                "a small catfish species common in arid enviroments",//Description
+                "item.Fish.Bagrid.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -1428,11 +1430,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.GRAIN, BaitEnum.HERBIVORE_AQC, BaitEnum.SMALL_PREDATOR_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Synodontis", FishData.createData(
-        		"Synodontis",//Fish ID
+        fishDataMap.put("item.Fish.Syndontis.name", FishData.createData(
+        		"item.Fish.Syndontis.name",//Fish ID
                 "aquaculture:fish",//Item
                 34,//Metadata
-                "a yellow catfish covered in black spots",//Description
+                "item.Fish.Syndontis.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 3,//minErrorVariance
@@ -1471,11 +1473,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Mushroom
         
-        fishDataMap.put("Red Shrooma", FishData.createData(
-        		"Red Shrooma",//Fish ID
+        fishDataMap.put("item.Fish.Red_Shrooma.name", FishData.createData(
+        		"item.Fish.Red_Shrooma.name",//Fish ID
                 "aquaculture:fish",//Item
                 35,//Metadata
-                "a strange fish covered in red fungal growth",//Description
+                "item.Fish.Red_Shrooma.desc",//Description
                 1600,//minFishTime
                 2000,//maxFishTime
                 2,//minErrorVariance
@@ -1512,11 +1514,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.GRAIN, BaitEnum.HERBIVORE_AQC }//Valid bait items
         ));
         
-        fishDataMap.put("Brown Shrooma", FishData.createData(
-        		"Brown Shrooma",//Fish ID
+        fishDataMap.put("item.Fish.Brown_Shrooma.name", FishData.createData(
+        		"item.Fish.Brown_Shrooma.name",//Fish ID
                 "aquaculture:fish",//Item
                 36,//Metadata
-                "a strange fish covered in brown fungal growth",//Description
+                "item.Fish.Brown_Shrooma.desc",//Description
                 1600,//minFishTime
                 2000,//maxFishTime
                 2,//minErrorVariance
@@ -1555,11 +1557,11 @@ public class DefaultFishes {//TODO: all this shit
         
         //Goldfish
         
-        fishDataMap.put("Goldfish", FishData.createData(
-        		"Goldfish",//Fish ID
+        fishDataMap.put("item.Fish.Goldfish.name", FishData.createData(
+        		"item.Fish.Goldfish.name",//Fish ID
                 "aquaculture:fish",//Item
                 37,//Metadata
-                "an invasive freshwater fish with shiny gold scales",//Description
+                "item.Fish.Goldfish.desc",//Description
                 600,//minFishTime
                 800,//maxFishTime
                 2,//minErrorVariance
@@ -1602,11 +1604,11 @@ public class DefaultFishes {//TODO: all this shit
     private static Map<String, FishData> getAdvancedFishingFishes() {
     	Map<String, FishData> fishDataMap = new HashMap<>();
     	
-    	fishDataMap.put("Squid", FishData.createData(
-        		"Squid",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.squid.name", FishData.createData(
+        		"item.advanced-fishing.squid.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 23,//Metadata
-                "a decent-sized invertebrate with long tentacles",//Description
+                "item.advanced-fishing.squid.desc",//Description
                 1600,//minFishTime
                 1800,//maxFishTime
                 3,//minErrorVariance
@@ -1643,11 +1645,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Brown Bullhead", FishData.createData(
-        		"Brown Bullhead",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.catfish.name", FishData.createData(
+        		"item.advanced-fishing.catfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 36,//Metadata
-                "a social fish known as the mud cat",//Description
+                "item.advanced-fishing.catfish.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 3,//minErrorVariance
@@ -1684,11 +1686,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Pike", FishData.createData(
-        		"Pike",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.pike.name", FishData.createData(
+        		"item.advanced-fishing.pike.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 37,//Metadata
-                "a long, pointed, carnivorous fish",//Description
+                "item.advanced-fishing.pike.desc",//Description
                 1400,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -1725,11 +1727,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Nitric Crucian", FishData.createData(
-        		"Nitric Crucian",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.explosive_crucian.name", FishData.createData(
+        		"item.advanced-fishing.explosive_crucian.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 16,//Metadata
-                "a small, green fish with volatile, powdery scales",//Description
+                "item.advanced-fishing.explosive_crucian.desc",//Description
                 1000,//minFishTime
                 1300,//maxFishTime
                 3,//minErrorVariance
@@ -1766,11 +1768,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Angelfish", FishData.createData(
-        		"Angelfish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.angelfish.name", FishData.createData(
+        		"item.advanced-fishing.angelfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 19,//Metadata
-                "a small, triangular fish typically kept as a pet",//Description
+                "item.advanced-fishing.angelfish.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 2,//minErrorVariance
@@ -1807,11 +1809,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.FRUIT, BaitEnum.GRAIN }//Valid bait items
         ));
     	
-    	fishDataMap.put("Bluebottle Jellyfish", FishData.createData(
-        		"Bluebottle Jellyfish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.blue_jellyfish.name", FishData.createData(
+        		"item.advanced-fishing.blue_jellyfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 0,//Metadata
-                "a gelatinous sea-organism known as the floating terror",//Description
+                "item.advanced-fishing.blue_jellyfish.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 3,//minErrorVariance
@@ -1848,11 +1850,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Bluehead Porifcian", FishData.createData(
-        		"Bluehead Porifcian",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.sponge_eater.name", FishData.createData(
+        		"item.advanced-fishing.sponge_eater.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 21,//Metadata
-                "a small, colorful fish that typically feeds on and lives around sponge",//Description
+                "item.advanced-fishing.sponge_eater.desc",//Description
                 1000,//minFishTime
                 1200,//maxFishTime
                 3,//minErrorVariance
@@ -1889,11 +1891,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.FRUIT, BaitEnum.GRAIN }//Valid bait items
         ));
     	
-    	fishDataMap.put("Abyssal Lurker", FishData.createData(
-        		"Abyssal Lurker",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.abyssal_lurker.name", FishData.createData(
+        		"item.advanced-fishing.abyssal_lurker.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 33,//Metadata
-                "a snake-like, deep-sea fish covered in prismarine lancets",//Description
+                "item.advanced-fishing.abyssal_lurker.desc",//Description
                 1400,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -1930,11 +1932,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Prismatic Angler", FishData.createData(
-        		"Prismatic Angler",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.angler_fish.name", FishData.createData(
+        		"item.advanced-fishing.angler_fish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 20,//Metadata
-                "a large deep-sea fish with massive fangs that uses shiny crystals to attract prey",//Description
+                "item.advanced-fishing.angler_fish.desc",//Description
                 1600,//minFishTime
                 1800,//maxFishTime
                 2,//minErrorVariance
@@ -1971,11 +1973,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Fluorescent Slimefish", FishData.createData(
-        		"Fluorescent Slimefish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.green_jellyfish.name", FishData.createData(
+        		"item.advanced-fishing.green_jellyfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 39,//Metadata
-                "a green, fluorescent mass of biowaste that seems to have formed into a pseudo-jellyfish",//Description
+                "item.advanced-fishing.green_jellyfish.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 3,//minErrorVariance
@@ -2012,11 +2014,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Bonefish", FishData.createData(
-        		"Bonefish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.bone_fish.name", FishData.createData(
+        		"item.advanced-fishing.bone_fish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 40,//Metadata
-                "a reanimated mass of fish bones",//Description
+                "item.advanced-fishing.bone_fish.desc",//Description
                 1300,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -2053,11 +2055,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Phantasmal Tetra", FishData.createData(
-        		"Phantasmal Tetra",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.spookyfin.name", FishData.createData(
+        		"item.advanced-fishing.spookyfin.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 42,//Metadata
-                "a rare transulscent fish, speculated to be a phantom of a dead fish",//Description
+                "item.advanced-fishing.spookyfin.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2094,11 +2096,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Cursed Koi", FishData.createData(
-        		"Cursed Koi",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.cursed_koi.name", FishData.createData(
+        		"item.advanced-fishing.cursed_koi.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 41,//Metadata
-                "a rare, emerald-scaled fish that is said to curse you if you cause its death",//Description
+                "item.advanced-fishing.cursed_koi.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2135,11 +2137,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE, BaitEnum.FRUIT }//Valid bait items
         ));
     	
-    	fishDataMap.put("Mudskinned Piranha", FishData.createData(
-        		"Mudskinned Piranha",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.piranha.name", FishData.createData(
+        		"item.advanced-fishing.piranha.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 4,//Metadata
-                "a vicious predator fish that lays on the muddy riverbed waiting for prey to swim by",//Description
+                "item.advanced-fishing.piranha.desc",//Description
                 600,//minFishTime
                 1000,//maxFishTime
                 2,//minErrorVariance
@@ -2176,11 +2178,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Sparkling Eel", FishData.createData(
-        		"Sparkling Eel",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.sparkling_eel.name", FishData.createData(
+        		"item.advanced-fishing.sparkling_eel.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 18,//Metadata
-                "a snake-like fish that dazzles its prey with shiny, reflective scales",//Description
+                "item.advanced-fishing.sparkling_eel.desc",//Description
                 1000,//minFishTime
                 1200,//maxFishTime
                 2,//minErrorVariance
@@ -2217,11 +2219,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Mandarin Dragonet", FishData.createData(
-        		"Mandarin Dragonet",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.mandarinfish.name", FishData.createData(
+        		"item.advanced-fishing.mandarinfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 26,//Metadata
-                "a small, brightly colored fish said to grant knowledge",//Description
+                "item.advanced-fishing.mandarinfish.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 1,//minErrorVariance
@@ -2258,11 +2260,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.FRUIT, BaitEnum.GRAIN, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Barred Sand Bass", FishData.createData(
-        		"Barred Sand Bass",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.sandy_bass.name", FishData.createData(
+        		"item.advanced-fishing.sandy_bass.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 25,//Metadata
-                "a decently sized, pale, yellow fish with gritty scales",//Description
+                "item.advanced-fishing.sandy_bass.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -2299,11 +2301,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN }//Valid bait items
         ));
     	
-    	fishDataMap.put("Golden Koi", FishData.createData(
-        		"Golden Koi",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.golden_koi.name", FishData.createData(
+        		"item.advanced-fishing.golden_koi.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 5,//Metadata
-                "a decently sized golden fish with prized scales",//Description
+                "item.advanced-fishing.golden_koi.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 1,//minErrorVariance
@@ -2340,11 +2342,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE, BaitEnum.FRUIT }//Valid bait items
         ));
     	
-    	fishDataMap.put("Sunfish", FishData.createData(
-        		"Sunfish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.sunfish.name", FishData.createData(
+        		"item.advanced-fishing.sunfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 34,//Metadata
-                "an extremely bright-yellow colored flatfish",//Description
+                "item.advanced-fishing.sunfish.desc",//Description
                 1400,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -2381,11 +2383,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.FRUIT }//Valid bait items
         ));
     	
-    	fishDataMap.put("Snowy Walleye", FishData.createData(
-        		"Snowy Walleye",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.snowy_walleye.name", FishData.createData(
+        		"item.advanced-fishing.snowy_walleye.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 22,//Metadata
-                "an arctic-dwelling fish with powdery scales that resemble snowflakes",//Description
+                "item.advanced-fishing.snowy_walleye.desc",//Description
                 1000,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2422,11 +2424,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE }//Valid bait items
         ));
     	
-    	fishDataMap.put("Frost Minnow", FishData.createData(
-        		"Frost Minnow",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.frost_minnow.name", FishData.createData(
+        		"item.advanced-fishing.frost_minnow.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 3,//Metadata
-                "a small, cold fish that tends to accumulate ice on its scales",//Description
+                "item.advanced-fishing.frost_minnow.desc",//Description
                 800,//minFishTime
                 1000,//maxFishTime
                 3,//minErrorVariance
@@ -2463,11 +2465,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE }//Valid bait items
         ));
     	
-    	fishDataMap.put("Glacier Anchovy", FishData.createData(
-        		"Glacier Anchovy",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.glacier_anchovy.name", FishData.createData(
+        		"item.advanced-fishing.glacier_anchovy.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 35,//Metadata
-                "a tiny arctic fish, often found as large schools frozen in ice",//Description
+                "item.advanced-fishing.glacier_anchovy.desc",//Description
                 600,//minFishTime
                 800,//maxFishTime
                 3,//minErrorVariance
@@ -2504,11 +2506,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE }//Valid bait items
         ));
     	
-    	fishDataMap.put("Ruffe", FishData.createData(
-        		"Ruffe",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.ruffe.name", FishData.createData(
+        		"item.advanced-fishing.ruffe.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 17,//Metadata
-                "a small, invasive, bottom-dwelling fish",//Description
+                "item.advanced-fishing.ruffe.desc",//Description
                 1000,//minFishTime
                 1200,//maxFishTime
                 2,//minErrorVariance
@@ -2545,11 +2547,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.FRUIT, BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Mud Tuna", FishData.createData(
-        		"Mud Tuna",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.mud_tuna.name", FishData.createData(
+        		"item.advanced-fishing.mud_tuna.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 2,//Metadata
-                "a large fish often indistinguishable from the surrounding mud and clay",//Description
+                "item.advanced-fishing.mud_tuna.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 2,//minErrorVariance
@@ -2586,11 +2588,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE }//Valid bait items
         ));
     	
-    	fishDataMap.put("Green-Finned Plaice", FishData.createData(
-        		"Green-Finned Plaice",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.swamp_plaice.name", FishData.createData(
+        		"item.advanced-fishing.swamp_plaice.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 30,//Metadata
-                "a small fish that disguises itself among the lilypads",//Description
+                "item.advanced-fishing.swamp_plaice.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2627,11 +2629,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE }//Valid bait items
         ));
     	
-    	fishDataMap.put("Red Fungalfin", FishData.createData(
-        		"Red Fungalfin",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.red_shroomfin.name", FishData.createData(
+        		"item.advanced-fishing.red_shroomfin.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 27,//Metadata
-                "a strange, cave-dwelling fish covered in red fungal growth that hides from light",//Description
+                "item.advanced-fishing.red_shroomfin.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2668,11 +2670,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.GRAIN }//Valid bait items
         ));
     	
-    	fishDataMap.put("Brown Fungalfin", FishData.createData(
-        		"Brown Fungalfin",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.brown_shroomfin.name", FishData.createData(
+        		"item.advanced-fishing.brown_shroomfin.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 28,//Metadata
-                "a strange, cave-dwelling fish covered in brown fungal growth that hides from light",//Description
+                "item.advanced-fishing.brown_shroomfin.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2709,11 +2711,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.GRAIN }//Valid bait items
         ));
     	
-    	fishDataMap.put("Specular Snapper", FishData.createData(
-        		"Specular Snapper",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.specular_snapper.name", FishData.createData(
+        		"item.advanced-fishing.specular_snapper.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 6,//Metadata
-                "a large, cave-dwelling fish typically used as food for a hungry explorer",//Description
+                "item.advanced-fishing.specular_snapper.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 1,//minErrorVariance
@@ -2750,11 +2752,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.GRAIN, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Carbonic Trout", FishData.createData(
-        		"Carbonic Trout",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.cave_trout.name", FishData.createData(
+        		"item.advanced-fishing.cave_trout.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 7,//Metadata
-                "a strange cave-fish that seems to be more coal than fish",//Description
+                "item.advanced-fishing.cave_trout.desc",//Description
                 1200,//minFishTime
                 1600,//maxFishTime
                 2,//minErrorVariance
@@ -2791,11 +2793,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Lazulicanth", FishData.createData(
-        		"Lazulicanth",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.crystal_mullet.name", FishData.createData(
+        		"item.advanced-fishing.crystal_mullet.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 31,//Metadata
-                "a pretty, blue, cave-fish covered in gem-like scales",//Description
+                "item.advanced-fishing.crystal_mullet.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2832,11 +2834,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Charged Bullhead", FishData.createData(
-        		"Charged Bullhead",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.charged_bullhead.name", FishData.createData(
+        		"item.advanced-fishing.charged_bullhead.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 32,//Metadata
-                "a shimmering, red, cave-fish that seems to electrically charge the waters it swims in",//Description
+                "item.advanced-fishing.charged_bullhead.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 2,//minErrorVariance
@@ -2873,11 +2875,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Ender Synanceia", FishData.createData(
-        		"Ender Synanceia",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.ender_shad.name", FishData.createData(
+        		"item.advanced-fishing.ender_shad.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 13,//Metadata
-                "a chalky, white fish found in the depths covered in venomous, stony spines",//Description
+                "item.advanced-fishing.ender_shad.desc",//Description
                 1600,//minFishTime
                 1800,//maxFishTime
                 2,//minErrorVariance
@@ -2914,11 +2916,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.VEGETABLE, BaitEnum.MEAT_NORMAL}//Valid bait items
         ));
     	
-    	fishDataMap.put("Pearlfish", FishData.createData(
-        		"Pearlfish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.pearl_sardine.name", FishData.createData(
+        		"item.advanced-fishing.pearl_sardine.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 14,//Metadata
-                "a small, pearlescent fish that seems to teleport around the depths of the void",//Description
+                "item.advanced-fishing.pearl_sardine.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 1,//minErrorVariance
@@ -2955,11 +2957,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Fruiting Voidfin", FishData.createData(
-        		"Fruiting Voidfin",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.chorus_koi.name", FishData.createData(
+        		"item.advanced-fishing.chorus_koi.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 15,//Metadata
-                "a fish covered in fruiting fungal growths prevalent in the murky void",//Description
+                "item.advanced-fishing.chorus_koi.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 2,//minErrorVariance
@@ -2996,11 +2998,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.FRUIT, BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Midnight Bream", FishData.createData(
-        		"Midnight Bream",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.obsidian_bream.name", FishData.createData(
+        		"item.advanced-fishing.obsidian_bream.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 8,//Metadata
-                "a pitch-black colored fish with razor-sharp, hardened scales",//Description
+                "item.advanced-fishing.obsidian_bream.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 1,//minErrorVariance
@@ -3037,11 +3039,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Magmatic Jellyfish", FishData.createData(
-        		"Magmatic Jellyfish",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.magma_jellyfish.name", FishData.createData(
+        		"item.advanced-fishing.magma_jellyfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 1,//Metadata
-                "a smoldering mass of slime and lava-like tendrils",//Description
+                "item.advanced-fishing.magma_jellyfish.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 1,//minErrorVariance
@@ -3078,11 +3080,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Wrackke", FishData.createData(
-        		"Wrackke",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.nether_sturgeon.name", FishData.createData(
+        		"item.advanced-fishing.nether_sturgeon.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 9,//Metadata
-                "a clump of netherrack that fell into lava and seems to have come to life",//Description
+                "item.advanced-fishing.nether_sturgeon.desc",//Description
                 1200,//minFishTime
                 1400,//maxFishTime
                 1,//minErrorVariance
@@ -3119,11 +3121,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Withered Crucian", FishData.createData(
-        		"Withered Crucian",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.withered_crucian.name", FishData.createData(
+        		"item.advanced-fishing.withered_crucian.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 24,//Metadata
-                "one of the many souls trapped inside soulsand, returned as a fish",//Description
+                "item.advanced-fishing.withered_crucian.desc",//Description
                 1000,//minFishTime
                 1200,//maxFishTime
                 1,//minErrorVariance
@@ -3160,11 +3162,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.GRAIN, BaitEnum.FRUIT, BaitEnum.VEGETABLE }//Valid bait items
         ));
     	
-    	fishDataMap.put("Quartzander", FishData.createData(
-        		"Quartzander",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.quartz_chub.name", FishData.createData(
+        		"item.advanced-fishing.quartz_chub.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 10,//Metadata
-                "a large, lava-dwelling fish covered in protective quartzite scales",//Description
+                "item.advanced-fishing.quartz_chub.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 1,//minErrorVariance
@@ -3201,11 +3203,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Warthead", FishData.createData(
-        		"Warthead",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.fungi_catfish.name", FishData.createData(
+        		"item.advanced-fishing.fungi_catfish.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 29,//Metadata
-                "a large, sedentary, lava-dwelling fish covered in many fungal growths",//Description
+                "item.advanced-fishing.fungi_catfish.desc",//Description
                 1400,//minFishTime
                 1800,//maxFishTime
                 1,//minErrorVariance
@@ -3242,11 +3244,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
     	
-    	fishDataMap.put("Glowfin", FishData.createData(
-        		"Glowfin",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.flarefin_koi.name", FishData.createData(
+        		"item.advanced-fishing.flarefin_koi.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 11,//Metadata
-                "a fast, shiny fish that radiates light",//Description
+                "item.advanced-fishing.flarefin_koi.desc",//Description
                 1000,//minFishTime
                 1400,//maxFishTime
                 1,//minErrorVariance
@@ -3283,11 +3285,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Blazing Chichlid", FishData.createData(
-        		"Blazing Chichlid",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.blaze_pike.name", FishData.createData(
+        		"item.advanced-fishing.blaze_pike.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 12,//Metadata
-                "a small fish that seems to be made out of pure heat",//Description
+                "item.advanced-fishing.blaze_pike.desc",//Description
                 800,//minFishTime
                 1200,//maxFishTime
                 1,//minErrorVariance
@@ -3324,11 +3326,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL, BaitEnum.MEAT_EXTRA }//Valid bait items
         ));
     	
-    	fishDataMap.put("Magikarp", FishData.createData(
-        		"Magikarp",//Fish ID
+    	fishDataMap.put("item.advanced-fishing.magikarp.name", FishData.createData(
+        		"item.advanced-fishing.magikarp.name",//Fish ID
                 "advanced-fishing:fish",//Item
                 38,//Metadata
-                "a splashy fish",//Description
+                "item.advanced-fishing.magikarp.desc",//Description
                 1400,//minFishTime
                 1600,//maxFishTime
                 1,//minErrorVariance
@@ -3371,11 +3373,11 @@ public class DefaultFishes {//TODO: all this shit
     private static Map<String, FishData> getVanillaFishes() {
         Map<String, FishData> fishDataMap = new HashMap<>();
 
-        fishDataMap.put("Clownfish", FishData.createData(
-        		"Clownfish",//Fish ID
+        fishDataMap.put("item.fish.clownfish.raw.name", FishData.createData(
+                "item.fish.clownfish.raw.name",//Fish ID
                 "minecraft:fish",//Item
                 2,//Metadata
-                "a bright orange fish with white stripes and black edges",//Description
+                "item.fish.clownfish.raw.desc",//Description
                 600,//minFishTime
                 800,//maxFishTime
                 3,//minErrorVariance
@@ -3412,11 +3414,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.VEGETABLE }//Valid bait items
         ));
 
-        fishDataMap.put("Pufferfish", FishData.createData(
-        		"Pufferfish",
+        fishDataMap.put("item.fish.pufferfish.raw.name", FishData.createData(
+                "item.fish.pufferfish.raw.name",
                 "minecraft:fish",
                 3,
-                "a small, yellow, thorny fish that inflates when threatened",
+                "item.fish.pufferfish.raw.desc",
                 1200,
                 1600,
                 2,
@@ -3453,11 +3455,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
 
-        fishDataMap.put("Cod", FishData.createData(
-        		"Cod",
+        fishDataMap.put("item.fish.cod.raw.name", FishData.createData(
+        		"item.fish.cod.raw.name",
                 "minecraft:fish",
                 0,
-                "a large grey-green stout bodied fish with a large head and long chin barbel",
+                "item.fish.cod.raw.desc",
                 1600,
                 2000,
                 1,
@@ -3494,11 +3496,11 @@ public class DefaultFishes {//TODO: all this shit
                 new BaitEnum[] { BaitEnum.MEAT_NORMAL }//Valid bait items
         ));
 
-        fishDataMap.put("Red Salmon", FishData.createData(
-        		"Red Salmon",
+        fishDataMap.put("item.fish.salmon.raw.name", FishData.createData(
+                "item.fish.salmon.raw.name",
                 "minecraft:fish",
                 1,
-                "a decent sized red fish with a hooked jaw",
+                "item.fish.salmon.raw.desc",
                 1000,
                 1400,
                 1,

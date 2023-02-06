@@ -1,5 +1,6 @@
 package net.theawesomegem.fishingmadebetter.common.recipe;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -40,7 +41,7 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
     	}
         
         String fishId = BetterFishUtil.getFishId(itemStackFish);
-        String fishDisplayName = fishId;
+        String fishDisplayName = I18n.format(fishId);
         int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
 
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);

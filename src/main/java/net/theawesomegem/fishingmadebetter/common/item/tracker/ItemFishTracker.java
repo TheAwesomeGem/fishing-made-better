@@ -5,6 +5,7 @@ import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -95,19 +96,19 @@ public abstract class ItemFishTracker extends Item {
         
         if(trackingLiquid.equals(FishingLiquid.VOID)) {
         	if(pos.getY() > 3) {
-        		playerIn.sendMessage(new TextComponentString("This probe can only be used on blocks near the Void."));
+        		playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_tracker.only_void")));
         		return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
         	}
         }
         else if(trackingLiquid.equals(FishingLiquid.WATER)) {
         	if(blockClicked.getMaterial() != Material.WATER) {
-        		playerIn.sendMessage(new TextComponentString("This probe can only work in Water."));
+        		playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_tracker.only_water")));
         		return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
         	}
         }
         else if(trackingLiquid.equals(FishingLiquid.LAVA)) {
         	if(blockClicked.getMaterial() != Material.LAVA) {
-        		playerIn.sendMessage(new TextComponentString("This probe can only work in Lava."));
+        		playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_tracker.only_lava")));
         		return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
         	}
         } 
@@ -120,7 +121,7 @@ public abstract class ItemFishTracker extends Item {
         		if(waterCount >= 25) break;
         	}
         	if(waterCount < 25) {
-        		playerIn.sendMessage(new TextComponentString("It is too shallow at this location for the probe to work properly."));
+        		playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_tracker.too_shallow")));
         		return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
         	}
         }
@@ -132,12 +133,12 @@ public abstract class ItemFishTracker extends Item {
         		if(lavaCount >= 25) break;
         	}
         	if(lavaCount < 25) {
-        		playerIn.sendMessage(new TextComponentString("It is too shallow at this location for the probe to work properly."));
+        		playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_tracker.too_shallow")));
         		return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
         	}
         }
 
-        playerIn.sendMessage(new TextComponentString("Started tracking. Might give inaccurate results if you move."));
+        playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_tracker.tracking_start")));
 
         fishingData.setTimeSinceTracking(playerIn.world.getTotalWorldTime());
 
@@ -146,24 +147,24 @@ public abstract class ItemFishTracker extends Item {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Max Depth: " + maxDepth);
+        tooltip.add(I18n.format("item.fishingmadebetter.fish_tracker.tooltip.max_depth") + " " + maxDepth);
 
         String rarityText;
-        if(TrackingVision.BAD.equals(getTrackingVision())) 			rarityText = "Cannot detect rare fishes";
-        else if (TrackingVision.NORMAL.equals(getTrackingVision())) rarityText = "Can detect rare fishes";
-        else if (TrackingVision.BEST.equals(getTrackingVision())) 	rarityText = "Can detect the rarest and most elusive fishes";
-        else rarityText = "Tracking value not found";
+        if(TrackingVision.BAD.equals(getTrackingVision())) 			rarityText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.vision_bad");
+        else if (TrackingVision.NORMAL.equals(getTrackingVision())) rarityText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.vision_normal");
+        else if (TrackingVision.BEST.equals(getTrackingVision())) 	rarityText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.vision_best");
+        else rarityText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.vision_none");
         tooltip.add(rarityText);
         
         String liquidText;
-        if(FishingLiquid.WATER.equals(getLiquidEnum())) 			liquidText = "Can probe Water";
-        else if (FishingLiquid.LAVA.equals(getLiquidEnum())) 		liquidText = "Can probe Lava";
-        else if (FishingLiquid.VOID.equals(getLiquidEnum())) 		liquidText = "Can probe the Void";
-        else liquidText = "Can probe anything";
+        if(FishingLiquid.WATER.equals(getLiquidEnum())) 			liquidText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.probe_water");
+        else if (FishingLiquid.LAVA.equals(getLiquidEnum())) 		liquidText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.probe_lava");
+        else if (FishingLiquid.VOID.equals(getLiquidEnum())) 		liquidText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.probe_void");
+        else liquidText = I18n.format("item.fishingmadebetter.fish_tracker.tooltip.probe_etc");
         tooltip.add(liquidText);
         
-        tooltip.add("Right-click to probe for fish");
-        tooltip.add("Hold " + TextFormatting.GOLD + Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName() + TextFormatting.RESET + "" + TextFormatting.GRAY + " while tracking for extra information" + TextFormatting.RESET);
+        tooltip.add(I18n.format("item.fishingmadebetter.fish_tracker.tooltip.right_click"));
+        tooltip.add(I18n.format("item.fishingmadebetter.fish_tracker.tooltip.info.1") + " " + TextFormatting.GOLD + Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName() + TextFormatting.RESET + "" + TextFormatting.GRAY + " " + I18n.format("item.fishingmadebetter.fish_tracker.tooltip.info.2") + TextFormatting.RESET);
     }
 
     @SideOnly(Side.CLIENT)

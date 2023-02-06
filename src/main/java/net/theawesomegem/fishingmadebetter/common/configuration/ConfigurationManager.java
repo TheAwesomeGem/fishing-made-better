@@ -21,11 +21,11 @@ public class ConfigurationManager {
         BOTTOM_CENTER,
         BOTTOM_RIGHT
     }
-    
+
     @Config.Comment("Server Config")
     @Config.Name("Server")
     public static final ServerConfig server = new ServerConfig();
-    
+
     public static class ServerConfig {
         @Config.Name("Fish Bucket")
         @Config.Comment("Enable the fish bucket?")
@@ -42,35 +42,35 @@ public class ConfigurationManager {
         @Config.Name("Lose Bait")
         @Config.Comment("Lose the bait whenever a fish bites your hook.")
         public boolean looseBait = true;
-        
+
         @Config.Name("Simple Bait")
         @Config.Comment("All bait listed in the fish configs work for all fish, baited rods catch fish faster and all bait can be used in the bait box.")
         public boolean simpleBait = true;
-        
+
         @Config.Name("Regenerate Empty Chunks")
         @Config.Comment("Attempt to regenerate fish if a chunk is empty?")
         public boolean regenerateEmptyChunks = false;
-        
+
         @Config.Name("Disable Minigame")
         @Config.Comment("Skips the minigame when a fish bites the hook and just reels it in instead.")
         public boolean skipMinigame = false;
-        
+
         @Config.Name("Aquaculture Recipe Override")
         @Config.Comment("Replace/remove/override/add Aquaculture recipes to work better with this mod? (Does nothing if Aquaculture is not installed)")
         public boolean aquacultureRecipeOverride = true;
-        
+
         @Config.Name("AdvancedFishing Recipe Override")
         @Config.Comment("Replace/remove/override/add AdvancedFishing recipes to work better with this mod? (Does nothing if AdvancedFishing is not installed)")
         public boolean advancedFishingRecipeOverride = true;
-        
+
         @Config.Name("Charm Salvage Patch")
         @Config.Comment("Attempt to patch the dupe bug caused by Charm's Salvage enchant on rods with attachments? (Will cause attachments to be voided if you drop a rod at 0 durability remaining)")
         public boolean charmSalvagePatch = true;
-        
+
         @Config.Name("LevelUpReloaded Patch")
         @Config.Comment("Attempt to patch LevelUpReloaded using the wrong event for fishing loot. (Built for version 1.1.23, likely won't work with newer rewrite versions currently)")
         public boolean levelUpPatch = true;
-        
+
         @Config.Name("Fish Regeneration Time")
         @Config.RangeInt(min=0)
         @Config.Comment("After a chunk is emptied, how long until it attempts to regenerate the fish population. (Minutes)")
@@ -95,20 +95,20 @@ public class ConfigurationManager {
         @Config.RangeInt(min=0)
         @Config.Comment("When populating chunks, each population is increased or decreased by a random percent chosen between 0 and this.")
         public int randomPopulationFactor = 50;
-        
+
         @Config.Name("Base Treasure Chance")
         @Config.Comment("Base chance for a fishing rod to get extra treasure. (Out of 100)")
         public int baseTreasureChance = 15;
-        
+
         @Config.Name("Base Fishing Time-To-Bobber")
         @Config.Comment("How many ticks should the time-to-bobber take before applying modifiers. (Ticks)")
         public float baseTimeToBobber = 900F;
     }
-    
+
     @Config.Comment("Client Config")
     @Config.Name("Client")
     public static final ClientConfig client = new ClientConfig();
-    
+
     public static class ClientConfig {
         @Config.Name("Reeling Hud")
         @Config.Comment("Enable/Disable the reeling hud. (Why would you disable it?)")

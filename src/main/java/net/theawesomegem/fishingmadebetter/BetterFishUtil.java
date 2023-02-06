@@ -1,5 +1,6 @@
 package net.theawesomegem.fishingmadebetter;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -55,9 +56,9 @@ public class BetterFishUtil {
         
         if(!value) {
         	List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
-            tooltipList.add(String.format("Scale: %s", "Detached"));
-            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Dead" + TextFormatting.RESET);
+            tooltipList.add(String.format(I18n.format("tooltip.fishingmadebetter.fish.weight")+" %d", BetterFishUtil.getFishWeight(itemStack)));
+            tooltipList.add(String.format(I18n.format("tooltip.fishingmadebetter.fish.scale") + " %s", I18n.format("tooltip.fishingmadebetter.fish.scale_detached")));
+            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.dead") + TextFormatting.RESET);
             itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             BetterFishUtil.setFishCaughtTime(itemStack, 0);

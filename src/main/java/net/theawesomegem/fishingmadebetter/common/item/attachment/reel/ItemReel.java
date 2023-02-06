@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -42,7 +43,7 @@ public abstract class ItemReel extends Item {
 	
 	@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(String.format("Reel Range: %sm", this.reelRange));
-        tooltip.add(String.format("Reel Speed: %sm/s", this.reelSpeed));
+        tooltip.add(String.format(I18n.format("tooltip.fishingmadebetter.reel.range") + " %sm", this.reelRange));
+        tooltip.add(String.format(I18n.format("tooltip.fishingmadebetter.reel.speed") + " %sm/s", this.reelSpeed));
     }
 }

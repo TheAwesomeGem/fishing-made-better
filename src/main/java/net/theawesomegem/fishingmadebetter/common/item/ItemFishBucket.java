@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -68,7 +69,7 @@ public class ItemFishBucket extends Item {
         IBlockState blockState = worldIn.getBlockState(blockpos);
         Material material = blockState.getMaterial();
         if(material != MaterialLiquid.WATER) {
-        	playerIn.sendMessage(new TextComponentString("This fish can only be placed in water."));
+        	playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_bucket.only_water")));
         	return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
@@ -79,12 +80,12 @@ public class ItemFishBucket extends Item {
     		if(waterCount >= 25) break;
     	}
     	if(waterCount < 25) {
-    		playerIn.sendMessage(new TextComponentString("This body of water is too small for this fish."));
+    		playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_bucket.small_water")));
     		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
     	}
         
         if(fishData.minYLevel > blockpos.getY() || fishData.maxYLevel < blockpos.getY()) {
-        	playerIn.sendMessage(new TextComponentString("This fish can not survive at this altitiude."));
+        	playerIn.sendMessage(new TextComponentString(I18n.format("notif.fishingmadebetter.fish_bucket.wrong_altitude")));
     		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
@@ -126,7 +127,7 @@ public class ItemFishBucket extends Item {
     	String fishId = getFishId(itemStack);
     	if(fishId==null) return;
     	
-    	tooltip.add(TextFormatting.BLUE + "Contains: " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
+    	tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + " " + TextFormatting.BOLD + I18n.format(fishId) + TextFormatting.RESET);
     }
 
     @Nullable

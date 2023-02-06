@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -13,6 +14,7 @@ import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishingCapabilityProvider;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.IFishingData;
 import net.theawesomegem.fishingmadebetter.common.configuration.ConfigurationManager;
+//import net.minecraft.util.text.translation.I18n;
 
 /**
  * Created by TheAwesomeGem on 12/29/2017.
@@ -63,7 +65,7 @@ public class GuiReelingOverlay extends Gui {
         double distance = (double)(fishingData.getFishDeepLevel() - fishingData.getFishDistance())/10;
         
         fontColor = getIntFromColor(fishingData.getLineBreak());
-        fontRenderer.drawStringWithShadow(String.format("Distance: %sm", distance), getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - 30, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
+        fontRenderer.drawStringWithShadow(String.format(I18n.format("fishingmadebetter.reelingoverlay.distance") + " %sm", distance), getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - 30, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
         
         int posX = getBarPosX(scaledWidth);
         int posY = getBarPosY(scaledHeight);

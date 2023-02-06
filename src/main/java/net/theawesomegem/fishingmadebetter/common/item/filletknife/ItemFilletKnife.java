@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
+import net.minecraft.client.resources.I18n;
 
 import javax.annotation.Nullable;
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public abstract class ItemFilletKnife extends ItemTool {
 
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Use it to cut fish into fish slices.");
+        tooltip.add(I18n.format("item.fishingmadebetter.fillet_knife.tooltip"));
     }
 
     @Override

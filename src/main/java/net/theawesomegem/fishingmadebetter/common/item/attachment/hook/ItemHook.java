@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -54,9 +55,9 @@ public abstract class ItemHook extends Item {
 	
 	@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if(this.tuggingReduction != 0) tooltip.add(String.format("Tugging Reduction: %s", this.tuggingReduction));
-        if(this.treasureModifier != 0) tooltip.add(String.format("Treasure Modifier: +%s%%", this.treasureModifier));
-        if(this.biteRateModifier != 0) tooltip.add(String.format("Bite Rate Modifier: +%s%%", this.biteRateModifier));
-        if(this.weightModifier != 0) tooltip.add(String.format("Catch Weight Modifier: +%s%%", this.weightModifier));
+        if(this.tuggingReduction != 0) tooltip.add(String.format(I18n.format("item.fishingmadebetter.hook_barbed.tooltip")+" %s", this.tuggingReduction));
+        if(this.treasureModifier != 0) tooltip.add(String.format(I18n.format("item.fishingmadebetter.hook_magnetic.tooltip") +" +%s%%", this.treasureModifier));
+        if(this.biteRateModifier != 0) tooltip.add(String.format(I18n.format("item.fishingmadebetter.hook_shiny.tooltip") +" +%s%%", this.biteRateModifier));
+        if(this.weightModifier != 0) tooltip.add(String.format(I18n.format("item.fishingmadebetter.hook_fatty.tooltip") + " +%s%%", this.weightModifier));
     }
 }

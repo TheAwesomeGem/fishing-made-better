@@ -1,3 +1,4 @@
+#PARSE_ESCAPES
 key.reelIn=Tension Line Left
 key.reelOut=Tension Line Right
 key.fishingmadebetter.category=Fishing Made Better
@@ -46,3 +47,253 @@ notif.fishingmadebetter.bite=A bite!
 notif.fishingmadebetter.tracker.nohand=You must be holding a fish tracker either in your main hand or your off hand
 notif.fishingmadebetter.tracker.twohand=You cannot hold fish trackers in both hands
 notif.fishingmadebetter.tracker.finish=You have finished tracking
+
+# =======================
+# Added by KameiB
+# =======================
+
+# Fish tooltips
+tooltip.fishingmadebetter.fish.weight=Weight:
+tooltip.fishingmadebetter.fish.scale=Scale:
+tooltip.fishingmadebetter.fish.scale_attached=Attached
+tooltip.fishingmadebetter.fish.scale_detached=Detached
+tooltip.fishingmadebetter.fish.dead=Dead
+tooltip.fishingmadebetter.fish.alive=Alive
+fishingmadebetter.reelingoverlay.distance=Distance:
+
+# Fishing Rod Tooltips
+tooltip.fishingmadebetter.fishing_rod.reel.name=Reel:
+tooltip.fishingmadebetter.fishing_rod.durability.title=Durability:
+tooltip.fishingmadebetter.fishing_rod.reel.range=Reel Length:
+tooltip.fishingmadebetter.fishing_rod.reel.speed=Reel Speed:
+
+tooltip.fishingmadebetter.fishing_rod.bobber=Bobber:
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in=Can fish in:
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.lava=Lava
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.void=Void
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.water=Water
+tooltip.fishingmadebetter.fishing_rod.bobber.tension_size=Tension Bar Size Modifier:
+tooltip.fishingmadebetter.fishing_rod.bobber.tension_speed=Tension Bar Speed Modifier:
+
+tooltip.fishingmadebetter.fishing_rod.hook=Hook:
+tooltip.fishingmadebetter.fishing_rod.hook.tugging=Fish Tugging Modifier:
+tooltip.fishingmadebetter.fishing_rod.hook.treasure_chance=Treasure Chance Modifier:
+tooltip.fishingmadebetter.fishing_rod.hook.bite_rate=Fish Bite Rate Modifier:
+tooltip.fishingmadebetter.fishing_rod.hook.weight=Fish Weight Modifier:
+
+tooltip.fishingmadebetter.fishing_rod.bait=Bait:
+tooltip.fishingmadebetter.fishing_rod.bait_none=None
+
+tooltip.fishingmadebetter.fishing_rod.shift.1=Hold
+tooltip.fishingmadebetter.fishing_rod.shift.2=for extra information
+
+# Bobbers
+item.fishingmadebetter.bobber_basic.tooltip=Only used for crafting!
+item.fishingmadebetter.bobber_obsidian.tooltip=Can fish in: Lava
+item.fishingmadebetter.bobber_void.tooltip=Can fish in: Void
+item.fishingmadebetter.bobber_water.tooltip=Can fish in: Water
+item.fishingmadebetter.bobber_heavy.tooltip=Tension Bar Size Modifier:
+item.fishingmadebetter.bobber_lightweight.tooltip=Tension Bar Speed Modifier:
+
+# Hooks
+item.fishingmadebetter.hook_basic.tooltip=Only used for crafting!
+item.fishingmadebetter.hook_barbed.tooltip=Tugging Reduction:
+item.fishingmadebetter.hook_magnetic.tooltip=Treasure Modifier:
+item.fishingmadebetter.hook_shiny.tooltip=Bite Rate Modifier:
+item.fishingmadebetter.hook_fatty.tooltip=Catch Weight Modifier:
+
+# Reels
+item.fishingmadebetter.reel_basic.tooltip=Only used for crafting!
+tooltip.fishingmadebetter.reel.range=Reel Range:
+tooltip.fishingmadebetter.reel.speed=Reel Speed:
+
+# Bait Box
+tile.fishingmadebetter.baitbox.tooltip=Feeds fish in the local chunk when filled with bait to aid fish reproduction
+notif.fishingmadebetter.baitbox.bait_not_valid=This is not a valid bait!
+notif.fishingmadebetter.baitbox.full=Bait Box is full!
+notif.fishingmadebetter.baitbox.empty=Bait Box is empty!
+
+# Fillet Knives
+item.fishingmadebetter.fillet_knife.tooltip=Use it to cut fish into fish slices
+item.fishingmadebetter.fish_slice_raw.tooltip=Sliced %s
+
+# Scaling Knives
+item.fishingmadebetter.scaling_knife.tooltip=Use it to scale a fish
+
+# Bait Bucket
+item.fishingmadebetter.bait_bucket.tooltip=Automatically rebaits the fishing rod with contained bait when held in offhand after a bite
+item.fishingmadebetter.bait_bucket.tooltip.contains=Contains:
+item.fishingmadebetter.bait_bucket.tooltip.none=None
+
+# Fish Bucket
+notif.fishingmadebetter.fish_bucket.only_water=This fish can only be placed in water.
+notif.fishingmadebetter.fish_bucket.small_water=This body of water is too small for this fish.
+notif.fishingmadebetter.fish_bucket.wrong_altitude=This fish can not survive at this altitude.
+item.fishingmadebetter.fish_bucket.tooltip=Contains:
+
+# Trackers
+notif.fishingmadebetter.fish_tracker.only_void=This probe can only be used on blocks near the Void.
+notif.fishingmadebetter.fish_tracker.only_water=This probe can only work in Water.
+notif.fishingmadebetter.fish_tracker.only_lava=This probe can only work in Lava.
+notif.fishingmadebetter.fish_tracker.too_shallow=It is too shallow at this location for the probe to work properly.
+notif.fishingmadebetter.fish_tracker.tracking_start=Started tracking. Might give inaccurate results if you move.
+item.fishingmadebetter.fish_tracker.tooltip.max_depth=Max Depth:
+item.fishingmadebetter.fish_tracker.tooltip.vision_bad=Cannot detect rare fishes
+item.fishingmadebetter.fish_tracker.tooltip.vision_normal=Can detect rare fishes
+item.fishingmadebetter.fish_tracker.tooltip.vision_best=Can detect the rarest and most elusive fishes
+item.fishingmadebetter.fish_tracker.tooltip.vision_none=Tracking value not found
+item.fishingmadebetter.fish_tracker.tooltip.probe_water=Can probe Water
+item.fishingmadebetter.fish_tracker.tooltip.probe_lava=Can probe Lava
+item.fishingmadebetter.fish_tracker.tooltip.probe_void=Can probe the Void
+item.fishingmadebetter.fish_tracker.tooltip.probe_etc=Can probe anything
+item.fishingmadebetter.fish_tracker.tooltip.right_click=Right-click to probe for fish
+item.fishingmadebetter.fish_tracker.tooltip.info.1=Hold
+item.fishingmadebetter.fish_tracker.tooltip.info.2=while tracking for extra information
+notif.fishingmadebetter.fish_tracker.detected=Detected %s.
+notif.fishingmadebetter.fish_tracker.detected_detailed=Detected %s, %s in %s quantity.
+notif.fishingmadebetter.fish_tracker.quantity_immense=immense
+notif.fishingmadebetter.fish_tracker.quantity_abundant=abundant
+notif.fishingmadebetter.fish_tracker.quantity_ample=ample
+notif.fishingmadebetter.fish_tracker.quantity_substantial=substantial
+notif.fishingmadebetter.fish_tracker.quantity_numerous=numerous
+notif.fishingmadebetter.fish_tracker.quantity_light=light
+notif.fishingmadebetter.fish_tracker.quantity_sparse=sparse
+notif.fishingmadebetter.fish_tracker.quantity_meager=meager
+notif.fishingmadebetter.fish_tracker.found_none=Probe failed to detect any fish in this location.
+notif.fishingmadebetter.fish_tracker.found_under_y=Detected traces of %s fish living at a lower altitude.
+notif.fishingmadebetter.fish_tracker.found_outside_quality=Detected traces of %s fish outside of the probe's ability.
+notif.fishingmadebetter.fish_tracker.found_hibernating=Detected %s fish currently not feeding in these conditions.
+notif.fishingmadebetter.fish_tracker.creative.1=%s %s in %s at Y%s-%s
+notif.fishingmadebetter.fish_tracker.creative.2=MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s
+
+# =======================
+# Custom fishes names and descriptions for Vanilla, Advanced Fishing and Aquaculture
+# =======================
+# Minecraft
+item.fish.salmon.raw.name=Red Salmon
+item.fish.cod.raw.name=Cod
+
+item.fish.cod.raw.desc=a large grey-green stout bodied fish with a large head and long chin barbel
+item.fish.salmon.raw.desc=a decent sized red fish with a hooked jaw
+item.fish.clownfish.raw.desc=a bright orange fish with white stripes and black edges
+item.fish.pufferfish.raw.desc=a small, yellow, thorny fish that inflates when threatened
+
+# Aquaculture
+item.Fish.Pirahna.name=Piranha
+item.Fish.Pink_Salmon.name=Chinook Salmon
+item.Fish.Cod.name=Polar Cod
+item.Fish.Blackfish.name=Tautog
+item.Fish.Salmon.name=Arctic Salmon
+item.Fish.Squid.name=Giant Squid
+item.Fish.Syndontis.name=Synodontis
+
+item.Fish.Bluegill.desc=a small yellow and blue fish
+item.Fish.Perch.desc=a long, rounded fish with rough scales
+item.Fish.Gar.desc=a long, armored fish with elongated jaws filled with sharp teeth
+item.Fish.Bass.desc=a decently sized black and green fish
+item.Fish.Muskellunge.desc=a large aggressive silvery fish
+item.Fish.Brown_Trout.desc=a common, medium sized brown fish
+item.Fish.Catfish.desc=a large, widemouthed fish with whisker-like barbels
+item.Fish.Carp.desc=a large, brown, invasive fish
+item.Fish.Blowfish.desc=a small, brown, boney fish that inflates when threatened
+item.Fish.Red_Grouper.desc=a decently sized reddish-brown ray-finned fish
+item.Fish.Salmon.desc=a large, silvery-red fish known for their taste
+item.Fish.Tuna.desc=a very large blue-finned fish
+item.Fish.Swordfish.desc=a large fish with a large pointed bill
+item.Fish.Shark.desc=a very large predator
+item.Fish.Whale.desc=a massive sea-dwelling mammal
+item.Fish.Squid.desc=a very large fleshy sea-organism with long tentacles
+item.Fish.Jellyfish.desc=a gelatinous sea-organism with venomous tentacles
+item.Fish.Frog.desc=a small amphibian with good jumping capability
+item.Fish.Turtle.desc=a small reptile with a hard shell for protection
+item.Fish.Leech.desc=a parasitic insect that feeds on blood
+item.Fish.Pirahna.desc=a small vicious predator fish
+item.Fish.Electric_Eel.desc=a snake-like fish that shocks it's prey
+item.Fish.Tambaqui.desc=a large freshwater fish similiar in appearance to the piranha
+item.Fish.Arapaima.desc=a very large, sleek, freshwater fish that has to breath surface air occasionaly
+item.Fish.Cod.desc=a large cold-dwelling fish
+item.Fish.Pollock.desc=a decent-sized silvery fish often used for food
+item.Fish.Herring.desc=a small, silvery fish that travels in large schools
+item.Fish.Halibut.desc=a large brown fish that hides by laying on the seafloor
+item.Fish.Pink_Salmon.desc=a very large salmon species
+item.Fish.Rainbow_Trout.desc=a decent-sized irridescent fish
+item.Fish.Blackfish.desc=a small, black fish with powerful crushing jaws
+item.Fish.Capitaine.desc=a very large fish known as the water elephant
+item.Fish.Boulti.desc=a small fish known as the mango fish
+item.Fish.Bagrid.desc=a small catfish species common in arid enviroments
+item.Fish.Syndontis.desc=a yellow catfish covered in black spots
+item.Fish.Red_Shrooma.desc=a strange fish covered in red fungal growth
+item.Fish.Brown_Shrooma.desc=a strange fish covered in brown fungal growth
+item.Fish.Goldfish.desc=an invasive freshwater fish with shiny gold scales
+
+# Advanced Fishing
+item.advanced-fishing.catfish.name=Brown Bullhead
+item.advanced-fishing.explosive_crucian.name=Nitric Crucian
+item.advanced-fishing.blue_jellyfish.name=Bluebottle Jellyfish
+item.advanced-fishing.sponge_eater.name=Bluehead Wrasse
+item.advanced-fishing.angler_fish.name=Prismatic Angler
+item.advanced-fishing.green_jellyfish.name=Fluorescent Slimefish
+item.advanced-fishing.spookyfin.name=Phantasmal Tetra
+item.advanced-fishing.piranha.name=Mudskinned Piranha
+item.advanced-fishing.mandarinfish.name=Mandarin Dragonet
+item.advanced-fishing.sandy_bass.name=Barred Sand Bass
+item.advanced-fishing.swamp_plaice.name=Green-Finned Plaice
+item.advanced-fishing.red_shroomfin.name=Red Fungalfin
+item.advanced-fishing.brown_shroomfin.name=Brown Fungalfin
+item.advanced-fishing.cave_trout.name=Carbonic Trout
+item.advanced-fishing.crystal_mullet.name=Lazulicanth
+item.advanced-fishing.ender_shad.name=Ender Synanceia
+item.advanced-fishing.pearl_sardine.name=Pearlfish
+item.advanced-fishing.chorus_koi.name=Fruiting Voidfin
+item.advanced-fishing.obsidian_bream.name=Midnight Bream
+item.advanced-fishing.magma_jellyfish.name=Magmatic Jellyfish
+item.advanced-fishing.nether_sturgeon.name=Wrackke
+item.advanced-fishing.quartz_chub.name=Quartzander
+item.advanced-fishing.fungi_catfish.name=Warthead
+item.advanced-fishing.flarefin_koi.name=Glowfin
+item.advanced-fishing.blaze_pike.name=Blazing Chichlid
+# Where is the Bone Fish entry pulle from?
+
+item.advanced-fishing.squid.desc=a decent-sized invertebrate with long tentacles
+item.advanced-fishing.catfish.desc=a social fish known as the mud cat
+item.advanced-fishing.pike.desc=a long, pointed, carnivorous fish
+item.advanced-fishing.explosive_crucian.desc=a small, green fish with volatile, powdery scales
+item.advanced-fishing.angelfish.desc=a small, triangular fish typically kept as a pet
+item.advanced-fishing.blue_jellyfish.desc=a gelatinous sea-organism known as the floating terror
+item.advanced-fishing.sponge_eater.desc=a small, colorful fish that typically feeds on and lives around sponge
+item.advanced-fishing.abyssal_lurker.desc=a snake-like, deep-sea fish covered in prismarine lancets
+item.advanced-fishing.angler_fish.desc=a large deep-sea fish with massive fangs that uses shiny crystals to attract prey
+item.advanced-fishing.green_jellyfish.desc=a green, fluorescent mass of biowaste that seems to have formed into a pseudo-jellyfish
+item.advanced-fishing.bone_fish.desc=a reanimated mass of fish bones
+item.advanced-fishing.spookyfin.desc=a rare transulscent fish, speculated to be a phantom of a dead fish
+item.advanced-fishing.cursed_koi.desc=a rare, emerald-scaled fish that is said to curse you if you cause its death
+item.advanced-fishing.piranha.desc=a vicious predator fish that lays on the muddy riverbed waiting for prey to swim by
+item.advanced-fishing.sparkling_eel.desc=a snake-like fish that dazzles its prey with shiny, reflective scales
+item.advanced-fishing.mandarinfish.desc=a small, brightly colored fish said to grant knowledge
+item.advanced-fishing.sandy_bass.desc=a decently sized, pale, yellow fish with gritty scales
+item.advanced-fishing.golden_koi.desc=a decently sized golden fish with prized scales
+item.advanced-fishing.sunfish.desc=an extremely bright-yellow colored flatfish
+item.advanced-fishing.snowy_walleye.desc=an arctic-dwelling fish with powdery scales that resemble snowflakes
+item.advanced-fishing.frost_minnow.desc=a small, cold fish that tends to accumulate ice on its scales
+item.advanced-fishing.glacier_anchovy.desc=a tiny arctic fish, often found as large schools frozen in ice
+item.advanced-fishing.ruffe.desc=a small, invasive, bottom-dwelling fish
+item.advanced-fishing.mud_tuna.desc=a large fish often indistinguishable from the surrounding mud and clay
+item.advanced-fishing.swamp_plaice.desc=a small fish that disguises itself among the lilypads
+item.advanced-fishing.red_shroomfin.desc=a strange, cave-dwelling fish covered in red fungal growth that hides from light
+item.advanced-fishing.brown_shroomfin.desc=a strange, cave-dwelling fish covered in brown fungal growth that hides from light
+item.advanced-fishing.specular_snapper.desc=a large, cave-dwelling fish typically used as food for a hungry explorer
+item.advanced-fishing.cave_trout.desc=a strange cave-fish that seems to be more coal than fish
+item.advanced-fishing.crystal_mullet.desc=a pretty, blue, cave-fish covered in gem-like scales
+item.advanced-fishing.charged_bullhead.desc=a shimmering, red, cave-fish that seems to electrically charge the waters it swims in
+item.advanced-fishing.ender_shad.desc=a chalky, white fish found in the depths covered in venomous, stony spines
+item.advanced-fishing.pearl_sardine.desc=a small, pearlescent fish that seems to teleport around the depths of the void
+item.advanced-fishing.chorus_koi.desc=a fish covered in fruiting fungal growths prevalent in the murky void
+item.advanced-fishing.obsidian_bream.desc=a pitch-black colored fish with razor-sharp, hardened scales
+item.advanced-fishing.magma_jellyfish.desc=a smoldering mass of slime and lava-like tendrils
+item.advanced-fishing.nether_sturgeon.desc=a clump of netherrack that fell into lava and seems to have come to life
+item.advanced-fishing.withered_crucian.desc=one of the many souls trapped inside soulsand, returned as a fish
+item.advanced-fishing.quartz_chub.desc=a large, lava-dwelling fish covered in protective quartzite scales
+item.advanced-fishing.fungi_catfish.desc=a large, sedentary, lava-dwelling fish covered in many fungal growths
+item.advanced-fishing.flarefin_koi.desc=a fast, shiny fish that radiates light
+item.advanced-fishing.blaze_pike.desc=a small fish that seems to be made out of pure heat
+item.advanced-fishing.magikarp.desc=a splashy fish
