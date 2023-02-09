@@ -12,6 +12,7 @@ import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurat
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.common.item.ItemManager;
 import net.theawesomegem.fishingmadebetter.common.item.filletknife.ItemFilletKnife;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,9 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
     	}
         
         String fishId = BetterFishUtil.getFishId(itemStackFish);
-        String fishDisplayName = fishId;
+        //String fishDisplayName = fishId;
+        String fishDisplayName =  new TextComponentTranslation(BetterFishUtil.getFishCustomLangKey(itemStackFish)).getUnformattedComponentText();
+
         int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
 
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);

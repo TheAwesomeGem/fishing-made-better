@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -18,6 +19,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -68,7 +70,7 @@ public class ItemFishBucket extends Item {
         IBlockState blockState = worldIn.getBlockState(blockpos);
         Material material = blockState.getMaterial();
         if(material != MaterialLiquid.WATER) {
-        	playerIn.sendMessage(new TextComponentString("This fish can only be placed in water."));
+        	playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_bucket.only_water"));
         	return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
@@ -79,12 +81,12 @@ public class ItemFishBucket extends Item {
     		if(waterCount >= 25) break;
     	}
     	if(waterCount < 25) {
-    		playerIn.sendMessage(new TextComponentString("This body of water is too small for this fish."));
+    		playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_bucket.small_water"));
     		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
     	}
         
         if(fishData.minYLevel > blockpos.getY() || fishData.maxYLevel < blockpos.getY()) {
-        	playerIn.sendMessage(new TextComponentString("This fish can not survive at this altitiude."));
+        	playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_bucket.wrong_altitude"));
     		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
@@ -120,13 +122,21 @@ public class ItemFishBucket extends Item {
         
         return itemStack;
     }
-    
+
+    @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
     	String fishId = getFishId(itemStack);
+        //String fishId = getFishDisplayName(itemStack);
     	if(fishId==null) return;
-    	
-    	tooltip.add(TextFormatting.BLUE + "Contains: " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
+
+        String fishLangKey=String.format("%s%s:%d%s", "item.fmb.", getFishRegistry(itemStack), getFishMetadata(itemStack), ".name");
+        tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + I18n.format(fishLangKey) + TextFormatting.RESET);
+    }
+
+    @Nullable
+    private IChunkFishingData getChunkFishingData(Chunk chunk) {
+        return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
     }
 
     @Nullable
@@ -138,8 +148,59 @@ public class ItemFishBucket extends Item {
         return tagCompound.hasKey("FishId") ? tagCompound.getString("FishId") : null;
     }
 
-    @Nullable
-    private IChunkFishingData getChunkFishingData(Chunk chunk) {
-        return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
+    // TO THE SHADOW REALM! - KameiB
+    public static void setFishId(ItemStack itemStack, String fishId){
+        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setString("FishId", fishId);
+    }
+
+    public static String getFishRegistry(ItemStack itemStack){
+        if(!itemStack.hasTagCompound()) return null;
+
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
+
+        return tagCompound.hasKey("FishRegistry") ? tagCompound.getString("FishRegistry") : null;
+    }
+
+    public static void setFishRegistry(ItemStack itemStack, String fishRegistry){
+        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setString("FishRegistry", fishRegistry);
+    }
+
+    public static int getFishMetadata(ItemStack itemStack){
+        if(!itemStack.hasTagCompound()) return 0;
+
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
+
+        return tagCompound.hasKey("FishMetaData") ? tagCompound.getInteger("FishMetaData") : 0;
+    }
+
+    public static void setFishMetadata(ItemStack itemStack, int meta){
+        if(!itemStack.hasTagCompound())  itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setInteger("FishMetaData", meta);
+    }
+
+    public static String getFishDisplayName(ItemStack itemStack){
+        if(!itemStack.hasTagCompound()) return null;
+
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
+
+        return tagCompound.hasKey("FishDisplayName") ? tagCompound.getString("FishDisplayName") : getFishId(itemStack);
+    }
+
+    public static void setFishDisplayName(ItemStack itemStack, String displayName){
+        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setString("FishDisplayName", displayName);
+    }
+
+    public static void removeFish(ItemStack itemStack){
+        if(!itemStack.hasTagCompound()) return;
+
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
+
+        if(tagCompound.hasKey("FishId")) itemStack.getTagCompound().removeTag("FishId");
+        if(tagCompound.hasKey("FishRegistry")) itemStack.getTagCompound().removeTag("FishRegistry");
+        if(tagCompound.hasKey("FishMetaData")) itemStack.getTagCompound().removeTag("FishMetaData");
+        if(tagCompound.hasKey("FishDisplayName")) itemStack.getTagCompound().removeTag("FishDisplayName");
     }
 }

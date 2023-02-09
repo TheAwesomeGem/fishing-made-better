@@ -16,6 +16,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.item.Item;
+
 /**
  * Created by TheAwesomeGem on 1/1/2018.
  */
@@ -34,11 +36,14 @@ public class RecipeFishBucket extends net.minecraftforge.registries.IForgeRegist
     public ItemStack getCraftingResult(InventoryCrafting inv) {
     	Integer[] slots = validInput(inv);
     	if(slots==null) return ItemStack.EMPTY;
-    	
-    	ItemStack itemFish = inv.getStackInSlot(slots[1]).copy();
-    	
-    	ItemStack fishBucket = ItemFishBucket.getItemStack(BetterFishUtil.getFishId(itemFish));
-    	
+
+        ItemStack itemFish = inv.getStackInSlot(slots[1]).copy();
+        ItemStack fishBucket = ItemFishBucket.getItemStack(BetterFishUtil.getFishId(itemFish));
+
+        ItemFishBucket.setFishRegistry(fishBucket, Item.REGISTRY.getNameForObject(itemFish.getItem()).toString());
+        ItemFishBucket.setFishMetadata(fishBucket, itemFish.getMetadata());
+        ItemFishBucket.setFishDisplayName(fishBucket, itemFish.getDisplayName());
+
         return fishBucket;
     }
 

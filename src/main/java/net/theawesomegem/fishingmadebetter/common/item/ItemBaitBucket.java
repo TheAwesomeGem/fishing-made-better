@@ -1,6 +1,7 @@
 package net.theawesomegem.fishingmadebetter.common.item;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -32,16 +33,17 @@ public class ItemBaitBucket extends Item {
         ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add("Automatically rebaits the fishing rod with contained bait when held in offhand after a bite.");
+        tooltip.add(I18n.format("item.fishingmadebetter.bait_bucket.tooltip"));
 
         String baitId = getBaitId(itemStack);
         if(baitId.isEmpty()) {
-            tooltip.add(TextFormatting.BLUE + "Contains: " + TextFormatting.BOLD + "None" + TextFormatting.RESET);
+            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.none") + TextFormatting.RESET);
         }
         else {
-            tooltip.add(TextFormatting.BLUE + "Contains: " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
+            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
         }
     }
 

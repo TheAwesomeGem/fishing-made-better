@@ -4,6 +4,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TextComponentTranslation;
+
+import net.minecraft.util.ResourceLocation;
+
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.common.item.ItemFishBucket;
@@ -55,9 +59,9 @@ public class BetterFishUtil {
         
         if(!value) {
         	List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
-            tooltipList.add(String.format("Scale: %s", "Detached"));
-            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Dead" + TextFormatting.RESET);
+            tooltipList.add(String.format("%s %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), BetterFishUtil.getFishWeight(itemStack)));
+            tooltipList.add(String.format("%s %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText(), new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_detached").getUnformattedComponentText()));
+            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + new TextComponentTranslation("tooltip.fishingmadebetter.fish.dead").getUnformattedComponentText() + TextFormatting.RESET);
             itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             BetterFishUtil.setFishCaughtTime(itemStack, 0);
@@ -92,5 +96,19 @@ public class BetterFishUtil {
         if(fishData.allowScaling && !BetterFishUtil.doesFishHasScale(itemStack)) return true;//If its scaled, its dead, otherwise you can dupe
 
         return time >= (fishCaughtTime + TimeUtil.secondsToMinecraftTicks(fishData.timeOutsideOfWater));
+    }
+
+    public static String getFishUnlocalizedName(ItemStack itemStack)
+    {
+        if(!itemStack.hasTagCompound() || !itemStack.getTagCompound().hasKey("FishId"))  return null;
+
+        //return String.format("%s:%d", itemStack.getItem().getRegistryName().toString(), itemStack.getItemDamage());
+        return String.format("%s:%d", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata());
+    }
+
+    public static String getFishCustomLangKey(ItemStack itemStack){
+        if(!itemStack.hasTagCompound() || !itemStack.getTagCompound().hasKey("FishId"))  return null;
+
+        return String.format("%s%s:%d%s", "item.fmb.", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata(), ".name");
     }
 }
