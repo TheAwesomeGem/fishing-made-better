@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -28,12 +29,13 @@ public abstract class ItemFishSlice extends ItemFood {//TODO: maybe something wi
         this.setRegistryName(name);
         this.setTranslationKey(ModInfo.MOD_ID + "." + name);
     }
-    
+
+    @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
     	String fishDisplayName = getFishDisplayName(stack);
 
-        if(fishDisplayName != null && fishDisplayName.length() > 0) tooltip.add(String.format("Sliced %s", fishDisplayName));
+        if(fishDisplayName != null && fishDisplayName.length() > 0) tooltip.add(I18n.format("item.fishingmadebetter.fish_slice_raw.tooltip") + " " + fishDisplayName);
     }
     
     @SideOnly(Side.CLIENT)

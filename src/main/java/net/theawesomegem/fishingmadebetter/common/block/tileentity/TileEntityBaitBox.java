@@ -10,6 +10,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -61,7 +62,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
             int freeSlot = -1;
             
             if(!BetterFishUtil.isValidBait(itemStack)) {//Hopefully whitelists correctly
-            	player.sendMessage(new TextComponentString("This is not a valid bait!"));
+            	player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.bait_not_valid"));
             	return;
             }
             
@@ -80,7 +81,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
             
             if(itemStack.getCount() > 0) {
             	player.setHeldItem(EnumHand.MAIN_HAND, itemStack);
-            	player.sendMessage(new TextComponentString("Bait Box is full!"));
+            	player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.full"));
             }
             else player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
             
@@ -102,7 +103,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                 else baitAmountMap.put(name, stack.getCount());
             }
 
-            if(baitAmountMap.isEmpty()) player.sendMessage(new TextComponentString("Bait Box is empty!"));
+            if(baitAmountMap.isEmpty()) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.empty"));
             else {
             	for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
             		player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));

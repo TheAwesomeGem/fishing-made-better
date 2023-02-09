@@ -1,6 +1,7 @@
 package net.theawesomegem.fishingmadebetter.common.item.scalingknife;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,10 +42,11 @@ public abstract class ItemScalingKnife extends ItemTool
         ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":scaling_knife/" + getRegistryName().getPath(), "inventory"));
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add("Use it to scale a fish.");
+        tooltip.add(I18n.format("item.fishingmadebetter.scaling_knife.tooltip"));
     }
 
     @Override

@@ -29,11 +29,9 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
@@ -562,17 +560,17 @@ public class FishingEventHandler {//God this handler is a mess
             int pop = populationData.getQuantity();
             String quantity;
 
-            if(pop > 50) quantity = "immense";
-            else if(pop > 40) quantity = "abundant";
-            else if(pop > 30) quantity = "ample";
-            else if(pop > 20) quantity = "substantial";
-            else if(pop > 10) quantity = "numerous";
-            else if(pop > 3) quantity = "light";
-            else if(pop > 1) quantity = "sparse";
-            else quantity = "meager";
+            if(pop > 50) quantity = "notif.fishingmadebetter.fish_tracker.quantity_immense";
+            else if(pop > 40) quantity = "notif.fishingmadebetter.fish_tracker.quantity_abundant";
+            else if(pop > 30) quantity = "notif.fishingmadebetter.fish_tracker.quantity_ample";
+            else if(pop > 20) quantity = "notif.fishingmadebetter.fish_tracker.quantity_substantial";
+            else if(pop > 10) quantity = "notif.fishingmadebetter.fish_tracker.quantity_numerous";
+            else if(pop > 3) quantity = "notif.fishingmadebetter.fish_tracker.quantity_light";
+            else if(pop > 1) quantity = "notif.fishingmadebetter.fish_tracker.quantity_sparse";
+            else quantity = "notif.fishingmadebetter.fish_tracker.quantity_meager";
             
-            if(limitInfo) player.sendMessage(new TextComponentString(String.format("Detected %s.", fishData.fishId)));
-            else player.sendMessage(new TextComponentString(String.format("Detected %s, %s in %s quantity.", fishData.fishId, fishData.description, quantity)));
+            if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
+            else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
         }
         
         if(creative) {
@@ -580,17 +578,17 @@ public class FishingEventHandler {//God this handler is a mess
         	return;
         }
         else if(!fishFound) {
-        	player.sendMessage(new TextComponentString("Probe failed to detect any fish in this location"));
+        	player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_none"));
         }
         else {
         	if(underYCount > 0) {
-        		player.sendMessage(new TextComponentString(String.format("Detected traces of %s fish living at a lower altitiude.", underYCount)));
+        		player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_under_y").appendText(": " + underYCount + "."));
         	}
         	if(trackerQualityCount > 0) {
-        		player.sendMessage(new TextComponentString(String.format("Detected traces of %s fish outside of the probe's ability.", trackerQualityCount)));
+        		player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_outside_quality").appendText(": " + trackerQualityCount + "."));
         	}
         	if(hibernatingCount > 0) {
-        		player.sendMessage(new TextComponentString(String.format("Detected %s fish currently not feeding in these conditions.", hibernatingCount)));
+        		player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_hibernating").appendText(": " + hibernatingCount + "."));
         	}
         }
         

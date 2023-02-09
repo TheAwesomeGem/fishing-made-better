@@ -4,6 +4,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -18,6 +19,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -68,7 +70,7 @@ public class ItemFishBucket extends Item {
         IBlockState blockState = worldIn.getBlockState(blockpos);
         Material material = blockState.getMaterial();
         if(material != MaterialLiquid.WATER) {
-        	playerIn.sendMessage(new TextComponentString("This fish can only be placed in water."));
+        	playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_bucket.only_water"));
         	return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
@@ -79,12 +81,12 @@ public class ItemFishBucket extends Item {
     		if(waterCount >= 25) break;
     	}
     	if(waterCount < 25) {
-    		playerIn.sendMessage(new TextComponentString("This body of water is too small for this fish."));
+    		playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_bucket.small_water"));
     		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
     	}
         
         if(fishData.minYLevel > blockpos.getY() || fishData.maxYLevel < blockpos.getY()) {
-        	playerIn.sendMessage(new TextComponentString("This fish can not survive at this altitiude."));
+        	playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_bucket.wrong_altitude"));
     		return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         }
 
@@ -120,13 +122,14 @@ public class ItemFishBucket extends Item {
         
         return itemStack;
     }
-    
+
+    @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
     	String fishId = getFishId(itemStack);
     	if(fishId==null) return;
     	
-    	tooltip.add(TextFormatting.BLUE + "Contains: " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
+    	tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
     }
 
     @Nullable

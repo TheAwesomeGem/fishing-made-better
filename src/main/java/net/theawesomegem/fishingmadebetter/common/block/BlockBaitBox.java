@@ -3,6 +3,7 @@ package net.theawesomegem.fishingmadebetter.common.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,7 +43,7 @@ public class BlockBaitBox extends BlockTileEntityBase<TileEntityBaitBox> {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
     {
-    	tooltip.add(TextFormatting.GRAY + "Feeds fish in the local chunk when filled with bait to aid fish reproduction." + TextFormatting.RESET);
+    	tooltip.add(TextFormatting.GRAY + I18n.format("tile.fishingmadebetter.baitbox.tooltip") + TextFormatting.RESET);
     }
 
     @Override
