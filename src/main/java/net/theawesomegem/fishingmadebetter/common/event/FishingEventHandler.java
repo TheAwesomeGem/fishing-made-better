@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishingRod;
@@ -20,9 +21,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
@@ -341,9 +340,9 @@ public class FishingEventHandler {//God this handler is a mess
 
         int delayBeforeBite = getDelayBeforeBite(hook);
         if(delayBeforeBite > 0 && delayBeforeBite <= 10) {
-        	
-        	Boolean caughtTick = false;
-        	
+
+            boolean caughtTick = false;
+
             //Fish just bit the hook
             if(fishingData.getLastFailedFishing() <= 0) {
                 if(!fishingData.isFishing()) {//Brackets need to be around all this, otherwise it spams it for 10 ticks
@@ -464,11 +463,13 @@ public class FishingEventHandler {//God this handler is a mess
 
             if(itemStack.isEmpty() || !BetterFishUtil.isBetterFish(itemStack)) continue;
 
-            List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
-            if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("Scale: %s", BetterFishUtil.doesFishHasScale(itemStack) ? "Attached" : "Detached"));
-            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive") + TextFormatting.RESET);
-            itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+            // Removed "Lore" NBT tag because the fish info is handled by onItemTooltip
+            //List<String> tooltipList = new ArrayList<>();
+            //tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
+            //if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("Scale: %s", BetterFishUtil.doesFishHasScale(itemStack) ? "Attached" : "Detached"));
+            //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive") + TextFormatting.RESET);
+            //tooltipList.add(BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive");
+            //itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             if(BetterFishUtil.isDead(itemStack, currentTime)) BetterFishUtil.setFishCaughtTime(itemStack, 0);
         }
@@ -519,11 +520,24 @@ public class FishingEventHandler {//God this handler is a mess
         for(PopulationData populationData : chunkFishingData.getFishes(world.getTotalWorldTime()).values()) {
             FishData fishData = CustomConfigurationHandler.fishDataMap.get(populationData.getFishType());
             if(fishData == null) continue;
-            
+
             if(creative) {
-            	player.sendMessage(new TextComponentString(String.format("%s %s in %s at Y%s-%s", populationData.getQuantity(), fishData.fishId, fishData.liquid.toString(), fishData.minYLevel, fishData.maxYLevel)));
-            	player.sendMessage(new TextComponentString(String.format("MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s", fishData.minDeepLevel, fishData.time.toString(), fishData.maxLightLevel, fishData.rainRequired, fishData.thunderRequired)));
-            	continue;
+                //player.sendMessage(new TextComponentString(String.format("%s %s in %s at Y%s-%s", populationData.getQuantity(), fishData.fishId, fishData.liquid.toString(), fishData.minYLevel, fishData.maxYLevel)));
+                //player.sendMessage(new TextComponentString(String.format("MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s", fishData.minDeepLevel, fishData.time.toString(), fishData.maxLightLevel, fishData.rainRequired, fishData.thunderRequired)));
+                player.sendMessage(new TextComponentString(String.format("%d ", populationData.getQuantity()))
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true))).appendText(TextFormatting.RESET + " in ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.liquid." + fishData.liquid.toString()).setStyle(new Style().setColor(BetterFishUtil.getLiquidColor(fishData.liquid))))
+                        .appendText(TextFormatting.RESET + String.format(" at Y%s-%s,", fishData.minYLevel, fishData.maxYLevel)));
+
+                player.sendMessage(new TextComponentString("  ").appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.min_line")).appendText(String.format(" %dm, ", fishData.minDeepLevel))
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.time")).appendText(" ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.time." + fishData.time.toString()))
+                        .appendText(", ").appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.max_light")).appendText(String.format(" %d, ", fishData.maxLightLevel))
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.rain")).appendText(" ")
+                        .appendSibling( new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.rain." + fishData.rainRequired)).appendText(", ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.thunder")).appendText(" ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.thunder." + fishData.thunderRequired)));
+                continue;
             }
             
             if(!fishData.trackable) continue;
@@ -568,9 +582,19 @@ public class FishingEventHandler {//God this handler is a mess
             else if(pop > 3) quantity = "notif.fishingmadebetter.fish_tracker.quantity_light";
             else if(pop > 1) quantity = "notif.fishingmadebetter.fish_tracker.quantity_sparse";
             else quantity = "notif.fishingmadebetter.fish_tracker.quantity_meager";
-            
-            if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
-            else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
+
+            //if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
+            if(limitInfo) {
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ")
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true))).appendText(TextFormatting.RESET + "."));
+            }
+            //else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
+            else{
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ")
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true))).appendText(TextFormatting.RESET + ", ")
+                        .appendSibling((new TextComponentTranslation(fishData.getDescLangKey()).setStyle(new Style().setColor(TextFormatting.GRAY).setItalic(true)))).appendText(", ")
+                        .appendSibling(new TextComponentTranslation(quantity).setStyle(new Style().setColor(BetterFishUtil.getPopulationColor(pop)))));
+            }
         }
         
         if(creative) {
@@ -613,14 +637,19 @@ public class FishingEventHandler {//God this handler is a mess
         if(CustomConfigurationHandler.fishDataMap.get(fishCaughtData.fishId).allowScaling) tagCompound.setBoolean("FishScale", true);
         itemStack.setTagCompound(tagCompound);
 
-        itemStack.setStackDisplayName(TextFormatting.RESET + fishCaughtData.fishId);
-        
-        List<String> tooltipList = new ArrayList<>();
-        tooltipList.add(String.format("Weight: %d", fishCaughtData.weight));
-        if(itemStack.getTagCompound().hasKey("FishScale")) tooltipList.add("Scale: Attached");
-        tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Alive" + TextFormatting.RESET);
+        //itemStack.setStackDisplayName(TextFormatting.RESET + fishCaughtData.fishId);
 
-        itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+        // Removed Text formatting because it's now handled by onItemTooltip
+        // Instead of DisplayName, used TranslatableName so when the fish is caught and created into the world, the entity shows the expected, translatable name.
+        itemStack.setTranslatableName(String.format("item.fmb.%s:%d.name", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata()));
+
+        //List<String> tooltipList = new ArrayList<>();
+        //tooltipList.add(String.format("Weight: %d", fishCaughtData.weight));
+        //if(itemStack.getTagCompound().hasKey("FishScale")) tooltipList.add("Scale: Attached");
+        //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Alive" + TextFormatting.RESET);
+        //tooltipList.add("Alive"); // Removed Text formatting because it's handled by onItemTooltip
+
+        //itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
         return itemStack;
     }

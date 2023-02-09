@@ -9,8 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -97,7 +96,10 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                     continue;
                 }
 
-                String name = stack.getDisplayName();
+                //String name = stack.getDisplayName();
+                // Save lang keys into the map, so they can be translated when sending messages.
+                String baitLangKey = BetterFishUtil.getBaitLangKey(stack.getItem().getRegistryName().toString(), stack.getMetadata());
+                String name = baitLangKey == null ? stack.getDisplayName() : baitLangKey; // Shouldn't need this check, but just in case
 
                 if(baitAmountMap.containsKey(name)) baitAmountMap.put(name, baitAmountMap.get(name) + stack.getCount());
                 else baitAmountMap.put(name, stack.getCount());
@@ -105,9 +107,11 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
 
             if(baitAmountMap.isEmpty()) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.empty"));
             else {
-            	for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
-            		player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
-            	}
+                for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
+                    //player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
+                    player.sendMessage((new TextComponentTranslation(baitEntry.getKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true)))
+                            .appendText(TextFormatting.RESET + String.format(": %d", baitEntry.getValue())));
+                }
             }
         }
     }

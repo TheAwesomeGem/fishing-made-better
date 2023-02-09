@@ -13,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
+import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -36,14 +37,16 @@ public class ItemBaitBucket extends Item {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(I18n.format("item.fishingmadebetter.bait_bucket.tooltip"));
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.bait_bucket"));
 
         String baitId = getBaitId(itemStack);
         if(baitId.isEmpty()) {
-            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.none") + TextFormatting.RESET);
+            tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.bait_bucket.none") + TextFormatting.RESET);
         }
         else {
-            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
+            //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
+            String baitLangKey = BetterFishUtil.getBaitLangKey(baitId, getBaitMetadata(itemStack));
+            tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + (baitLangKey == null ? getBaitDisplayName(itemStack) : I18n.format(baitLangKey)) + TextFormatting.RESET);
         }
     }
 

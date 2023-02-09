@@ -149,24 +149,24 @@ public abstract class ItemFishTracker extends Item {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(I18n.format("item.fishingmadebetter.fish_tracker.tooltip.max_depth") + ": " + maxDepth);
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.fish_tracker.max_depth") + ": " + maxDepth);
 
         String rarityText;
-        if(TrackingVision.BAD.equals(getTrackingVision())) 			rarityText = "item.fishingmadebetter.fish_tracker.tooltip.vision_bad";
-        else if (TrackingVision.NORMAL.equals(getTrackingVision())) rarityText = "item.fishingmadebetter.fish_tracker.tooltip.vision_normal";
-        else if (TrackingVision.BEST.equals(getTrackingVision())) 	rarityText = "item.fishingmadebetter.fish_tracker.tooltip.vision_best";
-        else rarityText = "item.fishingmadebetter.fish_tracker.tooltip.vision_none";
+        if(TrackingVision.BAD.equals(getTrackingVision())) 			rarityText = "tooltip.fishingmadebetter.fish_tracker.vision_bad";
+        else if (TrackingVision.NORMAL.equals(getTrackingVision())) rarityText = "tooltip.fishingmadebetter.fish_tracker.vision_normal";
+        else if (TrackingVision.BEST.equals(getTrackingVision())) 	rarityText = "tooltip.fishingmadebetter.fish_tracker.vision_best";
+        else rarityText = "tooltip.fishingmadebetter.fish_tracker.vision_none";
         tooltip.add(I18n.format(rarityText));
         
         String liquidText;
-        if(FishingLiquid.WATER.equals(getLiquidEnum())) 			liquidText = "item.fishingmadebetter.fish_tracker.tooltip.probe_water";
-        else if (FishingLiquid.LAVA.equals(getLiquidEnum())) 		liquidText = "item.fishingmadebetter.fish_tracker.tooltip.probe_lava";
-        else if (FishingLiquid.VOID.equals(getLiquidEnum())) 		liquidText = "item.fishingmadebetter.fish_tracker.tooltip.probe_void";
-        else liquidText = "item.fishingmadebetter.fish_tracker.tooltip.probe_etc";
+        if(FishingLiquid.WATER.equals(getLiquidEnum())) 			liquidText = "tooltip.fishingmadebetter.fish_tracker.probe_water";
+        else if (FishingLiquid.LAVA.equals(getLiquidEnum())) 		liquidText = "tooltip.fishingmadebetter.fish_tracker.probe_lava";
+        else if (FishingLiquid.VOID.equals(getLiquidEnum())) 		liquidText = "tooltip.fishingmadebetter.fish_tracker.probe_void";
+        else liquidText = "tooltip.fishingmadebetter.fish_tracker.probe_etc";
         tooltip.add(I18n.format(liquidText));
         
-        tooltip.add(I18n.format("item.fishingmadebetter.fish_tracker.tooltip.right_click"));
-        tooltip.add(I18n.format("item.fishingmadebetter.fish_tracker.tooltip.info.1") + " " + TextFormatting.GOLD + Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName() + TextFormatting.RESET + "" + TextFormatting.GRAY + " " + I18n.format("item.fishingmadebetter.fish_tracker.tooltip.info.2") + TextFormatting.RESET);
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.fish_tracker.right_click"));
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.fish_tracker.info.1") + " " + TextFormatting.GOLD + Minecraft.getMinecraft().gameSettings.keyBindSneak.getDisplayName() + TextFormatting.RESET + "" + TextFormatting.GRAY + " " + I18n.format("tooltip.fishingmadebetter.fish_tracker.info.2") + TextFormatting.RESET);
     }
 
     @SideOnly(Side.CLIENT)

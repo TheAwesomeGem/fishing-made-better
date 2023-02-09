@@ -27,6 +27,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import net.theawesomegem.fishingmadebetter.ModInfo;
+import net.theawesomegem.fishingmadebetter.client.event.FishTooltip;
 import net.theawesomegem.fishingmadebetter.common.block.BlockManager;
 import net.theawesomegem.fishingmadebetter.common.capability.CapabilityHandler;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishingData;
@@ -44,7 +45,6 @@ import net.theawesomegem.fishingmadebetter.common.loottable.LootHandler;
 import net.theawesomegem.fishingmadebetter.common.networking.PrimaryPacketHandler;
 import net.theawesomegem.fishingmadebetter.common.recipe.*;
 import net.theawesomegem.fishingmadebetter.util.HandlerUtil;
-import net.theawesomegem.fishingmadebetter.util.LevelUpLoot;
 import net.theawesomegem.fishingmadebetter.util.RebornCraftingHelper;
 
 import org.apache.logging.log4j.Level;
@@ -117,6 +117,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
         MinecraftForge.EVENT_BUS.register(new FishingEventHandler());
         MinecraftForge.EVENT_BUS.register(new LootHandler());
+        MinecraftForge.EVENT_BUS.register(new FishTooltip());
     }
 
     protected void registerRecipes() {

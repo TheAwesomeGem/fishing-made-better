@@ -4,7 +4,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 
@@ -32,12 +32,12 @@ public class FishingReloadCommand extends CommandBase {
         String message;
 
         if (loaded) {
-            message = "Config files reloaded for Fishing Made Better.";
+            message = "notif.fishingmadebetter.command.reload_success";
         } else {
-            message = "Config files could not be loaded because the folder for the fishes data does not exist.";
+            message = "notif.fishingmadebetter.command.reload_fail";
         }
 
-        sender.sendMessage(new TextComponentString(message));
+        sender.sendMessage(new TextComponentTranslation(message));
     }
 
     @Override

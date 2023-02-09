@@ -219,4 +219,13 @@ public class FishData {
 
         return fishData;
     }
+
+    public String getNameLangKey()
+    {
+        return String.format("%s%s:%d%s", "item.fmb.", this.itemId, this.itemMetaData, ".name");
+    }
+    public String getDescLangKey()
+    {
+        return String.format("%s%s:%d%s", "item.fmb.", this.itemId, this.itemMetaData, ".desc");
+    }
 }

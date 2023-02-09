@@ -18,7 +18,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -26,6 +25,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.capability.world.ChunkCapabilityProvider;
 import net.theawesomegem.fishingmadebetter.common.capability.world.IChunkFishingData;
@@ -126,10 +126,17 @@ public class ItemFishBucket extends Item {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-    	String fishId = getFishId(itemStack);
-    	if(fishId==null) return;
-    	
-    	tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
+        String fishId = getFishId(itemStack);
+        if (fishId == null) return;
+        //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
+
+        fishId = BetterFishUtil.fishIdToCustomLangKey(fishId);
+        tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.fish_bucket") + ": " + TextFormatting.BOLD + I18n.format(fishId) + TextFormatting.RESET);
+    }
+
+    @Nullable
+    private IChunkFishingData getChunkFishingData(Chunk chunk) {
+        return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
     }
 
     @Nullable
@@ -141,8 +148,4 @@ public class ItemFishBucket extends Item {
         return tagCompound.hasKey("FishId") ? tagCompound.getString("FishId") : null;
     }
 
-    @Nullable
-    private IChunkFishingData getChunkFishingData(Chunk chunk) {
-        return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
-    }
 }

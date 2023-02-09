@@ -34,11 +34,10 @@ public class RecipeFishBucket extends net.minecraftforge.registries.IForgeRegist
     public ItemStack getCraftingResult(InventoryCrafting inv) {
     	Integer[] slots = validInput(inv);
     	if(slots==null) return ItemStack.EMPTY;
-    	
-    	ItemStack itemFish = inv.getStackInSlot(slots[1]).copy();
-    	
-    	ItemStack fishBucket = ItemFishBucket.getItemStack(BetterFishUtil.getFishId(itemFish));
-    	
+
+        ItemStack itemFish = inv.getStackInSlot(slots[1]).copy();
+        ItemStack fishBucket = ItemFishBucket.getItemStack(BetterFishUtil.getFishId(itemFish));
+
         return fishBucket;
     }
 

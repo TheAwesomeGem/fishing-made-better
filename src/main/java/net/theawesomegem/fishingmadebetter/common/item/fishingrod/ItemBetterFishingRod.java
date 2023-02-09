@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
@@ -223,11 +224,12 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + hook.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((hook.getMaxDamage() != 0) ? ("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": -/-"));
     		if(hook.getTuggingReduction() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.tugging") + ": -" + hook.getTuggingReduction());
-    		if(hook.getTreasureModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.treasure_chance") + ": +" + hook.getTreasureModifier());
-    		if(hook.getBiteRateModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.bite_rate") + ": +" + hook.getBiteRateModifier());
-    		if(hook.getWeightModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.weight") + ": +" + hook.getWeightModifier());
-    		String baitDisplayName = getBaitDisplayName(stack);
-            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
+    		if(hook.getTreasureModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.treasure_chance") + ": +" + hook.getTreasureModifier() + "%");
+    		if(hook.getBiteRateModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.bite_rate") + ": +" + hook.getBiteRateModifier() + "%");
+    		if(hook.getWeightModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.weight") + ": +" + hook.getWeightModifier() + "%");
+            //String baitDisplayName = getBaitDisplayName(stack);
+            String baitDisplayName = BetterFishUtil.getBaitLangKey(getBaitItem(stack), getBaitMetadata(stack));
+            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? I18n.format(baitDisplayName) : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
             tooltip.add("");
     	}
     	else {
@@ -237,8 +239,9 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     		tooltip.add((bobber.getMaxDamage() != 0) ? ("  " +  I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": " + (bobber.getMaxDamage()-getBobberDamage(stack)) + "/" + bobber.getMaxDamage()) : ("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": -/-"));
     		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + hook.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((hook.getMaxDamage() != 0) ? ("  " +  I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": -/-"));
-    		String baitDisplayName = getBaitDisplayName(stack);
-            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
+    		//String baitDisplayName = getBaitDisplayName(stack);
+            String baitDisplayName = BetterFishUtil.getBaitLangKey(getBaitItem(stack), getBaitMetadata(stack));
+            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? I18n.format(baitDisplayName) : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
     		tooltip.add("");
             tooltip.add(I18n.format("tooltip.fishingmadebetter.fishing_rod.shift.1") + " " + TextFormatting.GOLD + "Shift" + TextFormatting.RESET + "" + TextFormatting.GRAY + " " + I18n.format("tooltip.fishingmadebetter.fishing_rod.shift.2") + TextFormatting.RESET);
     	}
