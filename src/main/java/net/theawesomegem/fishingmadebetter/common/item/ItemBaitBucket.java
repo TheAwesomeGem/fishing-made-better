@@ -6,11 +6,13 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
