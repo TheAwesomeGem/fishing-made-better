@@ -1,0 +1,338 @@
+## Translated by KameiB for RLCraft 2.9.2. Jan/2023
+key.reelIn=Linea a la izquierda
+key.reelOut=Linea a la derecha
+key.fishingmadebetter.category=Fishing Made Better
+itemGroup.tabFishingMadeBetter=Fishing Made Better
+fishingmadebetter.subtitle.reeling=Jalando Linea
+fishingmadebetter.subtitle.fishsplashing=Pez picando
+item.fishingmadebetter.fillet_knife_wood.name=Cuchillo para filetear de madera
+item.fishingmadebetter.fillet_knife_iron.name=Cuchillo para filetear de hierro
+item.fishingmadebetter.fillet_knife_diamond.name=Cuchillo para filetear de diamante
+item.fishingmadebetter.scaling_knife_wood.name=Cuchillo para descamar de madera
+item.fishingmadebetter.scaling_knife_iron.name=Cuchillo para descamar de hierro
+item.fishingmadebetter.scaling_knife_diamond.name=Cuchillo para descamar de diamante
+item.fishingmadebetter.fish_tracker_iron.name=Rastreador de peces de hierro
+item.fishingmadebetter.fish_tracker_gold.name=Rastreador de peces de oro
+item.fishingmadebetter.fish_tracker_diamond.name=Rastreador de peces de diamante
+item.fishingmadebetter.fish_tracker_obsidian.name=Rastreador de peces de obsidiana
+item.fishingmadebetter.fish_tracker_void.name=Rastreador de peces del Vacio
+item.fishingmadebetter.fishing_rod_wood.name=Caña de pescar de madera
+item.fishingmadebetter.fishing_rod_iron.name=Caña de pescar de hierro
+item.fishingmadebetter.fishing_rod_diamond.name=Caña de pescar de diamante
+item.fishingmadebetter.reel_basic.name=Carrete basico
+item.fishingmadebetter.reel_fast.name=Carrete rapido
+item.fishingmadebetter.reel_long.name=Carrete largo
+item.fishingmadebetter.bobber_basic.name=Flotador basico
+item.fishingmadebetter.bobber_obsidian.name=Flotador de obsidiana
+item.fishingmadebetter.bobber_void.name=Flotador del Vacio
+item.fishingmadebetter.bobber_heavy.name=Flotador pesado
+item.fishingmadebetter.bobber_lightweight.name=Flotador ligero
+item.fishingmadebetter.hook_basic.name=Anzuelo basico
+item.fishingmadebetter.hook_barbed.name=Anzuelo de puas
+item.fishingmadebetter.hook_fatty.name=Anzuelo grasoso
+item.fishingmadebetter.hook_shiny.name=Anzuelo brillante
+item.fishingmadebetter.hook_magnetic.name=Anzuelo magnetico
+item.fishingmadebetter.fish_bucket.name=Cubeta con pez
+item.fishingmadebetter.bait_bucket.name=Cubeta con carnada
+item.fishingmadebetter.fish_slice_raw.name=Rebanada de pescado cruda
+item.fishingmadebetter.fish_slice_cooked.name=Rebanada de pescado asada
+tile.fishingmadebetter.baitbox.name=Caja de Carnada
+commands.fishingmadebetter.fishing.usage=Lista de comandos disponibles de Fishing Made Better
+commands.fishingmadebetter.fishing.reload.usage=/fishing reload
+notif.fishingmadebetter.treasure=Encontraste algo mas al jalar la linea!
+notif.fishingmadebetter.failure.empty=No hay peces picando aqui
+notif.fishingmadebetter.failure.time=Fuiste muy lento, el pez se escapo!"
+notif.fishingmadebetter.failure.snap=La linea se rompio! El pez se escapo!
+notif.fishingmadebetter.bite=Algo pico!
+notif.fishingmadebetter.tracker.nohand=Debes sostener un Rastreador de peces en cualquiera de tus manos
+notif.fishingmadebetter.tracker.twohand=No puedes sostener dos Rastreadores de Peces a la vez
+notif.fishingmadebetter.tracker.finish=Rastreo de peces terminado
+
+fishingmadebetter.reelingoverlay.distance=Distancia
+
+# Added by KameiB
+tooltip.fishingmadebetter.fishing_rod.reel.name=Carrete
+tooltip.fishingmadebetter.fishing_rod.durability.title=Durabilidad
+tooltip.fishingmadebetter.fishing_rod.reel.range=Alcance
+tooltip.fishingmadebetter.fishing_rod.reel.speed=Velocidad
+
+tooltip.fishingmadebetter.fishing_rod.bobber=Flotador
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in=Puede pescar en
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.lava=Lava
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.void=Vacio
+tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.water=Agua
+tooltip.fishingmadebetter.fishing_rod.bobber.tension_size=Tamaño Barra de tension
+tooltip.fishingmadebetter.fishing_rod.bobber.tension_speed=Velocidad Barra de tension
+
+tooltip.fishingmadebetter.fishing_rod.hook=Anzuelo
+tooltip.fishingmadebetter.fishing_rod.hook.tugging=Forcejeo del pez
+tooltip.fishingmadebetter.fishing_rod.hook.treasure_chance=Probabilidad de tesoros
+tooltip.fishingmadebetter.fishing_rod.hook.bite_rate=Frecuencia de picada
+tooltip.fishingmadebetter.fishing_rod.hook.weight=Modificador de peso
+
+tooltip.fishingmadebetter.fishing_rod.bait=Carnada
+tooltip.fishingmadebetter.fishing_rod.bait_none=Nada
+
+tooltip.fishingmadebetter.fishing_rod.shift.1=Presiona
+tooltip.fishingmadebetter.fishing_rod.shift.2=para mas informacion
+
+item.fishingmadebetter.bobber_basic.tooltip=Solo es un componente de crafteo!
+item.fishingmadebetter.bobber_obsidian.tooltip=Puede pescar en: Lava
+item.fishingmadebetter.bobber_void.tooltip=Puede pescar en: Vacio
+item.fishingmadebetter.bobber_water.tooltip=Puede pescar en: Agua
+item.fishingmadebetter.bobber_heavy.tooltip=Tamaño de la Barra de tension
+item.fishingmadebetter.bobber_lightweight.tooltip=Velocidad de la Barra de tension
+
+item.fishingmadebetter.hook_basic.tooltip=Solo es un componente de crafteo!
+item.fishingmadebetter.hook_barbed.tooltip=Reduccion de forcejeo del pez
+item.fishingmadebetter.hook_magnetic.tooltip=Probabilidad de tesoros
+item.fishingmadebetter.hook_shiny.tooltip=Frecuencia de picada
+item.fishingmadebetter.hook_fatty.tooltip=Peso del pez
+
+item.fishingmadebetter.reel_basic.tooltip=Solo es un componente de crafteo!
+tooltip.fishingmadebetter.reel.range=Alcance
+tooltip.fishingmadebetter.reel.speed=Velocidad
+
+# Bait Box
+tile.fishingmadebetter.baitbox.tooltip=Cuando esta llena de carnada, alimenta a los peces de este chunk, mejorando su reproduccion
+notif.fishingmadebetter.baitbox.bait_not_valid=Esta no es una carnada valida!
+notif.fishingmadebetter.baitbox.full=La Caja de carnada esta llena!
+notif.fishingmadebetter.baitbox.empty=La Caja de carnada esta vacia!
+
+# Fillet Knives
+item.fishingmadebetter.fillet_knife.tooltip=Usalo para rebanar peces
+item.fishingmadebetter.fish_slice_raw.tooltip=Rebanada de
+
+# Scaling Knives
+item.fishingmadebetter.scaling_knife.tooltip=Usalo para descamar peces. Algunos peces tienen items entre sus escamas
+
+# Bait Bucket
+item.fishingmadebetter.bait_bucket.tooltip=Si la llevas en tu mano izquierda, coloca la carnada que contiene automaticamente en tu Caña de pescar, despues de que un pez pico
+item.fishingmadebetter.bait_bucket.tooltip.contains=Contiene
+item.fishingmadebetter.bait_bucket.tooltip.none=Nada
+
+# Fish Bucket
+notif.fishingmadebetter.fish_bucket.only_water=Este pez solo puede soltarse en el agua.
+notif.fishingmadebetter.fish_bucket.small_water=Este cuerpo de agua es muy pequeño para este pez
+notif.fishingmadebetter.fish_bucket.wrong_altitude=Este pez no puede sobrevivir a esta altura
+
+item.fishingmadebetter.fish_bucket.tooltip=Contiene
+
+# Trackers
+notif.fishingmadebetter.fish_tracker.only_void=Este Rastreador solo puede usarse en bloques cerca del Vacio.
+notif.fishingmadebetter.fish_tracker.only_water=Este Rastreador solo puede usarse en Agua.
+notif.fishingmadebetter.fish_tracker.only_lava=Este Rastreador solo puede usarse en Lava.
+notif.fishingmadebetter.fish_tracker.too_shallow=Este lugar es muy poco profundo. El Rastreador no puede funcionar bien.
+notif.fishingmadebetter.fish_tracker.tracking_start=Rastreo iniciado. Si te mueves, podrias recibir resultados inexactos.
+
+item.fishingmadebetter.fish_tracker.tooltip.max_depth=Profundidad max
+item.fishingmadebetter.fish_tracker.tooltip.vision_bad=No puede detectar peces raros
+item.fishingmadebetter.fish_tracker.tooltip.vision_normal=Puede detectar peces raros
+item.fishingmadebetter.fish_tracker.tooltip.vision_best=Puede detectar los peces mas raros y esquivos
+item.fishingmadebetter.fish_tracker.tooltip.vision_none=Valor de rastreo no encontrado
+item.fishingmadebetter.fish_tracker.tooltip.probe_water=Puede sondear Agua
+item.fishingmadebetter.fish_tracker.tooltip.probe_lava=Puede sondear Lava
+item.fishingmadebetter.fish_tracker.tooltip.probe_void=Puede sondear el Vacio
+item.fishingmadebetter.fish_tracker.tooltip.probe_etc=Puede sondear lo que sea
+item.fishingmadebetter.fish_tracker.tooltip.right_click=Da clic derecho para sondear en busca de peces
+item.fishingmadebetter.fish_tracker.tooltip.info.1=Presiona
+item.fishingmadebetter.fish_tracker.tooltip.info.2=durante el rastreo para mas informacion
+
+notif.fishingmadebetter.fish_tracker.detected=Detectado
+notif.fishingmadebetter.fish_tracker.quantity_immense=en inmensas cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_abundant=en abundantes cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_ample=en amplias cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_substantial=en sustanciales cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_numerous=en numerosas cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_light=en ligeras cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_sparse=en escasas cantidades.
+notif.fishingmadebetter.fish_tracker.quantity_meager=en pobres cantidades.
+notif.fishingmadebetter.fish_tracker.found_none=El Rastreador no encontro ningun pez en este lugar.
+notif.fishingmadebetter.fish_tracker.found_under_y=Peces viviendo a una menor altura
+notif.fishingmadebetter.fish_tracker.found_outside_quality=Peces fuera de las capacidades de este Rastreador
+notif.fishingmadebetter.fish_tracker.found_hibernating=Peces que no se alimentan en estas condiciones
+
+tooltip.fishingmadebetter.fish.weight=Peso
+tooltip.fishingmadebetter.fish.scale=Escamas
+tooltip.fishingmadebetter.fish.scale_attached=Unidas
+tooltip.fishingmadebetter.fish.scale_detached=Removidas
+tooltip.fishingmadebetter.fish.dead=Muerto
+tooltip.fishingmadebetter.fish.alive=Vivo
+
+item.fmb.minecraft:fish:0.name=Pez de rio
+item.fmb.minecraft:fish:1.name=Pez de montaña
+item.fmb.minecraft:fish:2.name=Pez tropical
+item.fmb.minecraft:fish:3.name=Pez de oceano
+
+item.fmb.aquaculture:fish:0.name=Mojarra azul
+item.fmb.aquaculture:fish:1.name=Perca
+item.fmb.aquaculture:fish:2.name=Pez aguja
+item.fmb.aquaculture:fish:3.name=Lubina
+item.fmb.aquaculture:fish:4.name=Pez almizclero
+item.fmb.aquaculture:fish:5.name=Trucha cafe
+item.fmb.aquaculture:fish:6.name=Pez gato
+item.fmb.aquaculture:fish:7.name=Carpa
+item.fmb.aquaculture:fish:8.name=Pez globo
+item.fmb.aquaculture:fish:9.name=Mero rojo
+item.fmb.aquaculture:fish:10.name=Salmon del artico
+item.fmb.aquaculture:fish:11.name=Atun
+item.fmb.aquaculture:fish.12.name=Pez espada
+item.fmb.aquaculture:fish:13.name=Tiburon
+item.fmb.aquaculture:fish:14.name=Ballena
+item.fmb.aquaculture:fish:15.name=Calamar gigante
+item.fmb.aquaculture:fish:16.name=Medusa
+item.fmb.aquaculture:fish:17.name=Rana
+item.fmb.aquaculture:fish:18.name=Tortuga
+item.fmb.aquaculture:fish:19.name=Sanguijuela
+item.fmb.aquaculture:fish:20.name=Piraña
+item.fmb.aquaculture:fish:21.name=Anguila electrica
+item.fmb.aquaculture:fish:22.name=Tambaqui
+item.fmb.aquaculture:fish:23.name=Arapaima
+item.fmb.aquaculture:fish:24.name=Bacalao polar
+item.fmb.aquaculture:fish:25.name=Abadejo
+item.fmb.aquaculture:fish:26.name=Arenque
+item.fmb.aquaculture:fish:27.name=Halibut
+item.fmb.aquaculture:fish:28.name=Salmon real
+item.fmb.aquaculture:fish:29.name=Trucha arcoiris
+item.fmb.aquaculture:fish:30.name=Tautog
+item.fmb.aquaculture:fish:31.name=Capitaina
+item.fmb.aquaculture:fish:32.name=Boulti
+item.fmb.aquaculture:fish:33.name=Bagre
+item.fmb.aquaculture:fish:34.name=Sinodontis
+item.fmb.aquaculture:fish:35.name=Champipez rojo
+item.fmb.aquaculture:fish:36.name=Champipez cafe
+item.fmb.aquaculture:fish:37.name=Pez dorado
+item.fmb.aquaculture:fish:38.name=Huesos de pescado
+
+item.fmb.advanced-fishing:fish:0.name=Fragata portuguesa
+item.fmb.advanced-fishing:fish:1.name=Medusa magmatica
+item.fmb.advanced-fishing:fish:2.name=Atun de lodo
+item.fmb.advanced-fishing:fish:3.name=Pececillo de escarcha
+item.fmb.advanced-fishing:fish:4.name=Piraña piel de lodo
+item.fmb.advanced-fishing:fish:5.name=Koi dorado
+item.fmb.advanced-fishing:fish:6.name=Pargo especular
+item.fmb.advanced-fishing:fish:7.name=Trucha carbonica
+item.fmb.advanced-fishing:fish:8.name=Besugo de medianoche
+item.fmb.advanced-fishing:fish:9.name=Naufrago
+item.fmb.advanced-fishing:fish:10.name=Cacho de cuarzo
+item.fmb.advanced-fishing:fish:11.name=Koi brillaleta
+item.fmb.advanced-fishing:fish:12.name=Ciclido ardiente
+item.fmb.advanced-fishing:fish:13.name=Pez piedra de ender
+item.fmb.advanced-fishing:fish:14.name=Pez perlado
+item.fmb.advanced-fishing:fish:15.name=Koi de chorus
+item.fmb.advanced-fishing:fish:16.name=Carpa cruciana nitrosa
+item.fmb.advanced-fishing:fish:17.name=Acerina
+item.fmb.advanced-fishing:fish:18.name=Anguila destellante
+item.fmb.advanced-fishing:fish:19.name=Pez angel
+item.fmb.advanced-fishing:fish:20.name=Rape prismatico
+item.fmb.advanced-fishing:fish:21.name=Señorita caribeña cabeza azul
+item.fmb.advanced-fishing:fish:22.name=Lucioperca nevada
+item.fmb.advanced-fishing:fish:23.name=Calamar
+item.fmb.advanced-fishing:fish:24.name=Carpa cruciana de wither
+item.fmb.advanced-fishing:fish:25.name=Lubina arenosa
+item.fmb.advanced-fishing:fish:26.name=Dragon mandarin
+item.fmb.advanced-fishing:fish:27.name=Champialeta rojo
+item.fmb.advanced-fishing:fish:28.name=Champialeta marron
+item.fmb.advanced-fishing:fish:29.name=Cabeza de desgracias
+item.fmb.advanced-fishing:fish:30.name=Platija de aleta verde
+item.fmb.advanced-fishing:fish:31.name=Lazulicanto
+item.fmb.advanced-fishing:fish:32.name=Pez toro cargado
+item.fmb.advanced-fishing:fish:33.name=Acechador abisal
+item.fmb.advanced-fishing:fish:34.name=Pez sol
+item.fmb.advanced-fishing:fish:35.name=Anchoa de glaciar
+item.fmb.advanced-fishing:fish:36.name=Pez cabeza de toro cafe
+item.fmb.advanced-fishing:fish:37.name=Pez Lucio
+item.fmb.advanced-fishing:fish:38.name=Magikarp
+item.fmb.advanced-fishing:fish:39.name=Medusa slime fluorescente
+item.fmb.advanced-fishing:fish:40.name=Pez hueso
+item.fmb.advanced-fishing:fish:41.name=Koi maldito
+item.fmb.advanced-fishing:fish:42.name=Tetra fantasmal
+
+item.fmb.minecraft:fish:0.desc=un pez grande de cuerpo robusto gris y verde, con una gran cabeza y barba alargada
+item.fmb.minecraft:fish:1.desc=un pez rojo de tamaño decente, con una mandibula ganchuda
+item.fmb.minecraft:fish:2.desc=un pez brillante de color naranja con rayas blancas y orillas negras
+item.fmb.minecraft:fish:3.desc=un pez pequeño, amarillo y espinudo que se infla cuando se siente amenazado
+
+item.fmb.aquaculture:fish:0.desc=un pez pequeño azul y amarillo
+item.fmb.aquaculture:fish:1.desc=un pez largo y redondo, con escamas asperas
+item.fmb.aquaculture:fish:2.desc=un pez largo y acorazado, con mandibulas alargadas llenas de colmillos afilados
+item.fmb.aquaculture:fish:3.desc=un pez de tamaño decente, de color negro y verde
+item.fmb.aquaculture:fish:4.desc=un pez grande, plateado y agresivo
+item.fmb.aquaculture:fish:5.desc=un pez comun, de tamaño mediano y color cafe
+item.fmb.aquaculture:fish:6.desc=un pez grande, de boca amplia con barba en forma de bigote
+item.fmb.aquaculture:fish:7.desc=un pez grande, invasivo y color cafe
+item.fmb.aquaculture:fish:8.desc=un pez pequeño, huesudo y cafe, que se infla cuando se siente amenazado
+item.fmb.aquaculture:fish:9.desc=un pez de tamaño decente, de aletas rayadas y color cafe rojizo
+item.fmb.aquaculture:fish:10.desc=un pez grande, de color rojo plateado, conocido por su gran sabor
+item.fmb.aquaculture:fish:11.desc=un pez muy grande, de aleta azul
+item.fmb.aquaculture:fish:12.desc=un pez grande, con un pico largo y puntiagudo
+item.fmb.aquaculture:fish:13.desc=un depredador muy grande
+item.fmb.aquaculture:fish:14.desc=el mamifero mas grande de este planeta
+item.fmb.aquaculture:fish:15.desc=un organismo marino muy grande, carnoso y con largos tentaculos
+item.fmb.aquaculture:fish:16.desc=un organismo marino gelatinoso con tentaculos venenosos
+item.fmb.aquaculture:fish:17.desc=un anfibio pequeño, con buena capacidad para saltar
+item.fmb.aquaculture:fish:18.desc=un pequeño reptil, con un caparazon duro para protegerse
+item.fmb.aquaculture:fish:19.desc=un insecto parasito que se alimenta de sangre
+item.fmb.aquaculture:fish:20.desc=un pez pequeño, es un predador cruel
+item.fmb.aquaculture:fish:21.desc=un pequeño pez con forma de serpiente que electrocuta a su presa
+item.fmb.aquaculture:fish:22.desc=un pez grande de agua dulce, se parece a la piraña
+item.fmb.aquaculture:fish:23.desc=un pez muy grande de agua dulce, liso, que necesita subir ocasionalmente a la superficie para respirar
+item.fmb.aquaculture:fish:24.desc=un pez grande de biomas frios
+item.fmb.aquaculture:fish:25.desc=un pez de tamaño decente, color plateado, comestible
+item.fmb.aquaculture:fish:26.desc=un pez pequeño, color plateado que viaja en grandes bancos
+item.fmb.aquaculture:fish:27.desc=un pez grande, color cafe, que se esconde posandose en el suelo del mar
+item.fmb.aquaculture:fish:28.desc=una especie muy grande de salmon
+item.fmb.aquaculture:fish:29.desc=un pez de tamaño decente, con reflejo arcoiris
+item.fmb.aquaculture:fish:30.desc=un pez pequeño, de color negro con poderosas mandibulas aplastantes
+item.fmb.aquaculture:fish:31.desc=un pez muy grande, conocido como el elefante del mar
+item.fmb.aquaculture:fish:32.desc=un pez pequeño, conocido como pez-mango
+item.fmb.aquaculture:fish:33.desc=un pez pequeño, de la especia de los bagres, comun en biomas aridos
+item.fmb.aquaculture:fish:34.desc=un bagre amarillo, cubierto de puntos negros
+item.fmb.aquaculture:fish:35.desc=un pez extraño, cubierto de hongos rojos
+item.fmb.aquaculture:fish:36.desc=un pez extraño, cubierto de hongos cafes
+item.fmb.aquaculture:fish:37.desc=un pez invasivo de agua dulce, con escamas doradas brillantes
+item.fmb.aquaculture:fish:38.desc=Huesos de pescado
+
+item.fmb.advanced-fishing:fish:0.desc=un organismo marino gelatinoso, conocido como el terror flotante
+item.fmb.advanced-fishing:fish:1.desc=una masa ardiente de slime y zarcillos que parecen de lava
+item.fmb.advanced-fishing:fish:2.desc=un pez grande, que no se distingue del lodo y arcilla que lo rodean
+item.fmb.advanced-fishing:fish:3.desc=un pez pequeño y frio, que tiende a acumular hielo en sus escamas
+item.fmb.advanced-fishing:fish:4.desc=un feroz depredador que reside en lecho del rio, esperando a que su presa nade cerca
+item.fmb.advanced-fishing:fish:5.desc=un pez dorado de tamaño decente, con escamas preciosas
+item.fmb.advanced-fishing:fish:6.desc=un pez grande que habita en las cuevas, los exploradores hambrientos los buscan para comer
+item.fmb.advanced-fishing:fish:7.desc=un pez extraño que habita en las cuevas, que parece mas un carbon que un pez
+item.fmb.advanced-fishing:fish:8.desc=un pez sumamente oscuro con escamas duras y afiladas
+item.fmb.advanced-fishing:fish:9.desc=un grupo de netherrack que cayo en la lava y parece que cobro vida
+item.fmb.advanced-fishing:fish:10.desc=un pez grande que habita en la lava, cubierto de escamas de cuarzo protectoras
+item.fmb.advanced-fishing:fish:11.desc=un pez brillante y rapido que irradia luz
+item.fmb.advanced-fishing:fish:12.desc=un pez pequeño que parece estar hecho de puro calor
+item.fmb.advanced-fishing:fish:13.desc=un pez blanco arenoso que se encuentra en las profundidades, cubierto de espinas venenosas petrificadas
+item.fmb.advanced-fishing:fish:14.desc=un pez pequeño y aperlado que parece teletransportarse en las profundidades del vacio
+item.fmb.advanced-fishing:fish:15.desc=un pez cubierto de frutas de chorus, predominante en el oscuro vacio
+item.fmb.advanced-fishing:fish:16.desc=un pez pequeño y verde, con escamas polvorientas y volatiles
+item.fmb.advanced-fishing:fish:17.desc=un pez pequeño, invasivo que habita en las profundidades
+item.fmb.advanced-fishing:fish:18.desc=un pez con forma de serpiente, que deslumbra a su presa con sus escamas reflejantes y brillantes
+item.fmb.advanced-fishing:fish:19.desc=un pez triangular pequeño, usualmente se tiene como mascota
+item.fmb.advanced-fishing:fish:20.desc=un pez grande de las profundidades, con enormes colmillos y que usa cristales brillantes para atraer a sus presas
+item.fmb.advanced-fishing:fish:21.desc=un pez pequeño y colorido, que usualmente vive cerca de esponjas para alimentarse de ellas
+item.fmb.advanced-fishing:fish:22.desc=un pez que habita en el artico, con escamas polvorientas que parecen copos de nieve
+item.fmb.advanced-fishing:fish:23.desc=un invertebrado de tamaño decente con largos tentaculos
+item.fmb.advanced-fishing:fish:24.desc=una de muchas almas atrapadas dentro de la arena de almas, que volvio en forma de pez
+item.fmb.advanced-fishing:fish:25.desc=un pez de tamaño decente, color amarillo palido, con escamas arenosas
+item.fmb.advanced-fishing:fish:26.desc=un pez pequeño, de brillantes colores, dicen que te da sabiduria
+item.fmb.advanced-fishing:fish:27.desc=un pez raro, cubierto de hongos rojos y que se esconde de la luz habitando en las cuevas
+item.fmb.advanced-fishing:fish:28.desc=un pez raro, cubierto de hongos cafes y que se esconde de la luz habitando en las cuevas
+item.fmb.advanced-fishing:fish:29.desc=un pez grande y sedentario que habita en la lava, cubierto de muchos hongos
+item.fmb.advanced-fishing:fish:30.desc=un pez pequeño que se oculta entre los nenufares
+item.fmb.advanced-fishing:fish:31.desc=un pez bonito que habita en las cuevas, cubierto de escamas que parecen gemas
+item.fmb.advanced-fishing:fish:32.desc=un pez reluciente y rojo que habita en las cuevas, parece cargar electricamente las aguas donde nada
+item.fmb.advanced-fishing:fish:33.desc=un pez de las profundidades, parecido a una serpiente, cubierto de prismarina
+item.fmb.advanced-fishing:fish:34.desc=un pez plano de un color amarillo extremadamente brillante
+item.fmb.advanced-fishing:fish:35.desc=un pez pequeño del artico, se encuentra en grandes bancos congelado en hielo
+item.fmb.advanced-fishing:fish:36.desc=un pez social, conocido como el gato del lodo
+item.fmb.advanced-fishing:fish:37.desc=un pez carnivoro, largo y puntiagudo
+item.fmb.advanced-fishing:fish:38.desc=un pez salpicador
+item.fmb.advanced-fishing:fish:39.desc=una masa verde fluorescente de desperdicios, que parece haberse formado en una pesudo medusa
+item.fmb.advanced-fishing:fish:40.desc=una masa reanimada de huesos de pez
+item.fmb.advanced-fishing:fish:41.desc=un pez raro y de escamas esmeralda, se dice que te maldecira si causas su muerte
+item.fmb.advanced-fishing:fish:42.desc=un pez raro y traslucido, se especula que es el fantasma de un pez muerto

@@ -3,10 +3,10 @@ package net.theawesomegem.fishingmadebetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextFormatting;
+//import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TextComponentTranslation;
 
-import net.minecraft.util.ResourceLocation;
+//import net.minecraft.util.ResourceLocation;
 
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
@@ -59,9 +59,9 @@ public class BetterFishUtil {
         
         if(!value) {
         	List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("%s %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), BetterFishUtil.getFishWeight(itemStack)));
-            tooltipList.add(String.format("%s %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText(), new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_detached").getUnformattedComponentText()));
-            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + new TextComponentTranslation("tooltip.fishingmadebetter.fish.dead").getUnformattedComponentText() + TextFormatting.RESET);
+            tooltipList.add(String.format("%s: %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), BetterFishUtil.getFishWeight(itemStack)));
+            tooltipList.add(String.format("%s: %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText(), new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_detached").getUnformattedComponentText()));
+            tooltipList.add( new TextComponentTranslation("tooltip.fishingmadebetter.fish.dead").getUnformattedComponentText() );
             itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             BetterFishUtil.setFishCaughtTime(itemStack, 0);

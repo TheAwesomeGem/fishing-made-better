@@ -2,6 +2,7 @@ package net.theawesomegem.fishingmadebetter.common.event;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialLiquid;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -12,8 +13,10 @@ import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishingRod;
+//import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+//import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -32,12 +35,16 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+//import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishPopulation;
 import net.theawesomegem.fishingmadebetter.common.capability.fishing.FishingCapabilityProvider;
@@ -469,11 +476,11 @@ public class FishingEventHandler {//God this handler is a mess
 
             List<String> tooltipList = new ArrayList<>();
             //tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
-            tooltipList.add(String.format("%s %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), BetterFishUtil.getFishWeight(itemStack)));
+            tooltipList.add(String.format("%s: %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), BetterFishUtil.getFishWeight(itemStack)));
             //if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("Scale: %s", BetterFishUtil.doesFishHasScale(itemStack) ? "Attached" : "Detached"));
             //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive") + TextFormatting.RESET);
-            if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("%s %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText(), BetterFishUtil.doesFishHasScale(itemStack) ? new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_attached").getUnformattedComponentText() : new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_detached").getUnformattedComponentText()));
-            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? new TextComponentTranslation("tooltip.fishingmadebetter.fish.dead").getUnformattedComponentText() : new TextComponentTranslation("tooltip.fishingmadebetter.fish.alive").getUnformattedComponentText()) + TextFormatting.RESET);
+            if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("%s: %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText(), BetterFishUtil.doesFishHasScale(itemStack) ? new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_attached").getUnformattedComponentText() : new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_detached").getUnformattedComponentText()));
+            tooltipList.add( (BetterFishUtil.isDead(itemStack, currentTime) ? new TextComponentTranslation("tooltip.fishingmadebetter.fish.dead").getUnformattedComponentText() : new TextComponentTranslation("tooltip.fishingmadebetter.fish.alive").getUnformattedComponentText()) );
 
             itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
@@ -625,13 +632,13 @@ public class FishingEventHandler {//God this handler is a mess
         itemStack.setTagCompound(tagCompound);
 
         //itemStack.setStackDisplayName(TextFormatting.RESET + fishCaughtData.fishId);
-        itemStack.setStackDisplayName(TextFormatting.RESET + new TextComponentTranslation(fishCaughtData.getNameLangKey()).getUnformattedComponentText());
+        itemStack.setStackDisplayName( new TextComponentTranslation(fishCaughtData.getNameLangKey()).getUnformattedComponentText());
         //itemStack.setStackDisplayName(new TextComponentTranslation(fishCaughtData.getNameLangKey()).getUnformattedComponentText());
 
         List<String> tooltipList = new ArrayList<>();
-        tooltipList.add(String.format("%s %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), fishCaughtData.weight));
-        if(itemStack.getTagCompound().hasKey("FishScale")) tooltipList.add(String.format("%s %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText() , new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_attached").getUnformattedComponentText()));
-        tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + new TextComponentTranslation("tooltip.fishingmadebetter.fish.alive").getUnformattedComponentText() + TextFormatting.RESET);
+        tooltipList.add(String.format("%s: %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), fishCaughtData.weight));
+        if(itemStack.getTagCompound().hasKey("FishScale")) tooltipList.add(String.format("%s: %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText() , new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_attached").getUnformattedComponentText()));
+        tooltipList.add( new TextComponentTranslation("tooltip.fishingmadebetter.fish.alive").getUnformattedComponentText() );
 
         itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
@@ -935,5 +942,42 @@ public class FishingEventHandler {//God this handler is a mess
             e.printStackTrace();
             return null;
         }
+    }
+
+    //Trying to get to Client side...
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onItemTooltip(ItemTooltipEvent event) {
+        if(event.isCanceled() || !BetterFishUtil.isBetterFish(event.getItemStack())) return;
+
+        ItemStack itemStack = event.getItemStack();
+
+        // Test to see if I can set an unformatted Name without having to use TextFormatting.RESET
+        itemStack.setStackDisplayName(I18n.format(BetterFishUtil.getFishCustomLangKey(itemStack)));
+
+        /*List<String> tooltipList = new ArrayList<>();
+
+        //tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
+        tooltipList.add(TextFormatting.WHITE + String.format("%s %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+        //if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("Scale: %s", BetterFishUtil.doesFishHasScale(itemStack) ? "Attached" : "Detached"));
+        //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive") + TextFormatting.RESET);
+        if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(TextFormatting.WHITE + String.format("%s %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? I18n.format("tooltip.fishingmadebetter.fish.scale_attached") : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+        tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+
+        //itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+        //if(BetterFishUtil.isDead(itemStack, currentTime)) BetterFishUtil.setFishCaughtTime(itemStack, 0);
+        //event.getToolTip().add(TextFormatting.GREEN + I18n.format("tooltip.shieldbreak.shieldingpower") + " " + shieldProtectionRounded + TextFormatting.RESET);
+        event.getToolTip().addAll(tooltipList);*/
+
+        //event.getToolTip().set(0,TextFormatting.RESET + itemStack.getItem().getItemStackDisplayName(itemStack));
+        event.getToolTip().set(1, TextFormatting.WHITE + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+        if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) {
+            event.getToolTip().set(2, TextFormatting.WHITE + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+            event.getToolTip().set(3,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+        }
+        else
+            event.getToolTip().set(2,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+
+        //if(tagCompound==null)
     }
 }

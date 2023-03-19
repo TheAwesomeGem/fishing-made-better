@@ -6,13 +6,13 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextComponentTranslation;
+//import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.theawesomegem.fishingmadebetter.BetterFishUtil;
+//import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
 
@@ -46,7 +46,7 @@ public class ItemBaitBucket extends Item {
         }
         else {
             //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
-            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + I18n.format(getBaitDisplayName(itemStack) + ".name") + TextFormatting.RESET);
+            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + (getBaitDisplayName(itemStack).contains("item.") ? I18n.format(getBaitDisplayName(itemStack) + ".name") : I18n.format(getBaitDisplayName(itemStack))) + TextFormatting.RESET);
         }
     }
 
@@ -64,8 +64,7 @@ public class ItemBaitBucket extends Item {
     }
 
     public static int getBaitMetadata(ItemStack itemStack) {
-        //if(!itemStack.hasTagCompound()) return 0;
-        if(!itemStack.hasTagCompound()) return -1;
+        if(!itemStack.hasTagCompound()) return 0;
 
         NBTTagCompound tagCompound = itemStack.getTagCompound();
         return tagCompound.getInteger("BaitMetadata");
