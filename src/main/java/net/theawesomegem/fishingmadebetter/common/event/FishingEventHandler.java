@@ -181,7 +181,7 @@ public class FishingEventHandler {//God this handler is a mess
                 if(result.size()>0) treasure = result.get(0);
             }
             
-            
+            // Creates a freshly caught fish ItemStack
             ItemStack fishStack = getFishItemStack(fishCaughtData, world.getTotalWorldTime(), weightModifier);
             EntityItem entityFishItem = new EntityItem(player.world, hook.posX, hook.posY, hook.posZ, fishStack);
 
@@ -577,11 +577,11 @@ public class FishingEventHandler {//God this handler is a mess
             else quantity = "notif.fishingmadebetter.fish_tracker.quantity_meager";
 
             //if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
-            if(limitInfo)   player.sendMessage(new TextComponentString(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").getUnformattedComponentText() + " " + TextFormatting.YELLOW + "" + TextFormatting.BOLD + new TextComponentTranslation(fishData.getNameLangKey()).getUnformattedComponentText() + TextFormatting.RESET + "."));
+            if(limitInfo)   player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ").appendSibling(new TextComponentTranslation(fishData.getNameLangKey())).appendText("."));
 
             //else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
-            else player.sendMessage(new TextComponentString(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").getUnformattedComponentText() + " " + TextFormatting.YELLOW + "" + TextFormatting.BOLD + new TextComponentTranslation(fishData.getNameLangKey()).getUnformattedComponentText()
-                    + TextFormatting.RESET + ", " + new TextComponentTranslation(fishData.getDescLangKey()).getUnformattedComponentText() + ", " + new TextComponentTranslation(quantity).getUnformattedComponentText()));
+            else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ").appendSibling(new TextComponentTranslation(fishData.getNameLangKey()))
+                    .appendText(", ").appendSibling(new TextComponentTranslation(fishData.getDescLangKey())).appendText(", ").appendSibling(new TextComponentTranslation(quantity)));
         }
         
         if(creative) {

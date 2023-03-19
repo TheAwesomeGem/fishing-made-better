@@ -3,6 +3,7 @@ package net.theawesomegem.fishingmadebetter.common.block.tileentity;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -97,7 +98,8 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                     continue;
                 }
 
-                String name = stack.getDisplayName();
+                //String name = stack.getDisplayName();
+                String name=stack.getItem().getUnlocalizedNameInefficiently(stack) + ".name";
 
                 if(baitAmountMap.containsKey(name)) baitAmountMap.put(name, baitAmountMap.get(name) + stack.getCount());
                 else baitAmountMap.put(name, stack.getCount());
@@ -106,7 +108,8 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
             if(baitAmountMap.isEmpty()) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.empty"));
             else {
             	for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
-            		player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
+            		//player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
+                    player.sendMessage(new TextComponentTranslation( baitEntry.getKey()).appendText(": " + baitEntry.getValue())) ;
             	}
             }
         }

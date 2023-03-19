@@ -1,6 +1,7 @@
 package net.theawesomegem.fishingmadebetter.common.data;
 
 import com.google.gson.annotations.SerializedName;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.ArrayList;
 import java.util.HashMap;

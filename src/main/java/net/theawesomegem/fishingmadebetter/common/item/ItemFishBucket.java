@@ -130,7 +130,8 @@ public class ItemFishBucket extends Item {
         //String fishId = getFishDisplayName(itemStack);
     	if(fishId==null) return;
 
-        String fishLangKey=String.format("%s%s:%d%s", "item.fmb.", getFishRegistry(itemStack), getFishMetadata(itemStack), ".name");
+
+        String fishLangKey=getFishRegistry(itemStack)==null ? fishId : String.format("%s%s:%d%s", "item.fmb.", getFishRegistry(itemStack), getFishMetadata(itemStack), ".name");
         tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + I18n.format(fishLangKey) + TextFormatting.RESET);
     }
 

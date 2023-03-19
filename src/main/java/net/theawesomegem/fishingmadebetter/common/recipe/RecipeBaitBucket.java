@@ -35,7 +35,9 @@ public class RecipeBaitBucket extends net.minecraftforge.registries.IForgeRegist
             int count = slots.length-1;
             ItemBaitBucket.setBaitId(itemBaitBucket, Item.REGISTRY.getNameForObject(itemBait.getItem()).toString());
             ItemBaitBucket.setBaitMetadata(itemBaitBucket, itemBait.getMetadata());
-            ItemBaitBucket.setBaitDisplayName(itemBaitBucket, itemBait.getDisplayName());
+            //ItemBaitBucket.setBaitDisplayName(itemBaitBucket, itemBait.getDisplayName());
+            ItemBaitBucket.setBaitDisplayName(itemBaitBucket, itemBait.getItem().getUnlocalizedNameInefficiently(itemBait));
+
             ItemBaitBucket.setBaitCount(itemBaitBucket, ItemBaitBucket.getBaitCount(itemBaitBucket) + count);
         }
 

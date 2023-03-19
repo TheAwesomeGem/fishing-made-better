@@ -32,7 +32,8 @@ public class RecipeBaitedRod extends net.minecraftforge.registries.IForgeRegistr
         
         ItemBetterFishingRod.setBaitItem(itemFishingRod, Item.REGISTRY.getNameForObject(itemBait.getItem()).toString());
         ItemBetterFishingRod.setBaitMetadata(itemFishingRod, itemBait.getMetadata());
-        ItemBetterFishingRod.setBaitDisplayName(itemFishingRod, itemBait.getDisplayName());
+        //ItemBetterFishingRod.setBaitDisplayName(itemFishingRod, itemBait.getDisplayName());
+        ItemBetterFishingRod.setBaitDisplayName(itemFishingRod, itemBait.getItem().getUnlocalizedNameInefficiently(itemBait));
 
         return itemFishingRod;
     }

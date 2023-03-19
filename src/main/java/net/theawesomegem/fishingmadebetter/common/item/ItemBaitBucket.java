@@ -45,7 +45,8 @@ public class ItemBaitBucket extends Item {
             tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.none") + TextFormatting.RESET);
         }
         else {
-            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
+            //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
+            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + I18n.format(getBaitDisplayName(itemStack) + ".name") + TextFormatting.RESET);
         }
     }
 
@@ -63,7 +64,8 @@ public class ItemBaitBucket extends Item {
     }
 
     public static int getBaitMetadata(ItemStack itemStack) {
-        if(!itemStack.hasTagCompound()) return 0;
+        //if(!itemStack.hasTagCompound()) return 0;
+        if(!itemStack.hasTagCompound()) return -1;
 
         NBTTagCompound tagCompound = itemStack.getTagCompound();
         return tagCompound.getInteger("BaitMetadata");
