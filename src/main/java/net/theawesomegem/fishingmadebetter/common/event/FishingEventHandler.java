@@ -17,6 +17,7 @@ import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 //import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -969,13 +970,35 @@ public class FishingEventHandler {//God this handler is a mess
         //event.getToolTip().add(TextFormatting.GREEN + I18n.format("tooltip.shieldbreak.shieldingpower") + " " + shieldProtectionRounded + TextFormatting.RESET);
         event.getToolTip().addAll(tooltipList);*/
 
-        event.getToolTip().set(1, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
-        if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) {
-            event.getToolTip().set(2, TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) :  I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
-            event.getToolTip().set(3, TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
-        }
-        else
-            event.getToolTip().set(2, TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+        boolean canReplace=ItemStackUtil.getToolTip(itemStack).size()>1;
 
+        if(itemStack.getTagCompound().hasKey("FishWeight")) {
+            if(canReplace)
+                event.getToolTip().set(1, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+            else
+                event.getToolTip().add(TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+        }
+        if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) {
+            if(ItemStackUtil.getToolTip(itemStack).size()>2){
+                if(itemStack.getTagCompound().hasKey("FishScale"))
+                    event.getToolTip().set(2, TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) :  I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+                if(itemStack.getTagCompound().hasKey("FishCaughtTime"))
+                    event.getToolTip().set(3, TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+            }
+            else {
+                if(itemStack.getTagCompound().hasKey("FishScale"))
+                    event.getToolTip().add(TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) :  I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+                if(itemStack.getTagCompound().hasKey("FishCaughtTime"))
+                    event.getToolTip().add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack)==0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+            }
+        }
+        else {
+            if(itemStack.getTagCompound().hasKey("FishCaughtTime")) {
+                if (canReplace)
+                    event.getToolTip().set(2, TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+                else
+                    event.getToolTip().add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+            }
+        }
     }
 }
