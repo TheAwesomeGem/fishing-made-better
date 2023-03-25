@@ -328,3 +328,12 @@ item.fmb.advanced-fishing:fish:39.desc=a green, fluorescent mass of biowaste tha
 item.fmb.advanced-fishing:fish:40.desc=a reanimated mass of fish bones
 item.fmb.advanced-fishing:fish:41.desc=a rare, emerald-scaled fish that is said to curse you if you cause its death
 item.fmb.advanced-fishing:fish:42.desc=a rare transulscent fish, speculated to be a phantom of a dead fish
+
+# Trying to add Fish bucket for lava fishes
+item.fishingmadebetter.fish_lava_bucket.name=Fish Lava Bucket
+notif.fishingmadebetter.fish_lava_bucket.only_lava=This fish can only be placed in lava.
+notif.fishingmadebetter.fish_lava_bucket.small_lava=This body of lava is too small for this fish.
+
+item.fishingmadebetter.void_bucket.name=Void Bucket
+item.fishingmadebetter.fish_void_bucket.name=Fish Void Bucket
+notif.fishingmadebetter.fish_void_bucket.only_void=This fish can only be placed in void.

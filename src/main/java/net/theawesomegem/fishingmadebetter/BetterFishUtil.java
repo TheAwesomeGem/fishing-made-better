@@ -11,6 +11,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.common.item.ItemFishBucket;
+import net.theawesomegem.fishingmadebetter.common.item.ItemFishLavaBucket;
+import net.theawesomegem.fishingmadebetter.common.item.ItemFishVoidBucket;
 import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
 import net.theawesomegem.fishingmadebetter.util.TimeUtil;
 
@@ -71,7 +73,7 @@ public class BetterFishUtil {
     public static boolean isBetterFish(ItemStack itemStack) {
         String fishId = BetterFishUtil.getFishId(itemStack);
 
-        if(itemStack.getItem() instanceof ItemFishBucket) return false;//No, a bucket of fish is not a fish itself
+        if(itemStack.getItem() instanceof ItemFishBucket || itemStack.getItem() instanceof ItemFishLavaBucket || itemStack.getItem() instanceof ItemFishVoidBucket) return false;//No, a bucket of fish is not a fish itself
         return fishId != null && fishId.length() > 0;
     }
     

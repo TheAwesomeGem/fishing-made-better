@@ -336,3 +336,12 @@ item.fmb.advanced-fishing:fish:39.desc=una masa verde fluorescente de desperdici
 item.fmb.advanced-fishing:fish:40.desc=una masa reanimada de huesos de pez
 item.fmb.advanced-fishing:fish:41.desc=un pez raro y de escamas esmeralda, se dice que te maldecira si causas su muerte
 item.fmb.advanced-fishing:fish:42.desc=un pez raro y traslucido, se especula que es el fantasma de un pez muerto
+
+# Trying to add Fish bucket for lava and void fishes
+item.fishingmadebetter.fish_lava_bucket.name=Cubeta con pez de lava
+notif.fishingmadebetter.fish_lava_bucket.only_lava=Este pez solo puede ponerse en lava.
+notif.fishingmadebetter.fish_lava_bucket.small_lava=Este cuerpo de lava es muy pequeño para este pez.
+
+item.fishingmadebetter.void_bucket.name=Cubeta con vacio
+item.fishingmadebetter.fish_void_bucket.name=Cubeta con pez del vacio
+notif.fishingmadebetter.fish_void_bucket.only_void=Este pez solo puede ponerse en el vacio.
