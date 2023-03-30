@@ -18,6 +18,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -54,6 +55,15 @@ public class ItemFishVoidBucket extends Item {
 
         if(worldIn.isRemote) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
 
+        // Trying to avoid placing a void fish in a dimension different than The End,
+        // because the Void Tracker doesn't detect fishes on other dimensions.
+        // We can place the void fish in the Overworld and fish it, but the Tracker doesn't detect it.
+        if(playerIn.dimension != 1) // 1 = The End
+        {
+            playerIn.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_void_bucket.only_void"));
+            return new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        }
+
         String fishId = getFishId(itemstack);
         if(fishId == null) return new ActionResult<>(EnumActionResult.FAIL, itemstack);
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);
@@ -65,7 +75,6 @@ public class ItemFishVoidBucket extends Item {
 
         IBlockState blockState = worldIn.getBlockState(blockpos);
         Material material = blockState.getMaterial();
-
 
         //if(material != MaterialLiquid.STRUCTURE_VOID) {
         if(blockpos.getY() > 3) {

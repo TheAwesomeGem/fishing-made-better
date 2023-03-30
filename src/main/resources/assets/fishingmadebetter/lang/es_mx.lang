@@ -344,4 +344,4 @@ notif.fishingmadebetter.fish_lava_bucket.small_lava=Este cuerpo de lava es muy p
 
 item.fishingmadebetter.void_bucket.name=Cubeta con vacio
 item.fishingmadebetter.fish_void_bucket.name=Cubeta con pez del vacio
-notif.fishingmadebetter.fish_void_bucket.only_void=Este pez solo puede ponerse en el vacio.
+notif.fishingmadebetter.fish_void_bucket.only_void=Este pez solo puede ponerse en el vacio de El End.

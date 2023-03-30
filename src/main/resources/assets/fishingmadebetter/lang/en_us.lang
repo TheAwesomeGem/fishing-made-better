@@ -336,4 +336,4 @@ notif.fishingmadebetter.fish_lava_bucket.small_lava=This body of lava is too sma
 
 item.fishingmadebetter.void_bucket.name=Void Bucket
 item.fishingmadebetter.fish_void_bucket.name=Fish Void Bucket
-notif.fishingmadebetter.fish_void_bucket.only_void=This fish can only be placed in void.
+notif.fishingmadebetter.fish_void_bucket.only_void=This fish can only be placed in The End's void.
