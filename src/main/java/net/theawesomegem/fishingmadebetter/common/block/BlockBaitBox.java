@@ -43,7 +43,7 @@ public class BlockBaitBox extends BlockTileEntityBase<TileEntityBaitBox> {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
     {
-    	tooltip.add(TextFormatting.GRAY + I18n.format("tile.fishingmadebetter.baitbox.tooltip") + TextFormatting.RESET);
+    	tooltip.add(TextFormatting.GRAY + I18n.format("tooltip.fishingmadebetter.baitbox") + TextFormatting.RESET);
     }
 
     @Override
