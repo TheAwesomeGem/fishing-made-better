@@ -45,13 +45,8 @@ public class ItemBaitBucket extends Item {
         }
         else {
             //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
-            if(BetterFishUtil.isFish(baitId)) { // If bait is fish, show its custom name properly
-                tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + I18n.format(String.format("%s%s:%d%s", "item.fmb.", baitId, getBaitMetadata(itemStack), ".name")) + TextFormatting.RESET);
-            }
-            else { // Else, translate its name Client side, because server always sends the English Display Name
-                ItemStack tempBait = new ItemStack(Item.getByNameOrId(baitId), 1, getBaitMetadata(itemStack));
-                tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + I18n.format(tempBait.getItem().getUnlocalizedNameInefficiently(tempBait) + ".name") + TextFormatting.RESET);
-            }
+            String baitLangKey = BetterFishUtil.getBaitLangKey(baitId, getBaitMetadata(itemStack));
+            tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + (baitLangKey == null ? getBaitDisplayName(itemStack) : I18n.format(baitLangKey)) + TextFormatting.RESET);
         }
     }
 

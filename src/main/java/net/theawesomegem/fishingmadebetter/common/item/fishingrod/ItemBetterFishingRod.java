@@ -228,16 +228,8 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     		if(hook.getBiteRateModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.bite_rate") + ": +" + hook.getBiteRateModifier() + "%");
     		if(hook.getWeightModifier() != 0) tooltip.add("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook.weight") + ": +" + hook.getWeightModifier() + "%");
             //String baitDisplayName = getBaitDisplayName(stack);
-            String baitDisplayName = null;
-            if(getBaitDisplayName(stack) != null){
-                // If the bait is a fish, show its custom name properly.
-                if(BetterFishUtil.isFish(getBaitItem(stack)))  baitDisplayName=I18n.format(String.format("%s%s:%d%s", "item.fmb.", getBaitItem(stack), getBaitMetadata(stack), ".name"));
-                else { // Else, translate its name client side. Server sends its English DisplayName always.
-                    ItemStack tempBait = new ItemStack(Item.getByNameOrId(getBaitItem(stack)), 1, getBaitMetadata(stack));
-                    baitDisplayName = I18n.format(tempBait.getItem().getUnlocalizedNameInefficiently(tempBait) + ".name");
-                }
-            }
-            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
+            String baitDisplayName = BetterFishUtil.getBaitLangKey(getBaitItem(stack), getBaitMetadata(stack));
+            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? I18n.format(baitDisplayName) : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
             tooltip.add("");
     	}
     	else {
@@ -248,15 +240,8 @@ public abstract class ItemBetterFishingRod extends ItemFishingRod {
     		tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.hook") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + I18n.format("item.fishingmadebetter." + hook.getRegistryName().getPath() + ".name") + TextFormatting.RESET);
     		tooltip.add((hook.getMaxDamage() != 0) ? ("  " +  I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": " + (hook.getMaxDamage()-getHookDamage(stack)) + "/" + hook.getMaxDamage()) : ("  " + I18n.format("tooltip.fishingmadebetter.fishing_rod.durability.title") + ": -/-"));
     		//String baitDisplayName = getBaitDisplayName(stack);
-            String baitDisplayName = null;
-            if(getBaitDisplayName(stack) != null){
-                if(BetterFishUtil.isFish(getBaitItem(stack)))  baitDisplayName=I18n.format(String.format("%s%s:%d%s", "item.fmb.", getBaitItem(stack), getBaitMetadata(stack), ".name"));
-                else {
-                    ItemStack tempBait = new ItemStack(Item.getByNameOrId(getBaitItem(stack)), 1, getBaitMetadata(stack));
-                    baitDisplayName = I18n.format(tempBait.getItem().getUnlocalizedNameInefficiently(tempBait) + ".name");
-                }
-            }
-            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? baitDisplayName : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
+            String baitDisplayName = BetterFishUtil.getBaitLangKey(getBaitItem(stack), getBaitMetadata(stack));
+            tooltip.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fishing_rod.bait") + ": " + TextFormatting.RESET + "" + TextFormatting.GRAY + ((baitDisplayName != null && baitDisplayName.length() > 0) ? I18n.format(baitDisplayName) : I18n.format("tooltip.fishingmadebetter.fishing_rod.bait_none")) + TextFormatting.RESET);
     		tooltip.add("");
             tooltip.add(I18n.format("tooltip.fishingmadebetter.fishing_rod.shift.1") + " " + TextFormatting.GOLD + "Shift" + TextFormatting.RESET + "" + TextFormatting.GRAY + " " + I18n.format("tooltip.fishingmadebetter.fishing_rod.shift.2") + TextFormatting.RESET);
     	}

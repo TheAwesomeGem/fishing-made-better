@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishingRod;
@@ -939,7 +940,7 @@ public class FishingEventHandler {//God this handler is a mess
         }
     }
 
-    //Trying to get to Client side...
+    //Trying to get to Client side... (it's a mess, I know)
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onItemTooltip(ItemTooltipEvent event) {
@@ -947,11 +948,14 @@ public class FishingEventHandler {//God this handler is a mess
         if(event.isCanceled()) return ;
 
         ItemStack itemStack = event.getItemStack();
-        if(itemStack == null || itemStack.isEmpty()) return ;
+        if(itemStack.isEmpty()) return ;
+        if(event.getToolTip().isEmpty()) return ;
 
         // Modify the caught fish tooltip clientside to translate and format it
         if(BetterFishUtil.isBetterFish(itemStack)) {
-            itemStack.setStackDisplayName(TextFormatting.RESET + I18n.format(BetterFishUtil.getFishCustomLangKey(itemStack)));
+            List<String> customNameList = createCustomFishName(event);
+            event.getToolTip().set(0, I18n.format(customNameList.get(0)) + customNameList.get(1));
+            itemStack.setStackDisplayName(I18n.format(BetterFishUtil.getFishCustomLangKey(itemStack)));
 
             // Used to check if we should edit the tooltip line or add it
             boolean canReplace = ItemStackUtil.getToolTip(itemStack).size() > 1 && event.getToolTip().size() > 1;
@@ -984,12 +988,44 @@ public class FishingEventHandler {//God this handler is a mess
             }
             return ;
         }
-        // Used to change the Display Name of aquaculture, advanced-fishing and minecraft fishes that were not caught, to our custom names, for consistency.
+        // Change the Display Name of aquaculture, advanced-fishing and minecraft fishes that were not caught, to our custom names, for consistency.
         // It also works when looking at them on the JEI, which is pretty cool!
         if(BetterFishUtil.isFish(itemStack.getItem().getRegistryName().toString()))
         {
-            itemStack.setStackDisplayName(TextFormatting.RESET + I18n.format(String.format("%s%s:%d%s", "item.fmb.", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata(), ".name")));
+            List<String> customNameList = createCustomFishName(event);
+            event.getToolTip().set(0, I18n.format(customNameList.get(0)) + customNameList.get(1));
+
             return ;
         }
+    }
+
+    // Aux function that prepares a translatable custom name, so we can rename a fish without using setStackDisplayName (which adds a NBTTag and italic TextFormat)
+    private List<String> createCustomFishName(ItemTooltipEvent event){
+        List<String> customName = new ArrayList<>();
+        ItemStack itemStack = event.getItemStack();
+        customName.add(String.format("%s%s:%d%s", "item.fmb.", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata(), ".name"));
+
+        if(event.getEntityPlayer() == null || event.getFlags() == null) {
+            customName.add(" ");
+            return customName;
+        }
+        String extraInfo = " ";
+        // Code taken from ItemStack.getTooltip
+        if(event.getFlags().isAdvanced()){
+            extraInfo = extraInfo + "(";
+            String details = ")";
+            int i= Item.getIdFromItem(itemStack.getItem());
+            if(itemStack.getHasSubtypes()){
+                extraInfo = extraInfo + String.format("#%04d/%d%s", i, itemStack.getItem().getDamage(itemStack), details);
+            }
+            else{
+                extraInfo = extraInfo + String.format("#%04d%s", i, details);
+            }
+        }
+        else if(!itemStack.hasDisplayName() && itemStack.getItem() == Items.FILLED_MAP){
+            extraInfo = extraInfo + "#" + itemStack.getItemDamage();
+        }
+        customName.add(extraInfo);
+        return customName;
     }
 }

@@ -122,4 +122,19 @@ public class BetterFishUtil {
     public static boolean isFish(String baitName){
         return baitName.equals("aquaculture:fish") || baitName.equals("advanced-fishing:fish") || baitName.equals("minecraft:fish");
     }
+
+    // Just for readability on the rest of the code (Bait Bucket, Bait Box, Baited Fishing Rod)
+    public static String getBaitLangKey(String baitId, int baitMetaData){
+        if(baitId == null || baitId.isEmpty()) return null;
+        Item item = Item.getByNameOrId(baitId);
+        if(item == null) return null;
+
+        if(isFish(baitId)) // If bait is a fish, get its custom lang key
+            return String.format("%s%s:%d%s", "item.fmb.", baitId, baitMetaData, ".name");
+        else { // Get its lang key, because server always sends its English display name
+            ItemStack itemStack = new ItemStack(item, 1, baitMetaData);
+            if(itemStack.isEmpty()) return null;
+            return itemStack.getItem().getUnlocalizedNameInefficiently(itemStack) + ".name";
+        }
+    }
 }

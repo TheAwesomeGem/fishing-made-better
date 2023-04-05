@@ -97,7 +97,9 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                     continue;
                 }
 
-                String name = stack.getDisplayName();
+                //String name = stack.getDisplayName();
+                String baitLangKey = BetterFishUtil.getBaitLangKey(stack.getItem().getRegistryName().toString(), stack.getMetadata());
+                String name = baitLangKey == null ? stack.getDisplayName() : new TextComponentTranslation(baitLangKey).getUnformattedComponentText();
 
                 if(baitAmountMap.containsKey(name)) baitAmountMap.put(name, baitAmountMap.get(name) + stack.getCount());
                 else baitAmountMap.put(name, stack.getCount());
