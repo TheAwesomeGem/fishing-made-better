@@ -1,7 +1,6 @@
 package net.theawesomegem.fishingmadebetter.common.data;
 
 import com.google.gson.annotations.SerializedName;
-import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -223,10 +222,10 @@ public class FishData {
 
     public String getNameLangKey()
     {
-        return String.format("%s%s%s%d%s", "item.fmb.", this.itemId, ":", this.itemMetaData, ".name");
+        return String.format("%s%s:%d%s", "item.fmb.", this.itemId, this.itemMetaData, ".name");
     }
     public String getDescLangKey()
     {
-        return String.format("%s%s%s%d%s", "item.fmb.", this.itemId, ":", this.itemMetaData, ".desc");
+        return String.format("%s%s:%d%s", "item.fmb.", this.itemId, this.itemMetaData, ".desc");
     }
 }

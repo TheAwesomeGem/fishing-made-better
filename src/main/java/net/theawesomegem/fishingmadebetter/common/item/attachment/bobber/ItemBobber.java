@@ -59,10 +59,10 @@ public abstract class ItemBobber extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if(this.lavaBobber) tooltip.add(String.format(I18n.format("tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in") + ": " + TextFormatting.RED + I18n.format("tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.lava") + TextFormatting.RESET ));
-        if(this.voidBobber) tooltip.add(I18n.format("tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in") + ": " + TextFormatting.LIGHT_PURPLE + I18n.format("tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.void") + TextFormatting.RESET);
-        if(!this.lavaBobber && !this.voidBobber) tooltip.add(I18n.format("tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in") + ": " + TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.fishing_rod.bobber.can_fish_in.water") + TextFormatting.RESET);
-        if(this.varianceModifier != 0) tooltip.add(I18n.format("item.fishingmadebetter.bobber_heavy.tooltip") + ": +" + this.varianceModifier);
-        if(this.tensioningModifier != 0) tooltip.add(I18n.format("item.fishingmadebetter.bobber_lightweight.tooltip") + ": +" + this.tensioningModifier);
+        if(this.lavaBobber) tooltip.add(String.format(I18n.format("tooltip.fishingmadebetter.bobber.can_fish_in") + ": " + TextFormatting.RED + I18n.format("tooltip.fishingmadebetter.bobber.obsidian") + TextFormatting.RESET ));
+        if(this.voidBobber) tooltip.add(I18n.format("tooltip.fishingmadebetter.bobber.can_fish_in") + ": " + TextFormatting.LIGHT_PURPLE + I18n.format("tooltip.fishingmadebetter.bobber.void") + TextFormatting.RESET);
+        if(!this.lavaBobber && !this.voidBobber) tooltip.add(I18n.format("tooltip.fishingmadebetter.bobber.can_fish_in") + ": " + TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bobber.water") + TextFormatting.RESET);
+        if(this.varianceModifier != 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.bobber.heavy") + ": +" + this.varianceModifier);
+        if(this.tensioningModifier != 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.bobber.lightweight") + ": +" + this.tensioningModifier);
     }
 }

@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,7 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
-
 
 /**
  * Created by TheAwesomeGem on 1/1/2018.
@@ -33,14 +31,13 @@ public abstract class ItemFishSlice extends ItemFood {//TODO: maybe something wi
         this.setTranslationKey(ModInfo.MOD_ID + "." + name);
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-    	String fishDisplayName = getFishDisplayName(stack);
+    	String fishDisplayName = BetterFishUtil.fishIdToCustomLangKey(getFishDisplayName(stack));
 
         //if(fishDisplayName != null && fishDisplayName.length() > 0) tooltip.add(I18n.format("item.fishingmadebetter.fish_slice_raw.tooltip") + " " + fishDisplayName);
-        if(fishDisplayName != null && fishDisplayName.length() > 0) tooltip.add(I18n.format("item.fishingmadebetter.fish_slice_raw.tooltip") + " " + I18n.format(fishDisplayName));
-
+        if(fishDisplayName != null && fishDisplayName.length() > 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.fish_slice_raw") + " " + I18n.format(fishDisplayName));
     }
     
     @SideOnly(Side.CLIENT)
@@ -76,16 +73,5 @@ public abstract class ItemFishSlice extends ItemFood {//TODO: maybe something wi
 
         return itemStack.getTagCompound().getString("FishItemId");
     }
-
-    @Nullable
-    private String getFishDisplayNameLangKey(ItemStack itemStack) {
-        if(!itemStack.hasTagCompound()) return null;
-
-        if(!itemStack.getTagCompound().hasKey("FishItemId")) return null;
-
-        return String.format("%s%s%s", "item.fmb." , itemStack.getTagCompound().getString("FishItemId"), ".name");
-    }
-
-
 }
 

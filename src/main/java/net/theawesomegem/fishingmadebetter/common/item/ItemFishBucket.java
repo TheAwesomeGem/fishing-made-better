@@ -18,7 +18,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -26,6 +25,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.capability.world.ChunkCapabilityProvider;
 import net.theawesomegem.fishingmadebetter.common.capability.world.IChunkFishingData;
@@ -123,21 +123,15 @@ public class ItemFishBucket extends Item {
         return itemStack;
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
     	String fishId = getFishId(itemStack);
-        //String fishId = getFishDisplayName(itemStack);
-    	if(fishId==null) return;
+        if(fishId == null) return;
+        //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + fishId + TextFormatting.RESET);
 
-
-        String fishLangKey=getFishRegistry(itemStack)==null ? fishId : String.format("%s%s:%d%s", "item.fmb.", getFishRegistry(itemStack), getFishMetadata(itemStack), ".name");
-        tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.fish_bucket.tooltip") + ": " + TextFormatting.BOLD + I18n.format(fishLangKey) + TextFormatting.RESET);
-    }
-
-    @Nullable
-    private IChunkFishingData getChunkFishingData(Chunk chunk) {
-        return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
+        fishId = BetterFishUtil.fishIdToCustomLangKey(fishId);
+        tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.fish_bucket") + ": " + TextFormatting.BOLD + I18n.format(fishId) + TextFormatting.RESET);
     }
 
     @Nullable
@@ -149,59 +143,8 @@ public class ItemFishBucket extends Item {
         return tagCompound.hasKey("FishId") ? tagCompound.getString("FishId") : null;
     }
 
-    // TO THE SHADOW REALM! - KameiB
-    public static void setFishId(ItemStack itemStack, String fishId){
-        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
-        itemStack.getTagCompound().setString("FishId", fishId);
-    }
-
-    public static String getFishRegistry(ItemStack itemStack){
-        if(!itemStack.hasTagCompound()) return null;
-
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
-
-        return tagCompound.hasKey("FishRegistry") ? tagCompound.getString("FishRegistry") : null;
-    }
-
-    public static void setFishRegistry(ItemStack itemStack, String fishRegistry){
-        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
-        itemStack.getTagCompound().setString("FishRegistry", fishRegistry);
-    }
-
-    public static int getFishMetadata(ItemStack itemStack){
-        if(!itemStack.hasTagCompound()) return 0;
-
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
-
-        return tagCompound.hasKey("FishMetaData") ? tagCompound.getInteger("FishMetaData") : 0;
-    }
-
-    public static void setFishMetadata(ItemStack itemStack, int meta){
-        if(!itemStack.hasTagCompound())  itemStack.setTagCompound(new NBTTagCompound());
-        itemStack.getTagCompound().setInteger("FishMetaData", meta);
-    }
-
-    public static String getFishDisplayName(ItemStack itemStack){
-        if(!itemStack.hasTagCompound()) return null;
-
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
-
-        return tagCompound.hasKey("FishDisplayName") ? tagCompound.getString("FishDisplayName") : getFishId(itemStack);
-    }
-
-    public static void setFishDisplayName(ItemStack itemStack, String displayName){
-        if(!itemStack.hasTagCompound()) itemStack.setTagCompound(new NBTTagCompound());
-        itemStack.getTagCompound().setString("FishDisplayName", displayName);
-    }
-
-    public static void removeFish(ItemStack itemStack){
-        if(!itemStack.hasTagCompound()) return;
-
-        NBTTagCompound tagCompound = itemStack.getTagCompound();
-
-        if(tagCompound.hasKey("FishId")) itemStack.getTagCompound().removeTag("FishId");
-        if(tagCompound.hasKey("FishRegistry")) itemStack.getTagCompound().removeTag("FishRegistry");
-        if(tagCompound.hasKey("FishMetaData")) itemStack.getTagCompound().removeTag("FishMetaData");
-        if(tagCompound.hasKey("FishDisplayName")) itemStack.getTagCompound().removeTag("FishDisplayName");
+    @Nullable
+    private IChunkFishingData getChunkFishingData(Chunk chunk) {
+        return chunk.getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
     }
 }

@@ -16,8 +16,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.item.Item;
-
 /**
  * Created by TheAwesomeGem on 1/1/2018.
  */
@@ -26,23 +24,20 @@ public class RecipeFishBucket extends net.minecraftforge.registries.IForgeRegist
 
     @Override
     public boolean matches(InventoryCrafting inv, World worldIn) {
-    	if(worldIn == null) return false;
-    	
-    	worldTime = worldIn.getTotalWorldTime();
+        if(worldIn == null) return false;
+
+        worldTime = worldIn.getTotalWorldTime();
         return validInput(inv) != null;
     }
 
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inv) {
-    	Integer[] slots = validInput(inv);
-    	if(slots==null) return ItemStack.EMPTY;
+        Integer[] slots = validInput(inv);
+        if(slots==null) return ItemStack.EMPTY;
 
         ItemStack itemFish = inv.getStackInSlot(slots[1]).copy();
-        ItemStack fishBucket = ItemFishBucket.getItemStack(BetterFishUtil.getFishId(itemFish));
 
-        ItemFishBucket.setFishRegistry(fishBucket, Item.REGISTRY.getNameForObject(itemFish.getItem()).toString());
-        ItemFishBucket.setFishMetadata(fishBucket, itemFish.getMetadata());
-        ItemFishBucket.setFishDisplayName(fishBucket, itemFish.getDisplayName());
+        ItemStack fishBucket = ItemFishBucket.getItemStack(BetterFishUtil.getFishId(itemFish));
 
         return fishBucket;
     }
@@ -56,19 +51,19 @@ public class RecipeFishBucket extends net.minecraftforge.registries.IForgeRegist
     public ItemStack getRecipeOutput() {
         return ItemStack.EMPTY;
     }
-    
+
     @Override
     public NonNullList<ItemStack> getRemainingItems(InventoryCrafting inv) {
         return NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
     }
-    
+
     @Nullable
     private Integer[] validInput(InventoryCrafting inv) {
-    	int numStacks = 0;
+        int numStacks = 0;
         int bucketSlot = -1;
         int fishSlot = -1;
         List<Integer> occupiedSlots = new ArrayList<>();
-        
+
         for(int i = 0; i < inv.getSizeInventory(); i++) {
             if (!inv.getStackInSlot(i).isEmpty()) {
                 numStacks++;
@@ -79,7 +74,7 @@ public class RecipeFishBucket extends net.minecraftforge.registries.IForgeRegist
 
         for(int i : occupiedSlots) {
             ItemStack itemStack = inv.getStackInSlot(i);
-            
+
             if(itemStack.isEmpty()) return null;
             else if(itemStack.getItem() == Items.WATER_BUCKET) bucketSlot = i;
             else if(BetterFishUtil.isBetterFish(itemStack) && !BetterFishUtil.isDead(itemStack, worldTime) && CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).liquid.equals(FishData.FishingLiquid.WATER)) fishSlot = i;

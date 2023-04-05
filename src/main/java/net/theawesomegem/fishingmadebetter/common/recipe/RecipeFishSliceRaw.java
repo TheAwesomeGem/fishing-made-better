@@ -6,14 +6,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.common.item.ItemManager;
 import net.theawesomegem.fishingmadebetter.common.item.filletknife.ItemFilletKnife;
-import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +40,7 @@ public class RecipeFishSliceRaw extends net.minecraftforge.registries.IForgeRegi
     	}
         
         String fishId = BetterFishUtil.getFishId(itemStackFish);
-        //String fishDisplayName = fishId;
-        //String fishDisplayName = new TextComponentTranslation(BetterFishUtil.getFishCustomLangKey(itemStackFish)).getUnformattedComponentText();
-        String fishDisplayName = BetterFishUtil.getFishCustomLangKey(itemStackFish);
-
+        String fishDisplayName = fishId;
         int fishWeight = BetterFishUtil.getFishWeight(itemStackFish);
 
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(fishId);

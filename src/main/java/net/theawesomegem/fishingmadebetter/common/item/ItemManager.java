@@ -41,8 +41,6 @@ import net.theawesomegem.fishingmadebetter.common.item.filletknife.ItemWoodFille
 import net.theawesomegem.fishingmadebetter.common.item.fishingrod.ItemBetterFishingRod;
 import net.theawesomegem.fishingmadebetter.common.item.fishingrod.ItemDiamondFishingRod;
 import net.theawesomegem.fishingmadebetter.common.item.fishingrod.ItemIronFishingRod;
-import net.theawesomegem.fishingmadebetter.common.item.ItemFishLavaBucket;
-import net.theawesomegem.fishingmadebetter.common.item.ItemVoidBucket;
 
 /**
  * Created by TheAwesomeGem on 12/21/2017.
@@ -87,9 +85,6 @@ public class ItemManager {
 
     public static final ItemFishBucket FISH_BUCKET = new ItemFishBucket();
 	public static final ItemBaitBucket BAIT_BUCKET = new ItemBaitBucket();
-	public static final ItemFishLavaBucket FISH_LAVA_BUCKET=new ItemFishLavaBucket();
-	public static final ItemVoidBucket VOID_BUCKET=new ItemVoidBucket();
-	public static final ItemFishVoidBucket FISH_VOID_BUCKET=new ItemFishVoidBucket();
 
     public static void register(IForgeRegistry<Item> registry) {
         registry.registerAll(
@@ -123,11 +118,8 @@ public class ItemManager {
         		HOOK_SHINY,
         		HOOK_MAGNETIC,
         		FISH_BUCKET,
-				BAIT_BUCKET,
-				FISH_LAVA_BUCKET,
-				VOID_BUCKET,
-				FISH_VOID_BUCKET
-        		);
+				BAIT_BUCKET
+				);
     }
     
     public static ItemBetterFishingRod[] rodList() {
@@ -187,8 +179,6 @@ public class ItemManager {
 
         FISH_BUCKET.registerItemModel(FISH_BUCKET);
 		BAIT_BUCKET.registerItemModel(BAIT_BUCKET);
-		FISH_LAVA_BUCKET.registerItemModel(FISH_LAVA_BUCKET);
-		VOID_BUCKET.registerItemModel(VOID_BUCKET);
-		FISH_VOID_BUCKET.registerItemModel(FISH_VOID_BUCKET);
+
     }
 }

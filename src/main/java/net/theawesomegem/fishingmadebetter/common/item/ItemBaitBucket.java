@@ -6,15 +6,14 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-//import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-//import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 import net.theawesomegem.fishingmadebetter.ModInfo;
 import net.theawesomegem.fishingmadebetter.common.registry.FMBCreativeTab;
+import net.theawesomegem.fishingmadebetter.BetterFishUtil;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -38,15 +37,21 @@ public class ItemBaitBucket extends Item {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack itemStack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(I18n.format("item.fishingmadebetter.bait_bucket.tooltip"));
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.bait_bucket"));
 
         String baitId = getBaitId(itemStack);
         if(baitId.isEmpty()) {
-            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.none") + TextFormatting.RESET);
+            tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.bait_bucket.none") + TextFormatting.RESET);
         }
         else {
             //tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + getBaitDisplayName(itemStack) + TextFormatting.RESET);
-            tooltip.add(TextFormatting.BLUE + I18n.format("item.fishingmadebetter.bait_bucket.tooltip.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + (getBaitDisplayName(itemStack).contains("item.") ? I18n.format(getBaitDisplayName(itemStack) + ".name") : I18n.format(getBaitDisplayName(itemStack))) + TextFormatting.RESET);
+            if(BetterFishUtil.isFish(baitId)) { // If bait is fish, show its custom name properly
+                tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + I18n.format(String.format("%s%s:%d%s", "item.fmb.", baitId, getBaitMetadata(itemStack), ".name")) + TextFormatting.RESET);
+            }
+            else { // Else, translate its name Client side, because server always sends the English Display Name
+                ItemStack tempBait = new ItemStack(Item.getByNameOrId(baitId), 1, getBaitMetadata(itemStack));
+                tooltip.add(TextFormatting.BLUE + I18n.format("tooltip.fishingmadebetter.bait_bucket.contains") + ": " + TextFormatting.BOLD + getBaitCount(itemStack) + " " + I18n.format(tempBait.getItem().getUnlocalizedNameInefficiently(tempBait) + ".name") + TextFormatting.RESET);
+            }
         }
     }
 

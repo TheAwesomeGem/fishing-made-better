@@ -3,16 +3,10 @@ package net.theawesomegem.fishingmadebetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-//import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TextComponentTranslation;
-
-//import net.minecraft.util.ResourceLocation;
-
+import net.minecraft.util.text.TextFormatting;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
 import net.theawesomegem.fishingmadebetter.common.item.ItemFishBucket;
-import net.theawesomegem.fishingmadebetter.common.item.ItemFishLavaBucket;
-import net.theawesomegem.fishingmadebetter.common.item.ItemFishVoidBucket;
 import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
 import net.theawesomegem.fishingmadebetter.util.TimeUtil;
 
@@ -54,16 +48,17 @@ public class BetterFishUtil {
         NBTTagCompound tagCompound = itemStack.getTagCompound();
 
         if(tagCompound == null) tagCompound = new NBTTagCompound();
-        
+
         tagCompound.setBoolean("FishScale", value);
 
         itemStack.setTagCompound(tagCompound);
-        
+
         if(!value) {
-        	List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("%s: %d", new TextComponentTranslation("tooltip.fishingmadebetter.fish.weight").getUnformattedComponentText(), BetterFishUtil.getFishWeight(itemStack)));
-            tooltipList.add(String.format("%s: %s", new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale").getUnformattedComponentText(), new TextComponentTranslation("tooltip.fishingmadebetter.fish.scale_detached").getUnformattedComponentText()));
-            tooltipList.add( new TextComponentTranslation("tooltip.fishingmadebetter.fish.dead").getUnformattedComponentText() );
+            List<String> tooltipList = new ArrayList<>();
+            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
+            tooltipList.add(String.format("Scale: %s", "Detached"));
+            //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Dead" + TextFormatting.RESET);
+            tooltipList.add("Dead"); // Removed text formatting because it's handled by onItemTooltip
             itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             BetterFishUtil.setFishCaughtTime(itemStack, 0);
@@ -73,7 +68,7 @@ public class BetterFishUtil {
     public static boolean isBetterFish(ItemStack itemStack) {
         String fishId = BetterFishUtil.getFishId(itemStack);
 
-        if(itemStack.getItem() instanceof ItemFishBucket || itemStack.getItem() instanceof ItemFishLavaBucket || itemStack.getItem() instanceof ItemFishVoidBucket) return false;//No, a bucket of fish is not a fish itself
+        if(itemStack.getItem() instanceof ItemFishBucket) return false;//No, a bucket of fish is not a fish itself
         return fishId != null && fishId.length() > 0;
     }
     
@@ -100,17 +95,31 @@ public class BetterFishUtil {
         return time >= (fishCaughtTime + TimeUtil.secondsToMinecraftTicks(fishData.timeOutsideOfWater));
     }
 
-    public static String getFishUnlocalizedName(ItemStack itemStack)
-    {
-        if(!itemStack.hasTagCompound() || !itemStack.getTagCompound().hasKey("FishId"))  return null;
-
-        //return String.format("%s:%d", itemStack.getItem().getRegistryName().toString(), itemStack.getItemDamage());
-        return String.format("%s:%d", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata());
-    }
-
+    // If itemStack is a BetterFish, then get its custom lang key
     public static String getFishCustomLangKey(ItemStack itemStack){
         if(!itemStack.hasTagCompound() || !itemStack.getTagCompound().hasKey("FishId"))  return null;
 
         return String.format("%s%s:%d%s", "item.fmb.", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata(), ".name");
+    }
+
+    // It looks for a fishId in the fishDataMap. If it exists, return its custom lang key
+    public static String fishIdToCustomLangKey(String fishId){
+        if(fishId == null) return null;
+        if(fishId.isEmpty()) return fishId;
+
+        String unformattedFishId; // For fishes that have their name as TextFormatting.RESET + fishId. Take away the formatting part.
+        if(fishId.startsWith(TextFormatting.RESET.toString())) unformattedFishId=fishId.substring(2);
+        else unformattedFishId=fishId;
+
+        // Look up in the fishDataMap
+        FishData fishData = CustomConfigurationHandler.fishDataMap.get(unformattedFishId);
+        if(fishData == null) return unformattedFishId; // If it's not found return the pure fishId, without formatting.
+
+        return String.format("%s%s:%d%s", "item.fmb.", fishData.itemId, fishData.itemMetaData, ".name");
+    }
+
+    // Originally made for bait fishes, but it's also used by onItemTooltip, to rename all non-caught fishes.
+    public static boolean isFish(String baitName){
+        return baitName.equals("aquaculture:fish") || baitName.equals("advanced-fishing:fish") || baitName.equals("minecraft:fish");
     }
 }

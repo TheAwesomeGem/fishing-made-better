@@ -74,42 +74,44 @@ tooltip.fishingmadebetter.fishing_rod.bait_none=None
 tooltip.fishingmadebetter.fishing_rod.shift.1=Hold
 tooltip.fishingmadebetter.fishing_rod.shift.2=for extra information
 
-item.fishingmadebetter.bobber_basic.tooltip=Only used for crafting!
-item.fishingmadebetter.bobber_obsidian.tooltip=Can fish in: Lava
-item.fishingmadebetter.bobber_void.tooltip=Can fish in: Void
-item.fishingmadebetter.bobber_water.tooltip=Can fish in: Water
-item.fishingmadebetter.bobber_heavy.tooltip=Tension Bar Size Modifier
-item.fishingmadebetter.bobber_lightweight.tooltip=Tension Bar Speed Modifier
+tooltip.fishingmadebetter.bobber.basic=Only used for crafting!
+tooltip.fishingmadebetter.bobber.can_fish_in=Can fish in
+tooltip.fishingmadebetter.bobber.obsidian=Lava
+tooltip.fishingmadebetter.bobber.void=Void
+tooltip.fishingmadebetter.bobber.water=Water
+tooltip.fishingmadebetter.bobber.heavy=Tension Bar Size Modifier
+tooltip.fishingmadebetter.bobber.lightweight=Tension Bar Speed Modifier
 
-item.fishingmadebetter.hook_basic.tooltip=Only used for crafting!
-item.fishingmadebetter.hook_barbed.tooltip=Tugging Reduction
-item.fishingmadebetter.hook_magnetic.tooltip=Treasure Modifier
-item.fishingmadebetter.hook_shiny.tooltip=Bite Rate Modifier
-item.fishingmadebetter.hook_fatty.tooltip=Catch Weight Modifier
+tooltip.fishingmadebetter.hook_basic=Only used for crafting!
+tooltip.fishingmadebetter.hook_barbed=Tugging Reduction
+tooltip.fishingmadebetter.hook_magnetic=Treasure Modifier
+tooltip.fishingmadebetter.hook_shiny=Bite Rate Modifier
+tooltip.fishingmadebetter.hook_fatty=Catch Weight Modifier
 
-item.fishingmadebetter.reel_basic.tooltip=Only used for crafting!
+tooltip.fishingmadebetter.reel_basic=Only used for crafting!
 tooltip.fishingmadebetter.reel.range=Reel Range
 tooltip.fishingmadebetter.reel.speed=Reel Speed
 
-tile.fishingmadebetter.baitbox.tooltip=Feeds fish in the local chunk when filled with bait to aid fish reproduction
+tooltip.fishingmadebetter.baitbox=Feeds fish in the local chunk when filled with bait to aid fish reproduction
 notif.fishingmadebetter.baitbox.bait_not_valid=This is not a valid bait!
 notif.fishingmadebetter.baitbox.full=Bait Box is full!
 notif.fishingmadebetter.baitbox.empty=Bait Box is empty!
 
-item.fishingmadebetter.fillet_knife.tooltip=Use it to cut fish into fish slices
+tooltip.fishingmadebetter.fillet_knife=Use it to cut fish into fish slices
 
-item.fishingmadebetter.fish_slice_raw.tooltip=Sliced
+tooltip.fishingmadebetter.fish_slice_raw=Sliced
 
-item.fishingmadebetter.scaling_knife.tooltip=Use it to scale a fish
+tooltip.fishingmadebetter.scaling_knife=Use it to scale a fish
 
-item.fishingmadebetter.bait_bucket.tooltip=Automatically rebaits the fishing rod with contained bait when held in offhand after a bite
-item.fishingmadebetter.bait_bucket.tooltip.contains=Contains
-item.fishingmadebetter.bait_bucket.tooltip.none=None
+tooltip.fishingmadebetter.bait_bucket=Automatically rebaits the fishing rod with contained bait when held in offhand after a bite
+tooltip.fishingmadebetter.bait_bucket.contains=Contains
+tooltip.fishingmadebetter.bait_bucket.none=None
 
 notif.fishingmadebetter.fish_bucket.only_water=This fish can only be placed in water.
 notif.fishingmadebetter.fish_bucket.small_water=This body of water is too small for this fish.
 notif.fishingmadebetter.fish_bucket.wrong_altitude=This fish can not survive at this altitude.
-item.fishingmadebetter.fish_bucket.tooltip=Contains
+
+tooltip.fishingmadebetter.fish_bucket=Contains
 
 notif.fishingmadebetter.fish_tracker.only_void=This probe can only be used on blocks near the Void.
 notif.fishingmadebetter.fish_tracker.only_water=This probe can only work in Water.
@@ -117,18 +119,18 @@ notif.fishingmadebetter.fish_tracker.only_lava=This probe can only work in Lava.
 notif.fishingmadebetter.fish_tracker.too_shallow=It is too shallow at this location for the probe to work properly.
 notif.fishingmadebetter.fish_tracker.tracking_start=Started tracking. Might give inaccurate results if you move.
 
-item.fishingmadebetter.fish_tracker.tooltip.max_depth=Max Depth
-item.fishingmadebetter.fish_tracker.tooltip.vision_bad=Cannot detect rare fish
-item.fishingmadebetter.fish_tracker.tooltip.vision_normal=Can detect rare fish
-item.fishingmadebetter.fish_tracker.tooltip.vision_best=Can detect the rarest and most elusive fish
-item.fishingmadebetter.fish_tracker.tooltip.vision_none=Tracking value not found
-item.fishingmadebetter.fish_tracker.tooltip.probe_water=Can probe Water
-item.fishingmadebetter.fish_tracker.tooltip.probe_lava=Can probe Lava
-item.fishingmadebetter.fish_tracker.tooltip.probe_void=Can probe the Void
-item.fishingmadebetter.fish_tracker.tooltip.probe_etc=Can probe anything
-item.fishingmadebetter.fish_tracker.tooltip.right_click=Right-click to probe for fish
-item.fishingmadebetter.fish_tracker.tooltip.info.1=Hold
-item.fishingmadebetter.fish_tracker.tooltip.info.2=while tracking for extra information
+tooltip.fishingmadebetter.fish_tracker.max_depth=Max Depth
+tooltip.fishingmadebetter.fish_tracker.vision_bad=Cannot detect rare fish
+tooltip.fishingmadebetter.fish_tracker.vision_normal=Can detect rare fish
+tooltip.fishingmadebetter.fish_tracker.vision_best=Can detect the rarest and most elusive fish
+tooltip.fishingmadebetter.fish_tracker.vision_none=Tracking value not found
+tooltip.fishingmadebetter.fish_tracker.probe_water=Can probe Water
+tooltip.fishingmadebetter.fish_tracker.probe_lava=Can probe Lava
+tooltip.fishingmadebetter.fish_tracker.probe_void=Can probe the Void
+tooltip.fishingmadebetter.fish_tracker.probe_etc=Can probe anything
+tooltip.fishingmadebetter.fish_tracker.right_click=Right-click to probe for fish
+tooltip.fishingmadebetter.fish_tracker.info.1=Hold
+tooltip.fishingmadebetter.fish_tracker.info.2=while tracking for extra information
 
 notif.fishingmadebetter.fish_tracker.detected=Detected
 notif.fishingmadebetter.fish_tracker.quantity_immense=in immense quantity.
@@ -168,7 +170,7 @@ item.fmb.aquaculture:fish:8.name=Blowfish
 item.fmb.aquaculture:fish:9.name=Red Grouper
 item.fmb.aquaculture:fish:10.name=Arctic Salmon
 item.fmb.aquaculture:fish:11.name=Tuna
-item.fmb.aquaculture:fish.12.name=Swordfish
+item.fmb.aquaculture:fish:12.name=Swordfish
 item.fmb.aquaculture:fish:13.name=Shark
 item.fmb.aquaculture:fish:14.name=Whale
 item.fmb.aquaculture:fish:15.name=Giant Squid
@@ -329,11 +331,4 @@ item.fmb.advanced-fishing:fish:40.desc=a reanimated mass of fish bones
 item.fmb.advanced-fishing:fish:41.desc=a rare, emerald-scaled fish that is said to curse you if you cause its death
 item.fmb.advanced-fishing:fish:42.desc=a rare transulscent fish, speculated to be a phantom of a dead fish
 
-# Trying to add Fish bucket for lava fishes
-item.fishingmadebetter.fish_lava_bucket.name=Lava Fish Bucket
-notif.fishingmadebetter.fish_lava_bucket.only_lava=This fish can only be placed in lava.
-notif.fishingmadebetter.fish_lava_bucket.small_lava=This body of lava is too small for this fish.
 
-item.fishingmadebetter.void_bucket.name=Void Bucket
-item.fishingmadebetter.fish_void_bucket.name=Void Fish Bucket
-notif.fishingmadebetter.fish_void_bucket.only_void=This fish can only be placed in The End's void.

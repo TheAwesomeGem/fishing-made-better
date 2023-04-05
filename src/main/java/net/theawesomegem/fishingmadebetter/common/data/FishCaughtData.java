@@ -40,13 +40,4 @@ public class FishCaughtData {
 
         return new FishCaughtData(fishData.fishId, fishData.itemId, fishData.itemMetaData, fishTime, errorVariance, weight, fishData.time, fishData.rainRequired, fishData.rarity, deepLevel);
     }
-
-    public String getNameLangKey()
-    {
-        return String.format("%s%s%s%d%s", "item.fmb.", this.itemId, ":", this.itemMetaData, ".name");
-    }
-    public String getDescLangKey()
-    {
-        return String.format("%s%s%s%d%s", "item.fmb.", this.itemId, ":", this.itemMetaData, ".desc");
-    }
 }

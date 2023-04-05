@@ -131,13 +131,6 @@ public class CommonProxy {
         if(ConfigurationManager.server.enableFishBucket) {
         	recipeRegistry.register(new RecipeFishBucket().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "fish_bucket")));
             RebornCraftingHelper.addShapelessRecipe(new ItemStack(Items.BUCKET), ItemManager.FISH_BUCKET);
-
-            recipeRegistry.register(new RecipeFishLavaBucket().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "fish_lava_bucket")));
-            RebornCraftingHelper.addShapelessRecipe(new ItemStack(Items.BUCKET), ItemManager.FISH_LAVA_BUCKET);
-
-            RebornCraftingHelper.addShapedRecipe(new ItemStack(ItemManager.VOID_BUCKET, 1), " P ", "PBP", " P ", 'P', Items.ENDER_PEARL, 'B', Items.BUCKET);
-            recipeRegistry.register(new RecipeFishVoidBucket().setRegistryName(new ResourceLocation(ModInfo.MOD_ID, "fish_void_bucket")));
-            RebornCraftingHelper.addShapelessRecipe(new ItemStack(Items.BUCKET), ItemManager.FISH_VOID_BUCKET);
         }
         
         RebornCraftingHelper.addSmelting(new ItemStack(ItemManager.FISH_SLICE_RAW), new ItemStack(ItemManager.FISH_SLICE_COOKED));
@@ -181,8 +174,6 @@ public class CommonProxy {
         RebornCraftingHelper.addShapedRecipe(new ItemStack(BlockManager.ITEM_BLOCK_BAIT_BOX, 1), "WIW", "I I", "WWW", 'W', "plankWood", 'I', Blocks.IRON_BARS);
         RebornCraftingHelper.addShapedRecipe(new ItemStack(ItemManager.BAIT_BUCKET, 1), "SES", "EBE", "SES", 'S', Items.WHEAT_SEEDS, 'E', Items.SPIDER_EYE, 'B', Items.BUCKET);
 
-
-        
     	IForgeRegistryModifiable<IRecipe> craftingRegistry = (IForgeRegistryModifiable<IRecipe>)recipeRegistry;
     	
         if(Loader.isModLoaded("aquaculture") && ConfigurationManager.server.aquacultureRecipeOverride) {
@@ -251,8 +242,6 @@ public class CommonProxy {
         	CommonProxy.Logger.log(Level.INFO, "Removed " + advSmeltingRemoved + " AdvancedFishing smelting recipes.");
         	
         	RebornCraftingHelper.addShapelessRecipe(new ItemStack(Items.LAVA_BUCKET), new ItemStack(Item.getByNameOrId("advanced-fishing:fish"), 1, 1), Items.BUCKET);
-
-            RebornCraftingHelper.addShapelessRecipe(new ItemStack(ItemManager.VOID_BUCKET), new ItemStack(Item.getByNameOrId("advanced-fishing:fish"), 1, 14), Items.BUCKET);
         }
     }
 

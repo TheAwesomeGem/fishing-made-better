@@ -46,7 +46,7 @@ public abstract class ItemScalingKnife extends ItemTool
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn)
     {
-        tooltip.add(I18n.format("item.fishingmadebetter.scaling_knife.tooltip"));
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.scaling_knife"));
     }
 
     @Override
