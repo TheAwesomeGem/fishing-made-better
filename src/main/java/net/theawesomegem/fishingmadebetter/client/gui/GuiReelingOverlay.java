@@ -64,7 +64,11 @@ public class GuiReelingOverlay extends Gui {
         double distance = (double)(fishingData.getFishDeepLevel() - fishingData.getFishDistance())/10;
         
         fontColor = getIntFromColor(fishingData.getLineBreak());
-        fontRenderer.drawStringWithShadow(I18n.format("fishingmadebetter.reelingoverlay.distance") + String.format(": %sm", distance), getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - 30, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
+        //fontRenderer.drawStringWithShadow(I18n.format("fishingmadebetter.reelingoverlay.distance") + String.format(": %sm", distance), getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - 30, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
+        String txtDistance = I18n.format("fishingmadebetter.reelingoverlay.distance") + String.format(": %sm", distance);
+        String txtInstructions = I18n.format("fishingmadebetter.reelingoverlay.move_with");
+        fontRenderer.drawStringWithShadow( txtDistance, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (float)(Math.round(fontRenderer.getStringWidth(txtDistance)))/2, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
+        fontRenderer.drawStringWithShadow( txtInstructions, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (float)(Math.round(fontRenderer.getStringWidth(txtInstructions)))/2, getBarPosY(scaledHeight) + outlineBarHeight + 12, 0xFFFFFF);
         
         int posX = getBarPosX(scaledWidth);
         int posY = getBarPosY(scaledHeight);

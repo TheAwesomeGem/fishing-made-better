@@ -9,8 +9,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -37,7 +36,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
     private long baitUpdateTime;
     private int timer = 0;
     private ItemStackHandler inventory = new ItemStackHandler(8);//TODO: make configurable
-    
+
     @Override
     public void onLoad() {
         if(world.isRemote) return;
@@ -50,22 +49,22 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
         if(world.isRemote) return;
 
         if(timer%20 == 0) timer=0;
-        
+
         if(timer == 0) updateOnSecond(world.getTotalWorldTime());
         timer++;
     }
-    
+
     public void handleRightClick(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
         ItemStack itemStack = player.getHeldItemMainhand();
 
         if(!itemStack.isEmpty()) {
             int freeSlot = -1;
-            
+
             if(!BetterFishUtil.isValidBait(itemStack)) {//Hopefully whitelists correctly
-            	player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.bait_not_valid"));
-            	return;
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.bait_not_valid"));
+                return;
             }
-            
+
             for(int i = 0; i < inventory.getSlots() && itemStack.getCount() > 0; i++) {
                 ItemStack stack = inventory.getStackInSlot(i);
 
@@ -78,15 +77,15 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
             }
 
             if(itemStack.getCount() > 0 && freeSlot != -1) itemStack = inventory.insertItem(freeSlot, itemStack, false);
-            
+
             if(itemStack.getCount() > 0) {
-            	player.setHeldItem(EnumHand.MAIN_HAND, itemStack);
-            	player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.full"));
+                player.setHeldItem(EnumHand.MAIN_HAND, itemStack);
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.full"));
             }
             else player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY);
-            
+
             return;
-        } 
+        }
         else {
             Map<String, Integer> baitAmountMap = new HashMap<>();
 
@@ -97,7 +96,10 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
                     continue;
                 }
 
-                String name = stack.getDisplayName();
+                //String name = stack.getDisplayName();
+                // Save lang keys into the map, so they can be translated when sending messages.
+                String baitLangKey = BetterFishUtil.getBaitLangKey(stack.getItem().getRegistryName().toString(), stack.getMetadata());
+                String name = baitLangKey == null ? stack.getDisplayName() : baitLangKey; // Shouldn't need this check, but just in case
 
                 if(baitAmountMap.containsKey(name)) baitAmountMap.put(name, baitAmountMap.get(name) + stack.getCount());
                 else baitAmountMap.put(name, stack.getCount());
@@ -105,15 +107,17 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
 
             if(baitAmountMap.isEmpty()) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.baitbox.empty"));
             else {
-            	for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
-            		player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
-            	}
+                for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
+                    //player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
+                    player.sendMessage((new TextComponentTranslation(baitEntry.getKey()).setStyle(new Style().setColor(TextFormatting.YELLOW)))
+                            .appendText(TextFormatting.RESET + String.format(": %d", baitEntry.getValue())));
+                }
             }
         }
     }
-    
+
     private void updateOnSecond(long worldTime) {
-    	if(worldTime > baitUpdateTime) {
+        if(worldTime > baitUpdateTime) {
             IChunkFishingData chunkFishingData = world.getChunk(getPos()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
             if(chunkFishingData == null) return;
 
@@ -136,9 +140,9 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
         else if (itemStack.getTagCompound() == null && other.getTagCompound() != null) return false;
         else return (itemStack.getTagCompound() == null || itemStack.getTagCompound().equals(other.getTagCompound())) && itemStack.areCapsCompatible(other);
     }
-    
+
     private void updateBaitTime(long worldTime) {
-    	baitUpdateTime = worldTime + TimeUtil.minutesToMinecraftTicks(ConfigurationManager.server.baitBoxUpdateInterval);
+        baitUpdateTime = worldTime + TimeUtil.minutesToMinecraftTicks(ConfigurationManager.server.baitBoxUpdateInterval);
     }
 
     private void checkBait(Map<String, Integer[]> baitItemMap, int population, PopulationData populationData, long worldTime, int avgWeight) {
@@ -146,7 +150,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
         int itemsLeft = Math.min(16, Math.max(1, avgWeight/100));
 
         for(int i = 0; i < inventory.getSlots(); i++) {
-        	if(itemsLeft<=0) break;
+            if(itemsLeft<=0) break;
             ItemStack itemStack = inventory.getStackInSlot(i);
 
             if(itemStack.isEmpty()) continue;
@@ -170,7 +174,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
     }
 
     @SuppressWarnings("unchecked")
-	@Nullable
+    @Nullable
     @Override
     public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? (T) inventory : super.getCapability(capability, facing);

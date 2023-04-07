@@ -48,6 +48,7 @@ notif.fishingmadebetter.tracker.twohand=You cannot hold fish trackers in both ha
 notif.fishingmadebetter.tracker.finish=You have finished tracking
 
 fishingmadebetter.reelingoverlay.distance=Distance
+fishingmadebetter.reelingoverlay.move_with=Move with <- ->
 
 tooltip.fishingmadebetter.fishing_rod.reel.name=Reel
 tooltip.fishingmadebetter.fishing_rod.durability.title=Durability
@@ -145,6 +146,25 @@ notif.fishingmadebetter.fish_tracker.found_none=Probe failed to detect any fish 
 notif.fishingmadebetter.fish_tracker.found_under_y=Detected traces of fish living at a lower altitude
 notif.fishingmadebetter.fish_tracker.found_outside_quality=Detected traces of fish outside of the probe's ability
 notif.fishingmadebetter.fish_tracker.found_hibernating=Detected fish currently not feeding in these conditions
+
+notif.fishingmadebetter.fish_tracker.creative.time=Time
+notif.fishingmadebetter.fish_tracker.creative.time.DAY=DAY
+notif.fishingmadebetter.fish_tracker.creative.time.NIGHT=NIGHT
+notif.fishingmadebetter.fish_tracker.creative.time.ANY=ANY
+
+notif.fishingmadebetter.fish_tracker.creative.liquid.WATER=WATER
+notif.fishingmadebetter.fish_tracker.creative.liquid.LAVA=LAVA
+notif.fishingmadebetter.fish_tracker.creative.liquid.VOID=VOID
+notif.fishingmadebetter.fish_tracker.creative.liquid.ANY=ANY
+
+notif.fishingmadebetter.fish_tracker.creative.min_line=MinLine
+notif.fishingmadebetter.fish_tracker.creative.max_light=MaxLight
+notif.fishingmadebetter.fish_tracker.creative.rain=Rain
+notif.fishingmadebetter.fish_tracker.creative.rain.false=NO
+notif.fishingmadebetter.fish_tracker.creative.rain.true=YES
+notif.fishingmadebetter.fish_tracker.creative.thunder=Thunder
+notif.fishingmadebetter.fish_tracker.creative.thunder.false=NO
+notif.fishingmadebetter.fish_tracker.creative.thunder.true=YES
 
 tooltip.fishingmadebetter.fish.weight=Weight
 tooltip.fishingmadebetter.fish.scale=Scales

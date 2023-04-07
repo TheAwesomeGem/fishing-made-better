@@ -49,6 +49,7 @@ notif.fishingmadebetter.tracker.twohand=No puedes sostener dos Rastreadores de P
 notif.fishingmadebetter.tracker.finish=Rastreo de peces terminado
 
 fishingmadebetter.reelingoverlay.distance=Distancia
+fishingmadebetter.reelingoverlay.move_with=Mover con <- ->
 
 tooltip.fishingmadebetter.fishing_rod.reel.name=Carrete
 tooltip.fishingmadebetter.fishing_rod.durability.title=Durabilidad
@@ -146,6 +147,25 @@ notif.fishingmadebetter.fish_tracker.found_none=El Rastreador no encontro ningun
 notif.fishingmadebetter.fish_tracker.found_under_y=Peces viviendo a una menor altura
 notif.fishingmadebetter.fish_tracker.found_outside_quality=Peces fuera de las capacidades de este Rastreador
 notif.fishingmadebetter.fish_tracker.found_hibernating=Peces que no se alimentan en estas condiciones
+
+notif.fishingmadebetter.fish_tracker.creative.time=Hora
+notif.fishingmadebetter.fish_tracker.creative.time.DAY=DIA
+notif.fishingmadebetter.fish_tracker.creative.time.NIGHT=NOCHE
+notif.fishingmadebetter.fish_tracker.creative.time.ANY=SIEMPRE
+
+notif.fishingmadebetter.fish_tracker.creative.liquid.WATER=AGUA
+notif.fishingmadebetter.fish_tracker.creative.liquid.LAVA=LAVA
+notif.fishingmadebetter.fish_tracker.creative.liquid.VOID=VACIO
+notif.fishingmadebetter.fish_tracker.creative.liquid.ANY=DONDE SEA
+
+notif.fishingmadebetter.fish_tracker.creative.min_line=Dist.
+notif.fishingmadebetter.fish_tracker.creative.max_light=LuzMax
+notif.fishingmadebetter.fish_tracker.creative.rain=Lluvia
+notif.fishingmadebetter.fish_tracker.creative.rain.false=NO
+notif.fishingmadebetter.fish_tracker.creative.rain.true=SI
+notif.fishingmadebetter.fish_tracker.creative.thunder=Rayos
+notif.fishingmadebetter.fish_tracker.creative.thunder.false=NO
+notif.fishingmadebetter.fish_tracker.creative.thunder.true=SI
 
 tooltip.fishingmadebetter.fish.weight=Peso
 tooltip.fishingmadebetter.fish.scale=Escamas
