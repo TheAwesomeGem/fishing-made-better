@@ -3,6 +3,7 @@ package net.theawesomegem.fishingmadebetter;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.theawesomegem.fishingmadebetter.common.configuration.CustomConfigurationHandler;
 import net.theawesomegem.fishingmadebetter.common.data.FishData;
@@ -120,7 +121,12 @@ public class BetterFishUtil {
 
     // Originally made for bait fishes, but it's also used by onItemTooltip, to rename all non-caught fishes.
     public static boolean isFish(String baitName){
+        if(baitName == null) return false;
         return baitName.equals("aquaculture:fish") || baitName.equals("advanced-fishing:fish") || baitName.equals("minecraft:fish");
+    }
+    public static boolean isFish(ResourceLocation baitResource){
+        if(baitResource == null) return false;
+        return isFish(baitResource.toString());
     }
 
     // Just for readability on the rest of the code (Bait Bucket, Bait Box, Baited Fishing Rod)
