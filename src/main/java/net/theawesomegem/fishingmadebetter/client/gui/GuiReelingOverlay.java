@@ -66,9 +66,14 @@ public class GuiReelingOverlay extends Gui {
         fontColor = getIntFromColor(fishingData.getLineBreak());
         //fontRenderer.drawStringWithShadow(I18n.format("fishingmadebetter.reelingoverlay.distance") + String.format(": %sm", distance), getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - 30, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
         String txtDistance = I18n.format("fishingmadebetter.reelingoverlay.distance") + String.format(": %sm", distance);
-        String txtInstructions = I18n.format("fishingmadebetter.reelingoverlay.move_with");
-        fontRenderer.drawStringWithShadow( txtDistance, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (float)(Math.round(fontRenderer.getStringWidth(txtDistance)))/2, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
-        fontRenderer.drawStringWithShadow( txtInstructions, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (float)(Math.round(fontRenderer.getStringWidth(txtInstructions)))/2, getBarPosY(scaledHeight) + outlineBarHeight + 12, 0xFFFFFF);
+        fontRenderer.drawStringWithShadow( txtDistance, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (float)(fontRenderer.getStringWidth(txtDistance))/2, getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
+
+        // Trying to emulate the situation where a player doesn't know how to play, so they just stare at the fish swimming further from the reel.
+        // (Show "Move with <- ->" when fish is out of reel and distance > 40, so experienced players don't see this message too often)
+        if((Math.abs(fishingData.getReelTarget() - fishingData.getReelAmount()) > (fishingData.getErrorVariance() + 10)) && distance > 40) {
+            String txtInstructions = I18n.format("fishingmadebetter.reelingoverlay.move_with");
+            fontRenderer.drawStringWithShadow(txtInstructions, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (float)(fontRenderer.getStringWidth(txtInstructions)) / 2, getBarPosY(scaledHeight) + outlineBarHeight + 12, 0xFFFFFF);
+        }
         
         int posX = getBarPosX(scaledWidth);
         int posY = getBarPosY(scaledHeight);
