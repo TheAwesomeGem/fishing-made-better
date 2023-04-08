@@ -155,7 +155,7 @@ public class BetterFishUtil {
 
     public static TextFormatting getPopulationColor(int population){
         if(population > 20) return TextFormatting.GREEN;
-        if(population > 3) return TextFormatting.AQUA;
+        if(population > 3) return TextFormatting.YELLOW;
         if(population > 1) return TextFormatting.GOLD;
         return TextFormatting.RED;
     }

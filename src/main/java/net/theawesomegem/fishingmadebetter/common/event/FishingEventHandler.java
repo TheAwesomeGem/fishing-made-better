@@ -529,7 +529,7 @@ public class FishingEventHandler {//God this handler is a mess
                 //player.sendMessage(new TextComponentString(String.format("%s %s in %s at Y%s-%s", populationData.getQuantity(), fishData.fishId, fishData.liquid.toString(), fishData.minYLevel, fishData.maxYLevel)));
                 //player.sendMessage(new TextComponentString(String.format("MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s", fishData.minDeepLevel, fishData.time.toString(), fishData.maxLightLevel, fishData.rainRequired, fishData.thunderRequired)));
                 player.sendMessage(new TextComponentString(String.format("%d ", populationData.getQuantity()))
-                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.YELLOW))).appendText(TextFormatting.RESET + " in ")
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.AQUA).setBold(true))).appendText(TextFormatting.RESET + " in ")
                         .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.liquid." + fishData.liquid.toString()).setStyle(new Style().setColor(BetterFishUtil.getLiquidColor(fishData.liquid))))
                         .appendText(TextFormatting.RESET + String.format(" at Y%s-%s,", fishData.minYLevel, fishData.maxYLevel)));
 
@@ -590,12 +590,12 @@ public class FishingEventHandler {//God this handler is a mess
             //if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
             if(limitInfo) {
                 player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ")
-                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.YELLOW))).appendText(TextFormatting.RESET + "."));
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.AQUA).setBold(true))).appendText(TextFormatting.RESET + "."));
             }
             //else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
             else{
                 player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ")
-                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.YELLOW))).appendText(TextFormatting.RESET + ", ")
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.AQUA).setBold(true))).appendText(TextFormatting.RESET + ", ")
                         .appendSibling((new TextComponentTranslation(fishData.getDescLangKey()).setStyle(new Style().setColor(TextFormatting.GRAY).setItalic(true)))).appendText(", ")
                         .appendSibling(new TextComponentTranslation(quantity).setStyle(new Style().setColor(BetterFishUtil.getPopulationColor(pop)))));
             }
