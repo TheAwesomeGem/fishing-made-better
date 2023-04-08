@@ -109,7 +109,7 @@ public class TileEntityBaitBox extends TileEntity implements ITickable {
             else {
                 for(Map.Entry<String, Integer> baitEntry : baitAmountMap.entrySet()) {
                     //player.sendMessage(new TextComponentString(String.format("%s: %d", baitEntry.getKey(), baitEntry.getValue())));
-                    player.sendMessage((new TextComponentTranslation(baitEntry.getKey()).setStyle(new Style().setColor(TextFormatting.AQUA).setBold(true)))
+                    player.sendMessage((new TextComponentTranslation(baitEntry.getKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true)))
                             .appendText(TextFormatting.RESET + String.format(": %d", baitEntry.getValue())));
                 }
             }
