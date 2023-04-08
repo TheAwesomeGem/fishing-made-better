@@ -48,7 +48,7 @@ notif.fishingmadebetter.tracker.twohand=You cannot hold fish trackers in both ha
 notif.fishingmadebetter.tracker.finish=You have finished tracking
 
 fishingmadebetter.reelingoverlay.distance=Distance
-fishingmadebetter.reelingoverlay.move_with=Move with <- ->
+fishingmadebetter.reelingoverlay.move_with=Press [%1$s] / [%2$s]
 
 tooltip.fishingmadebetter.fishing_rod.reel.name=Reel
 tooltip.fishingmadebetter.fishing_rod.durability.title=Durability

@@ -49,7 +49,7 @@ notif.fishingmadebetter.tracker.twohand=No puedes sostener dos Rastreadores de P
 notif.fishingmadebetter.tracker.finish=Rastreo de peces terminado
 
 fishingmadebetter.reelingoverlay.distance=Distancia
-fishingmadebetter.reelingoverlay.move_with=Mover con <- ->
+fishingmadebetter.reelingoverlay.move_with=Presiona [%1$s] / [%2$s]
 
 tooltip.fishingmadebetter.fishing_rod.reel.name=Carrete
 tooltip.fishingmadebetter.fishing_rod.durability.title=Durabilidad
