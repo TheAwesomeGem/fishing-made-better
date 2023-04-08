@@ -70,10 +70,11 @@ public class GuiReelingOverlay extends Gui {
         fontRenderer.drawStringWithShadow( txtDistance, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (fontRenderer.getStringWidth(txtDistance) * 0.5f), getBarPosY(scaledHeight) + outlineBarHeight + 2, fontColor);
 
         // Trying to emulate the situation when a player doesn't know how to play, so they just stare at the fish swimming further in the distance.
-        // (Show "Press [LEFT] / [RIGHT]" when fish is out of reel rectangle and distance > 40, so experienced players don't see this message too often)
-        if((Math.abs(fishingData.getReelTarget() - fishingData.getReelAmount()) > (fishingData.getErrorVariance() + 10)) && distance > 40) {
+        // (Show "Press [LEFT] / [RIGHT]" when fish is out of reel rectangle and the reel is on its break point, so experienced players don't see this message too often)
+        if((Math.abs(fishingData.getReelTarget() - fishingData.getReelAmount()) > (fishingData.getErrorVariance() + 10)) && fishingData.getLineBreak() > 0 ) {
             String txtInstructions = I18n.format("fishingmadebetter.reelingoverlay.move_with", KeybindManager.reelIn.getDisplayName(), KeybindManager.reelOut.getDisplayName());
-            fontRenderer.drawStringWithShadow(txtInstructions, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (fontRenderer.getStringWidth(txtInstructions) * 0.5f), getBarPosY(scaledHeight) + outlineBarHeight + 12, 0xFFFFFF);
+            //String txtInstructions = String.format("LinBrk %s, Failed %s, Time %s", fishingData.getLineBreak(), fishingData.getLastFailedFishing(), fishingData.getLastFishTime());
+            fontRenderer.drawStringWithShadow(txtInstructions, getBarPosX(scaledWidth) + (outlineBarWidth * 0.5f) - (fontRenderer.getStringWidth(txtInstructions) * 0.5f), getBarPosY(scaledHeight) + outlineBarHeight + 12, fontColor);
         }
         
         int posX = getBarPosX(scaledWidth);
