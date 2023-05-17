@@ -642,7 +642,10 @@ public class FishingEventHandler {//God this handler is a mess
         itemStack.setTagCompound(tagCompound);
 
         //itemStack.setStackDisplayName(TextFormatting.RESET + fishCaughtData.fishId);
-        itemStack.setStackDisplayName(fishCaughtData.fishId); // Removed Text formatting because it's handled by OnItemTooltip
+
+        // Removed Text formatting because it's now handled by OnItemTooltip
+        // Instead of DisplayName, used TranslatableName so when the fish is caught and created into the world, the entity shows the expected, translatable name.
+        itemStack.setTranslatableName(String.format("item.fmb.%s:%d.name", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata()));
 
         List<String> tooltipList = new ArrayList<>();
         tooltipList.add(String.format("Weight: %d", fishCaughtData.weight));
