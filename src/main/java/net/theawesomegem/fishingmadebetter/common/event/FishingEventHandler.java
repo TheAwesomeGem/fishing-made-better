@@ -65,7 +65,6 @@ import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketFishin
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketReelingC;
 import net.theawesomegem.fishingmadebetter.common.networking.packet.PacketKeybindS.Keybind;
 import net.theawesomegem.fishingmadebetter.common.registry.RegistryManager.RegistryHandler;
-import net.theawesomegem.fishingmadebetter.proxy.CommonProxy;
 import net.theawesomegem.fishingmadebetter.util.ItemStackUtil;
 import net.theawesomegem.fishingmadebetter.util.LevelUpLoot;
 import net.theawesomegem.fishingmadebetter.util.MathUtil;
