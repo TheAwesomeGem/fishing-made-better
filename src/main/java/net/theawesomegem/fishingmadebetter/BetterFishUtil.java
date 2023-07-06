@@ -55,12 +55,12 @@ public class BetterFishUtil {
         itemStack.setTagCompound(tagCompound);
 
         if(!value) {
-            List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
-            tooltipList.add(String.format("Scale: %s", "Detached"));
+            //List<String> tooltipList = new ArrayList<>();
+            //tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
+            //tooltipList.add(String.format("Scale: %s", "Detached"));
             //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Dead" + TextFormatting.RESET);
-            tooltipList.add("Dead"); // Removed text formatting because it's handled by onItemTooltip
-            itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+            //tooltipList.add("Dead"); // Removed text formatting because it's handled by onItemTooltip
+            //itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             BetterFishUtil.setFishCaughtTime(itemStack, 0);
         }
@@ -119,7 +119,7 @@ public class BetterFishUtil {
         return String.format("%s%s:%d%s", "item.fmb.", fishData.itemId, fishData.itemMetaData, ".name");
     }
 
-    // Originally made for bait fishes, but it's also used by onItemTooltip, to rename all non-caught fishes.
+    // For bait fishes
     public static boolean isFish(String baitName){
         if(baitName == null) return false;
         return baitName.equals("aquaculture:fish") || baitName.equals("advanced-fishing:fish") || baitName.equals("minecraft:fish");
