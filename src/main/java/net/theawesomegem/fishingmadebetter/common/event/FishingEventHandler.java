@@ -973,21 +973,30 @@ public class FishingEventHandler {//God this handler is a mess
         NBTTagCompound tagCompound = itemStack.getTagCompound();
         NBTTagCompound tagDisplay = tagCompound.hasKey("display", Constants.NBT.TAG_COMPOUND) ? tagCompound.getCompoundTag("display") : null;
         if(tagDisplay == null) return ;
-        if(tagDisplay.hasKey("Lore", Constants.NBT.TAG_LIST)) return ; // Previous version fish. Let its tooltip be like that.
+        boolean hasLore = tagDisplay.hasKey("Lore", Constants.NBT.TAG_LIST); // Previous version fish
 
         short tooltipLine = 1;
         if(tagCompound.hasKey("FishWeight")){
-            event.getToolTip().add(tooltipLine, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+            if (hasLore)
+                event.getToolTip().set(tooltipLine, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+            else
+                event.getToolTip().add(tooltipLine, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
             tooltipLine++;
         }
         if (CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) {
             if (tagCompound.hasKey("FishScale")){
-                event.getToolTip().add(tooltipLine,TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+                if (hasLore)
+                    event.getToolTip().set(tooltipLine,TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+                else
+                    event.getToolTip().add(tooltipLine,TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
                 tooltipLine++;
             }
         }
         if (tagCompound.hasKey("FishCaughtTime")){
-            event.getToolTip().add(tooltipLine,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+            if (hasLore)
+                event.getToolTip().set(tooltipLine,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+            else
+                event.getToolTip().add(tooltipLine,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
         }
     }
 }
