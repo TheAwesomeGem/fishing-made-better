@@ -22,6 +22,6 @@ public class ItemHookBasic extends ItemHook {
 	@SideOnly(Side.CLIENT)
 	@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(TextFormatting.DARK_RED + I18n.format("item.fishingmadebetter.hook_basic.tooltip") + TextFormatting.RESET);
+        tooltip.add(TextFormatting.DARK_RED + I18n.format("tooltip.fishingmadebetter.hook_basic") + TextFormatting.RESET);
     }
 }

@@ -4,7 +4,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.text.TextFormatting;
+//import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class ItemStackUtil {
             tag1.setTag("Lore", new NBTTagList());
         }
         for (String s : tooltip) {
-            tag1.getTagList("Lore", Constants.NBT.TAG_STRING).appendTag(new NBTTagString(TextFormatting.RESET + s));
+            tag1.getTagList("Lore", Constants.NBT.TAG_STRING).appendTag(new NBTTagString( s));
         }
         tag.setTag("display", tag1);
         ItemStack output = stack.copy();

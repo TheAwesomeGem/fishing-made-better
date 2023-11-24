@@ -42,7 +42,7 @@ public abstract class ItemFilletKnife extends ItemTool {
     @SideOnly(Side.CLIENT)
     @Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(I18n.format("item.fishingmadebetter.fillet_knife.tooltip"));
+        tooltip.add(I18n.format("tooltip.fishingmadebetter.fillet_knife"));
     }
 
     @Override

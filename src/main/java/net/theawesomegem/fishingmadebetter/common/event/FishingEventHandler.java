@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishingRod;
@@ -20,9 +21,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
@@ -30,6 +29,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -74,23 +74,29 @@ import net.theawesomegem.fishingmadebetter.util.TimeUtil;
 import java.lang.reflect.Field;
 import java.util.*;
 
+import net.minecraft.client.resources.I18n;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+
 /**
  * Created by TheAwesomeGem on 12/27/2017.
  */
 
 @SuppressWarnings("rawtypes")
-public class FishingEventHandler {//God this handler is a mess 
+public class FishingEventHandler {//God this handler is a mess
     enum HookState {
         FLYING,
         HOOKED_IN_ENTITY,
         BOBBING
     }
-    
+
     final static Field currentStateField = ObfuscationReflectionHelper.findField(EntityFishHook.class, "field_190627_av");
     final static Field biteIntervalField = ObfuscationReflectionHelper.findField(EntityFishHook.class, "field_146045_ax");
     final static Field delayBeforeBiteField = ObfuscationReflectionHelper.findField(EntityFishHook.class, "field_146038_az");
     final static Field delayBeforeSwimmingToHookField = ObfuscationReflectionHelper.findField(EntityFishHook.class, "field_146040_ay");
-    
+
     @SubscribeEvent
     public void onPlayerFish(ItemFishedEvent e) {
         EntityPlayer player = e.getEntityPlayer();
@@ -106,26 +112,26 @@ public class FishingEventHandler {//God this handler is a mess
             e.setCanceled(true);
             return;
         }
-        
+
         IChunkFishingData chunkFishingData = world.getChunk(e.getHookEntity().getPosition()).getCapability(ChunkCapabilityProvider.CHUNK_FISHING_DATA_CAP, null);
         if(chunkFishingData == null) {
             e.setCanceled(true);
             return;
         }
-        
+
         if(!fishingData.isFishing()) {
             e.setCanceled(true);
             return;
         }
-        
+
         FishCaughtData fishCaughtData = fishingData.getFishCaughtData();
         if(fishCaughtData == null) {
             e.setCanceled(true);
             return;
         }
-        
+
         e.setCanceled(true);
-        
+
         /*
         //Loot table debug
         if(true) {
@@ -134,12 +140,12 @@ public class FishingEventHandler {//God this handler is a mess
             int treasureChance = 15 + hookAttachment.getTreasureModifier();
             EntityFishHook hook = e.getHookEntity();
             HashMap<String, Integer> treasureMap = new HashMap<String, Integer>();
-            
+
             System.out.println("Beginning FMB loot generator at 10,000 passes.");
             System.out.println("Chance for treasure: " + treasureChance + "/100");
             System.out.println("Luck: " + EnchantmentHelper.getFishingLuckBonus(fishingRod) + player.getLuck());
             System.out.println("-------------");
-            
+
             //lag goes brr
             for(int i = 0; i < 10000; i++) {
                 ItemStack treasure = ItemStack.EMPTY;
@@ -147,47 +153,46 @@ public class FishingEventHandler {//God this handler is a mess
                     LootContext.Builder lootBuilder = new LootContext.Builder((WorldServer)world);
                     lootBuilder.withLuck(EnchantmentHelper.getFishingLuckBonus(fishingRod) + player.getLuck()).withPlayer(player).withLootedEntity(hook);
                     List<ItemStack> result = world.getLootTableManager().getLootTableFromLocation(LootHandler.FMB_COMBINED).generateLootForPools(player.getRNG(), lootBuilder.build());
-                    
+
                     if(result.size()>0) treasure = result.get(0);
                 }
                 if(treasureMap.containsKey(treasure.getDisplayName())) treasureMap.put(treasure.getDisplayName(), treasureMap.get(treasure.getDisplayName()) + 1);
                 else treasureMap.put(treasure.getDisplayName(), 1);
             }
-            
+
             for(Map.Entry<String, Integer> entry : treasureMap.entrySet()) {
             	System.out.println("Item: " + entry.getKey() + " Count: " + entry.getValue());
             }
-            
+
             System.out.println("-------------");
             System.out.println("Total Individual Items: " + treasureMap.size());
         }
         //Loot table debug end
         */
-        
+
         if((ConfigurationManager.server.skipMinigame || fishingData.getFishDistance() >= (fishingData.getFishDeepLevel()-10)) && chunkFishingData.getFishes(world.getTotalWorldTime()).get(fishCaughtData.fishId).getQuantity() > 0) {
-        	ItemStack fishingRod = getBetterFishingRod(player);
+            ItemStack fishingRod = getBetterFishingRod(player);
             ItemHook hookAttachment = ItemBetterFishingRod.getHookItem(fishingRod);
             int weightModifier = hookAttachment.getWeightModifier();
             int treasureChance = ConfigurationManager.server.baseTreasureChance + hookAttachment.getTreasureModifier();
-            
+
             EntityFishHook hook = e.getHookEntity();
             ItemStack treasure = ItemStack.EMPTY;
-            
+
             if(treasureChance > RandomUtil.getRandomInRange(player.getRNG(), 0, 100)) {
                 LootContext.Builder lootBuilder = new LootContext.Builder((WorldServer)world);
                 lootBuilder.withLuck(EnchantmentHelper.getFishingLuckBonus(fishingRod) + player.getLuck()).withPlayer(player).withLootedEntity(hook);
                 List<ItemStack> result = world.getLootTableManager().getLootTableFromLocation(LootHandler.FMB_COMBINED).generateLootForPools(player.getRNG(), lootBuilder.build());
-                
+
                 if(result.size()>0) treasure = result.get(0);
             }
-            
-            
+
             ItemStack fishStack = getFishItemStack(fishCaughtData, world.getTotalWorldTime(), weightModifier);
             EntityItem entityFishItem = new EntityItem(player.world, hook.posX, hook.posY, hook.posZ, fishStack);
 
             if(ConfigurationManager.server.magneticFishing) {
-            	entityFishItem.setPosition(player.posX, player.posY + 1, player.posZ);
-            } 
+                entityFishItem.setPosition(player.posX, player.posY + 1, player.posZ);
+            }
             else {
                 double d0 = player.posX - hook.posX;
                 double d1 = player.posY - hook.posY;
@@ -198,14 +203,14 @@ public class FishingEventHandler {//God this handler is a mess
                 entityFishItem.motionZ = d2 * 0.1D;
             }
             player.world.spawnEntity(entityFishItem);
-            
-            
+
+
             if(!treasure.isEmpty()) {
-            	EntityItem entityTreasureItem = new EntityItem(player.world, hook.posX, hook.posY, hook.posZ, treasure);
+                EntityItem entityTreasureItem = new EntityItem(player.world, hook.posX, hook.posY, hook.posZ, treasure);
 
                 if(ConfigurationManager.server.magneticFishing) {
-                	entityTreasureItem.setPosition(player.posX, player.posY + 1, player.posZ);
-                } 
+                    entityTreasureItem.setPosition(player.posX, player.posY + 1, player.posZ);
+                }
                 else {
                     double d0 = player.posX - hook.posX;
                     double d1 = player.posY - hook.posY;
@@ -221,9 +226,9 @@ public class FishingEventHandler {//God this handler is a mess
 
             //LevelUp loot replacement
             if(Loader.isModLoaded("levelup2") && ConfigurationManager.server.levelUpPatch) {
-            	LevelUpLoot.doLevelUpLoot(hook, world, player);
+                LevelUpLoot.doLevelUpLoot(hook, world, player);
             }
-            
+
             chunkFishingData.reducePopulation(fishCaughtData.fishId, 1, world.getTotalWorldTime(), true);
             player.world.spawnEntity(new EntityXPOrb(player.world, player.posX, player.posY + 0.5D, player.posZ + 0.5D, player.getRNG().nextInt(6) + 1));//TODO: exp based on fish rarity
         }
@@ -233,17 +238,17 @@ public class FishingEventHandler {//God this handler is a mess
 
     @SubscribeEvent
     public void onPlayerTickClient(PlayerTickEvent e) {
-    	EntityPlayer player = e.player;
+        EntityPlayer player = e.player;
         if(!player.world.isRemote || e.phase == TickEvent.Phase.END) return;
-        
+
         IFishingData fishingData = player.getCapability(FishingCapabilityProvider.FISHING_DATA_CAP, null);
         if(fishingData == null) return;
-        
+
         if(fishingData.isFishing()) {//Send handshake to reset fishing on client when not fishing
-        	PrimaryPacketHandler.INSTANCE.sendToServer(new PacketFishingHandshakeS(true));
+            PrimaryPacketHandler.INSTANCE.sendToServer(new PacketFishingHandshakeS(true));
         }
     }
-    
+
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent e) {
         EntityPlayer player = e.player;
@@ -256,31 +261,31 @@ public class FishingEventHandler {//God this handler is a mess
 
         checkTracking(player, fishingData);
         updateFishingData(player, fishingData);
-        
+
         EntityFishHook hook = player.fishEntity;
         if(hook == null || hook.isDead) {
-        	fishingData.setUsingVanillaRod(false);//Prevents fuckery from trying to swap rods in the middle of fishing
+            fishingData.setUsingVanillaRod(false);//Prevents fuckery from trying to swap rods in the middle of fishing
             fishingData.reset();
             return;
         }
 
         if(player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.OFF_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemFishingRod && player.getHeldItem(EnumHand.OFF_HAND).getItem() instanceof ItemFishingRod) {
-        	fishingData.reset();//Prevent dual-wielding to mix rods
-        	hook.setDead();
-        	return;
+            fishingData.reset();//Prevent dual-wielding to mix rods
+            hook.setDead();
+            return;
         }
-        
+
         if(usingVanillaFishingRod(player)) {//If you're actively using a vanilla rod, mark it and return
-        	fishingData.setUsingVanillaRod(true);
-        	fishingData.reset();
-        	return;
+            fishingData.setUsingVanillaRod(true);
+            fishingData.reset();
+            return;
         }
-        
+
         if(fishingData.getUsingVanillaRod()) {//If you were actively using a vanilla rod last tick, and now you're not, but still fishing, kill hook (Rest of logic handled in ItemBetterFishingRod)
-        	fishingData.setUsingVanillaRod(false);
-        	fishingData.reset();
-        	hook.setDead();
-        	return;
+            fishingData.setUsingVanillaRod(false);
+            fishingData.reset();
+            hook.setDead();
+            return;
         }
 
         ItemStack betterFishingRodStack = getBetterFishingRod(player);
@@ -288,10 +293,10 @@ public class FishingEventHandler {//God this handler is a mess
             fishingData.reset();
             return;
         }
-        
+
         if(fishingData.getTimeBeforeFishSwimToHook() == 0) {//Overrides vanilla's fish swimming to bobber timing, replaces it with getTimeBeforeFishSwimToHook
             if(getDelayBeforeSwimmingToHook(hook) > 20) setLureSpeed(hook, 20);
-        } 
+        }
         else setLureSpeed(hook, 200);
 
         Enum hookState = getHookState(hook);
@@ -299,17 +304,17 @@ public class FishingEventHandler {//God this handler is a mess
             fishingData.reset();
             return;
         }
-        
+
         if(fishingData.isFishing()) {
-        	int distanceTime = fishingData.getFishDistanceTime();
-        	
+            int distanceTime = fishingData.getFishDistanceTime();
+
             if(distanceTime <= 0) {
                 //distanceTime = getDistanceTime(fishingData.getFishWeight());
                 distanceTime = Math.min(10, 1 + (fishingData.getFishWeight()/100));
 
                 int reelDiff = fishingData.getReelTarget() - fishingData.getReelAmount();
                 reelDiff = Math.abs(reelDiff);
-                
+
                 int distanceMod = (reelDiff <= fishingData.getErrorVariance()) ? ItemBetterFishingRod.getReelItem(betterFishingRodStack).getReelSpeed() : -1;
                 fishingData.setFishDistance(Math.min(fishingData.getFishDeepLevel(), Math.max(0, fishingData.getFishDistance() + distanceMod)));
             }
@@ -321,11 +326,11 @@ public class FishingEventHandler {//God this handler is a mess
         IChunkFishingData chunkFishingData = getChunkFishingData(chunk);
 
         if(fishingData.getFishPopulation() == null && !fishingData.isFishing()) {
-        	boolean justChecked = false;
-        	
+            boolean justChecked = false;
+
             if(world.getWorldTime() %60 == 0) {
-            	fishingData.setFishPopulation(getSelectedFishPop(player, chunkFishingData));//Only check every 3 seconds so as to not spam lots of logic
-            	justChecked = true;
+                fishingData.setFishPopulation(getSelectedFishPop(player, chunkFishingData));//Only check every 3 seconds so as to not spam lots of logic
+                justChecked = true;
             }
 
             if(fishingData.getFishPopulation() == null) {
@@ -341,16 +346,16 @@ public class FishingEventHandler {//God this handler is a mess
 
         int delayBeforeBite = getDelayBeforeBite(hook);
         if(delayBeforeBite > 0 && delayBeforeBite <= 10) {
-        	
-        	Boolean caughtTick = false;
-        	
+
+            boolean caughtTick = false;
+
             //Fish just bit the hook
             if(fishingData.getLastFailedFishing() <= 0) {
                 if(!fishingData.isFishing()) {//Brackets need to be around all this, otherwise it spams it for 10 ticks
-                	if(hook instanceof EntityFMBLavaFishHook) player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                    if(hook instanceof EntityFMBLavaFishHook) player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ITEM_BUCKET_FILL_LAVA, SoundCategory.PLAYERS, 1.0f, 1.0f);
                     else if(hook instanceof EntityFMBVoidFishHook) player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ENDEREYE_DEATH, SoundCategory.PLAYERS, 1.0f, 1.0f);
                     else player.world.playSound(null, player.posX, player.posY, player.posZ, RegistryHandler.FISH_SPLASHING_EVENT, SoundCategory.PLAYERS, 1.0f, 1.0f);
-                    
+
                     if(ConfigurationManager.server.looseBait) {
                         ItemBetterFishingRod.removeBait(betterFishingRodStack);
                         if(player.getHeldItemMainhand().getItem() instanceof ItemBaitBucket || player.getHeldItemOffhand().getItem() instanceof ItemBaitBucket) {
@@ -364,7 +369,7 @@ public class FishingEventHandler {//God this handler is a mess
                             }
                         }
                     }
-                    
+
                     //This is gross, will redo better eventually
                     Integer[] minigameBackground = new Integer[5];
                     minigameBackground[0] = world.provider.getDimension();//dimension override
@@ -374,31 +379,31 @@ public class FishingEventHandler {//God this handler is a mess
                     else if(hook instanceof EntityFMBVoidFishHook) minigameBackground[3] = 2;
                     else minigameBackground[3] = 0;
                     minigameBackground[4] = textureIndexFromBiome(chunk.getBiome(hook.getPosition(), world.getBiomeProvider()));//biome
-                    
+
                     fishingData.startFishing(player.getRNG(), betterFishingRodStack, minigameBackground);
                     player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.bite"), true);
-                    
+
                     caughtTick = true;
                 }
             }
-            
+
             if(player.ticksExisted%3==0 && !caughtTick && fishingData.isFishing() && (ConfigurationManager.server.skipMinigame || (ConfigurationManager.server.autoReel && fishingData.getFishDistance()==fishingData.getFishDeepLevel() && fishingData.getFishDistance()!=0))) {
-            	EnumHand hand = null;
-            	if(player.getHeldItemMainhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.MAIN_HAND;
-            	else if(player.getHeldItemOffhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.OFF_HAND;
-            	
-            	if(hand!=null) {
-            		((ItemBetterFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
-            	}
+                EnumHand hand = null;
+                if(player.getHeldItemMainhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.MAIN_HAND;
+                else if(player.getHeldItemOffhand().getItem() instanceof ItemBetterFishingRod) hand = EnumHand.OFF_HAND;
+
+                if(hand!=null) {
+                    ((ItemBetterFishingRod)player.getHeldItem(hand).getItem()).onItemRightClick(world, player, hand);
+                }
             }
-            
+
             if(fishingData.getLineBreak() < 60) {
                 spawnParticleBasedOnFishSpeed(player.world, hook, fishingData);
                 setBiteInterval(hook, 20);
             }
             else {
-            	if(fishingData.isFishing() && fishingData.getLineBreak() == 60) player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.failure.snap"), true);
-            	setBiteInterval(hook, 0);
+                if(fishingData.isFishing() && fishingData.getLineBreak() == 60) player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.failure.snap"), true);
+                setBiteInterval(hook, 0);
                 fishingData.setLastFailedFishing(20);
                 fishingData.reset();
             }
@@ -415,7 +420,7 @@ public class FishingEventHandler {//God this handler is a mess
                 fishingData.reset();
             }
             */
-        } 
+        }
         else fishingData.reset(false);
     }
 
@@ -427,32 +432,32 @@ public class FishingEventHandler {//God this handler is a mess
         IChunkFishingData chunkFishingData = getChunkFishingData(chunk);
         chunkFishingData.chunkLoad(chunk);
     }
-    
+
     @SubscribeEvent
     public void onItemToss(ItemTossEvent event) {//Charm dupe patch
-    	ItemStack stack = event.getEntityItem().getItem();
-    	if(!(stack.getItem() instanceof ItemBetterFishingRod)) return;
-    	
-    	if(ConfigurationManager.server.charmSalvagePatch && Loader.isModLoaded("charm")) {
-	    	if(stack.getItemDamage() >= stack.getMaxDamage()) {
-	    		ItemBetterFishingRod.removeReelItem(stack);
-	    		ItemBetterFishingRod.removeBobberItem(stack);
-	    		ItemBetterFishingRod.removeHookItem(stack);
-	    	}
-    	}
+        ItemStack stack = event.getEntityItem().getItem();
+        if(!(stack.getItem() instanceof ItemBetterFishingRod)) return;
+
+        if(ConfigurationManager.server.charmSalvagePatch && Loader.isModLoaded("charm")) {
+            if(stack.getItemDamage() >= stack.getMaxDamage()) {
+                ItemBetterFishingRod.removeReelItem(stack);
+                ItemBetterFishingRod.removeBobberItem(stack);
+                ItemBetterFishingRod.removeHookItem(stack);
+            }
+        }
     }
-    
+
     private int textureIndexFromBiome(Biome biome) {//TODO: config override
-    	if(BiomeDictionary.hasType(biome, Type.MUSHROOM)) return 8;
-    	else if(BiomeDictionary.hasType(biome, Type.DEAD) || BiomeDictionary.hasType(biome, Type.SPOOKY)) return 9;
-    	else if(BiomeDictionary.hasType(biome, Type.JUNGLE)) return 1;
-    	else if(BiomeDictionary.hasType(biome, Type.SWAMP)) return 7;
-    	else if(BiomeDictionary.hasType(biome, Type.HOT) || BiomeDictionary.hasType(biome, Type.SANDY)) return 2;
-    	else if(BiomeDictionary.hasType(biome, Type.COLD)) return 3;
-    	else if(BiomeDictionary.hasType(biome, Type.MOUNTAIN)) return 4;
-    	else if(BiomeDictionary.hasType(biome, Type.FOREST)) return 5;
-    	else if(BiomeDictionary.hasType(biome, Type.PLAINS) || BiomeDictionary.hasType(biome, Type.RIVER)) return 6;
-    	else return 0;
+        if(BiomeDictionary.hasType(biome, Type.MUSHROOM)) return 8;
+        else if(BiomeDictionary.hasType(biome, Type.DEAD) || BiomeDictionary.hasType(biome, Type.SPOOKY)) return 9;
+        else if(BiomeDictionary.hasType(biome, Type.JUNGLE)) return 1;
+        else if(BiomeDictionary.hasType(biome, Type.SWAMP)) return 7;
+        else if(BiomeDictionary.hasType(biome, Type.HOT) || BiomeDictionary.hasType(biome, Type.SANDY)) return 2;
+        else if(BiomeDictionary.hasType(biome, Type.COLD)) return 3;
+        else if(BiomeDictionary.hasType(biome, Type.MOUNTAIN)) return 4;
+        else if(BiomeDictionary.hasType(biome, Type.FOREST)) return 5;
+        else if(BiomeDictionary.hasType(biome, Type.PLAINS) || BiomeDictionary.hasType(biome, Type.RIVER)) return 6;
+        else return 0;
     }
 
     private void checkForFishInventory(EntityPlayer player) {
@@ -464,11 +469,13 @@ public class FishingEventHandler {//God this handler is a mess
 
             if(itemStack.isEmpty() || !BetterFishUtil.isBetterFish(itemStack)) continue;
 
-            List<String> tooltipList = new ArrayList<>();
-            tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
-            if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("Scale: %s", BetterFishUtil.doesFishHasScale(itemStack) ? "Attached" : "Detached"));
-            tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive") + TextFormatting.RESET);
-            itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+            // Removed "Lore" NBT tag because the fish info is handled by OnItemTooltip
+            //List<String> tooltipList = new ArrayList<>();
+            //tooltipList.add(String.format("Weight: %d", BetterFishUtil.getFishWeight(itemStack)));
+            //if(CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) tooltipList.add(String.format("Scale: %s", BetterFishUtil.doesFishHasScale(itemStack) ? "Attached" : "Detached"));
+            //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive") + TextFormatting.RESET);
+            //tooltipList.add(BetterFishUtil.isDead(itemStack, currentTime) ? "Dead" : "Alive");
+            //itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
             if(BetterFishUtil.isDead(itemStack, currentTime)) BetterFishUtil.setFishCaughtTime(itemStack, 0);
         }
@@ -483,11 +490,11 @@ public class FishingEventHandler {//God this handler is a mess
         if((!(mainHandItem.getItem() instanceof ItemFishTracker)) && (!(offHandItem.getItem() instanceof ItemFishTracker))) {
             fishingData.setTimeSinceTracking(0);
             player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.tracker.nohand"), true);
-        } 
+        }
         else if(mainHandItem.getItem() instanceof ItemFishTracker && offHandItem.getItem() instanceof ItemFishTracker) {
             fishingData.setTimeSinceTracking(0);
             player.sendStatusMessage(new TextComponentTranslation("notif.fishingmadebetter.tracker.twohand"), true);
-        } 
+        }
         else {
             ItemStack fishTrackerItem = (mainHandItem.getItem() instanceof ItemFishTracker) ? mainHandItem : offHandItem;
             fishingData.setTimeSinceTracking(fishingData.getTimeSinceTracking() + 2);
@@ -513,48 +520,61 @@ public class FishingEventHandler {//God this handler is a mess
         int underYCount = 0;
         int trackerQualityCount = 0;
         int hibernatingCount = 0;
-        
+
         player.sendMessage(new TextComponentString("-----"));
-        
+
         for(PopulationData populationData : chunkFishingData.getFishes(world.getTotalWorldTime()).values()) {
             FishData fishData = CustomConfigurationHandler.fishDataMap.get(populationData.getFishType());
             if(fishData == null) continue;
-            
+
             if(creative) {
-            	player.sendMessage(new TextComponentString(String.format("%s %s in %s at Y%s-%s", populationData.getQuantity(), fishData.fishId, fishData.liquid.toString(), fishData.minYLevel, fishData.maxYLevel)));
-            	player.sendMessage(new TextComponentString(String.format("MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s", fishData.minDeepLevel, fishData.time.toString(), fishData.maxLightLevel, fishData.rainRequired, fishData.thunderRequired)));
-            	continue;
+                //player.sendMessage(new TextComponentString(String.format("%s %s in %s at Y%s-%s", populationData.getQuantity(), fishData.fishId, fishData.liquid.toString(), fishData.minYLevel, fishData.maxYLevel)));
+                //player.sendMessage(new TextComponentString(String.format("MinLine %sm, Time %s, MaxLight %s, Rain %s, Thunder %s", fishData.minDeepLevel, fishData.time.toString(), fishData.maxLightLevel, fishData.rainRequired, fishData.thunderRequired)));
+                player.sendMessage(new TextComponentString(String.format("%d ", populationData.getQuantity()))
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true))).appendText(TextFormatting.RESET + " in ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.liquid." + fishData.liquid.toString()).setStyle(new Style().setColor(BetterFishUtil.getLiquidColor(fishData.liquid))))
+                        .appendText(TextFormatting.RESET + String.format(" at Y%s-%s,", fishData.minYLevel, fishData.maxYLevel)));
+
+                player.sendMessage(new TextComponentString("  ").appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.min_line")).appendText(String.format(" %dm, ", fishData.minDeepLevel))
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.time")).appendText(" ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.time." + fishData.time.toString()))
+                        .appendText(", ").appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.max_light")).appendText(String.format(" %d, ", fishData.maxLightLevel))
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.rain")).appendText(" ")
+                        .appendSibling( new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.rain." + fishData.rainRequired)).appendText(", ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.thunder")).appendText(" ")
+                        .appendSibling(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.creative.thunder." + fishData.thunderRequired)));
+                continue;
             }
-            
+
             if(!fishData.trackable) continue;
             if(!fishData.liquid.equals(FishingLiquid.ANY) && !item.getLiquidEnum().equals(fishData.liquid)) continue;
             if(fishData.minYLevel > player.posY) continue;
 
             fishFound = true;
-            
+
             if(fishData.maxYLevel < player.posY) {
-            	underYCount++;
-            	continue;
+                underYCount++;
+                continue;
             }
             if(fishData.minDeepLevel > item.getMaxDepth()) {
-            	trackerQualityCount++;
-            	continue;
+                trackerQualityCount++;
+                continue;
             }
             if(fishData.rarity < TrackingVision.getMinRarity(item.getTrackingVision())) {
-            	trackerQualityCount++;
-            	continue;
+                trackerQualityCount++;
+                continue;
             }
             if((fishData.time.equals(FishData.TimeToFish.DAY) && (!world.isDaytime())) || (fishData.time.equals(FishData.TimeToFish.NIGHT) && (world.isDaytime()))) {
-            	hibernatingCount++;
-            	continue;
+                hibernatingCount++;
+                continue;
             }
             if(fishData.maxLightLevel < world.getLight(player.getPosition())) {
-            	hibernatingCount++;
-            	continue;
+                hibernatingCount++;
+                continue;
             }
             if((fishData.rainRequired && (!world.isRaining())) || (fishData.thunderRequired && (!world.isThundering()))) {
-            	hibernatingCount++;
-            	continue;
+                hibernatingCount++;
+                continue;
             }
 
             int pop = populationData.getQuantity();
@@ -568,31 +588,41 @@ public class FishingEventHandler {//God this handler is a mess
             else if(pop > 3) quantity = "notif.fishingmadebetter.fish_tracker.quantity_light";
             else if(pop > 1) quantity = "notif.fishingmadebetter.fish_tracker.quantity_sparse";
             else quantity = "notif.fishingmadebetter.fish_tracker.quantity_meager";
-            
-            if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
-            else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
+
+            //if(limitInfo) player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + "."));
+            if(limitInfo) {
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ")
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true))).appendText(TextFormatting.RESET + "."));
+            }
+            //else player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" " + fishData.fishId + ", " + fishData.description + " in ").appendSibling(new TextComponentTranslation(quantity)));
+            else{
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.detected").appendText(" ")
+                        .appendSibling(new TextComponentTranslation(fishData.getNameLangKey()).setStyle(new Style().setColor(TextFormatting.WHITE).setBold(true))).appendText(TextFormatting.RESET + ", ")
+                        .appendSibling((new TextComponentTranslation(fishData.getDescLangKey()).setStyle(new Style().setColor(TextFormatting.GRAY).setItalic(true)))).appendText(", ")
+                        .appendSibling(new TextComponentTranslation(quantity).setStyle(new Style().setColor(BetterFishUtil.getPopulationColor(pop)))));
+            }
         }
-        
+
         if(creative) {
-        	player.sendMessage(new TextComponentString("-----"));
-        	return;
+            player.sendMessage(new TextComponentString("-----"));
+            return;
         }
         else if(!fishFound) {
-        	player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_none"));
+            player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_none"));
         }
         else {
-        	if(underYCount > 0) {
-        		player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_under_y").appendText(": " + underYCount + "."));
-        	}
-        	if(trackerQualityCount > 0) {
-        		player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_outside_quality").appendText(": " + trackerQualityCount + "."));
-        	}
-        	if(hibernatingCount > 0) {
-        		player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_hibernating").appendText(": " + hibernatingCount + "."));
-        	}
+            if(underYCount > 0) {
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_under_y").appendText(": " + underYCount + "."));
+            }
+            if(trackerQualityCount > 0) {
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_outside_quality").appendText(": " + trackerQualityCount + "."));
+            }
+            if(hibernatingCount > 0) {
+                player.sendMessage(new TextComponentTranslation("notif.fishingmadebetter.fish_tracker.found_hibernating").appendText(": " + hibernatingCount + "."));
+            }
         }
-        
-    	player.sendMessage(new TextComponentString("-----"));
+
+        player.sendMessage(new TextComponentString("-----"));
     }
 
     private int getDistanceTime(int weight) {
@@ -613,14 +643,19 @@ public class FishingEventHandler {//God this handler is a mess
         if(CustomConfigurationHandler.fishDataMap.get(fishCaughtData.fishId).allowScaling) tagCompound.setBoolean("FishScale", true);
         itemStack.setTagCompound(tagCompound);
 
-        itemStack.setStackDisplayName(TextFormatting.RESET + fishCaughtData.fishId);
-        
-        List<String> tooltipList = new ArrayList<>();
-        tooltipList.add(String.format("Weight: %d", fishCaughtData.weight));
-        if(itemStack.getTagCompound().hasKey("FishScale")) tooltipList.add("Scale: Attached");
-        tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Alive" + TextFormatting.RESET);
+        //itemStack.setStackDisplayName(TextFormatting.RESET + fishCaughtData.fishId);
 
-        itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
+        // Removed Text formatting because it's now handled by OnItemTooltip
+        // Instead of DisplayName, used TranslatableName so when the fish is caught and created into the world, the entity shows the expected, translatable name.
+        itemStack.setTranslatableName(String.format("item.fmb.%s:%d.name", itemStack.getItem().getRegistryName().toString(), itemStack.getMetadata()));
+
+        //List<String> tooltipList = new ArrayList<>();
+        //tooltipList.add(String.format("Weight: %d", fishCaughtData.weight));
+        //if(itemStack.getTagCompound().hasKey("FishScale")) tooltipList.add("Scale: Attached");
+        //tooltipList.add(TextFormatting.BLUE + "" + TextFormatting.BOLD + "Alive" + TextFormatting.RESET);
+        //tooltipList.add("Alive"); // Removed Text formatting because it's handled by OnItemTooltip
+
+        //itemStack = ItemStackUtil.appendToolTip(itemStack, tooltipList);
 
         return itemStack;
     }
@@ -673,57 +708,57 @@ public class FishingEventHandler {//God this handler is a mess
 
         if(fishingData.isFishing()) {
             ItemStack betterFishingRodStack = getBetterFishingRod(player);
-            
+
             //int fishSpeed = 8-Math.min(6, (int)(((float)getDistanceTime(fishingData.getFishWeight())/2f)+0.5f));//TODO: cache distanceTime
             int fishSpeed = 4 + (int)((float)getDistanceTime(fishingData.getFishWeight())+0.5f);
             int tensioningSpeed = 8;
-            
+
             fishSpeed -= ItemBetterFishingRod.getHookItem(betterFishingRodStack).getTuggingReduction();
             tensioningSpeed += ItemBetterFishingRod.getBobberItem(betterFishingRodStack).getTensioningModifier();
-            
+
             updateReelTarget(player.getRNG(), fishingData, fishSpeed);
             updateReelPosition(fishingData, tensioningSpeed, player);
             updateLineBreak(fishingData);
-            
+
             //fishingData.setFishTime(fishingData.getFishTime() - 1);
             //if(fishingData.getFishTime() < 0) fishingData.setFishTime(0);
-            
+
             PrimaryPacketHandler.INSTANCE.sendTo(new PacketReelingC(fishingData.getReelAmount(), fishingData.getReelTarget(), fishingData.getFishDistance(), fishingData.getFishDeepLevel(), fishingData.getErrorVariance(), fishingData.isFishing(), fishingData.getMinigameBackground()[0], fishingData.getMinigameBackground()[1], fishingData.getMinigameBackground()[2], fishingData.getMinigameBackground()[3], fishingData.getMinigameBackground()[4], fishingData.getLineBreak()), (EntityPlayerMP) player);
         }
     }
-    
+
     private void updateReelTarget(Random random, IFishingData fishingData, int fishSpeed) {
-    	int prevTugging = fishingData.getFishTugging();
-    	if(prevTugging==0) fishSpeed = fishSpeed * (random.nextInt(3)-1) * Math.max(0, RandomUtil.getRandomInRange(random, -getDistanceTime(fishingData.getFishWeight()), 1));//TODO: cache distanceTime maybe
-    	else fishSpeed = fishSpeed * (int)Math.signum(prevTugging) * (int)Math.signum(RandomUtil.getRandomInRange(random, -1, 20));
-    	fishingData.setFishTugging(fishSpeed);
-    	
-    	int fishMomentum = fishingData.getFishMomentum();
-    	fishMomentum += (int)Math.signum(fishSpeed-fishMomentum);
-    	
-    	fishingData.setFishMomentum(fishMomentum);
+        int prevTugging = fishingData.getFishTugging();
+        if(prevTugging==0) fishSpeed = fishSpeed * (random.nextInt(3)-1) * Math.max(0, RandomUtil.getRandomInRange(random, -getDistanceTime(fishingData.getFishWeight()), 1));//TODO: cache distanceTime maybe
+        else fishSpeed = fishSpeed * (int)Math.signum(prevTugging) * (int)Math.signum(RandomUtil.getRandomInRange(random, -1, 20));
+        fishingData.setFishTugging(fishSpeed);
+
+        int fishMomentum = fishingData.getFishMomentum();
+        fishMomentum += (int)Math.signum(fishSpeed-fishMomentum);
+
+        fishingData.setFishMomentum(fishMomentum);
         fishingData.setReelTarget(fishingData.getReelTarget() + fishMomentum);
     }
-    
+
     private void updateReelPosition(IFishingData fishingData, int tensioningSpeed, EntityPlayer player) {
-    	if(fishingData.getKeybind().equals(Keybind.REEL_IN)) tensioningSpeed = tensioningSpeed * -1;
+        if(fishingData.getKeybind().equals(Keybind.REEL_IN)) tensioningSpeed = tensioningSpeed * -1;
         else if(fishingData.getKeybind().equals(Keybind.REEL_OUT)) tensioningSpeed = tensioningSpeed * 1;
         else tensioningSpeed = tensioningSpeed * 0;
-    	
+
         int tensionMomentum = fishingData.getTensionMomentum();
         tensionMomentum += (int)Math.signum(tensioningSpeed-tensionMomentum);
-        
+
         fishingData.setTensionMomentum(tensionMomentum);
         fishingData.setReelAmount(fishingData.getReelAmount() + tensionMomentum);
         playReelingSound(tensionMomentum, player);
     }
-    
+
     private void updateLineBreak(IFishingData fishingData) {
-    	fishingData.setLineBreak(fishingData.getLineBreak() + (fishingData.getFishDistance()==0 ? 1 : -1));
+        fishingData.setLineBreak(fishingData.getLineBreak() + (fishingData.getFishDistance()==0 ? 1 : -1));
     }
-    
+
     private void playReelingSound(int momentum, EntityPlayer player) {//TODO: make this sound better
-    	if(momentum==0 || player.ticksExisted%2!=0) return;
+        if(momentum==0 || player.ticksExisted%2!=0) return;
         float pitch = Math.min(2.0f, Math.max(0.0f, (float)Math.abs(momentum)/10.0f));
 
         player.world.playSound(null, player.posX, player.posY, player.posZ, RegistryHandler.REELING_EVENT, SoundCategory.PLAYERS, pitch, 2.0f);
@@ -739,21 +774,21 @@ public class FishingEventHandler {//God this handler is a mess
         int pop = population.population;
 
         int rate = (int)(ConfigurationManager.server.baseTimeToBobber * ((float)(100f-ItemBetterFishingRod.getHookItem(itemFishingRod).getBiteRateModifier())/100f));//Percentage reduction based on modifier
-        
+
         rate -= (100*EnchantmentHelper.getFishingSpeedBonus(itemFishingRod));// -5 second per lure level
         rate -= 4*pop;//-4 ticks per fish in population
-        
+
         FishData fishData = CustomConfigurationHandler.fishDataMap.get(population.fishId);
 
         String baitItem = ItemBetterFishingRod.getBaitItem(itemFishingRod);
 
         if(ItemBetterFishingRod.hasBait(itemFishingRod)) {
-        	if(ConfigurationManager.server.simpleBait || (fishData.baitItemMap.containsKey(baitItem) && Arrays.asList(fishData.baitItemMap.get(baitItem)).contains(ItemBetterFishingRod.getBaitMetadata(itemFishingRod)))) {
-        		rate -= RandomUtil.getRandomInRange(player.getRNG(), 100, 300);
-        	}
+            if(ConfigurationManager.server.simpleBait || (fishData.baitItemMap.containsKey(baitItem) && Arrays.asList(fishData.baitItemMap.get(baitItem)).contains(ItemBetterFishingRod.getBaitMetadata(itemFishingRod)))) {
+                rate -= RandomUtil.getRandomInRange(player.getRNG(), 100, 300);
+            }
         }
         rate = Math.max(60, rate);
-        
+
         return rate;
     }
 
@@ -761,33 +796,33 @@ public class FishingEventHandler {//God this handler is a mess
         if(!chunkFishingData.hasFishes()) return null;
         World world = player.world;
         EntityFishHook hook = player.fishEntity;
-        
+
         FishingLiquid liquid = FishingLiquid.WATER;
         if(hook instanceof EntityFMBLavaFishHook) liquid = FishingLiquid.LAVA;
         else if(hook instanceof EntityFMBVoidFishHook) liquid = FishingLiquid.VOID;
-        
+
         if(liquid == FishingLiquid.WATER) {
-        	int waterCount = 0;
-        	for(BlockPos pos : BlockPos.getAllInBox((int)hook.posX-2, (int)hook.posY-3, (int)hook.posZ-2, (int)hook.posX+2, (int)hook.posY, (int)hook.posZ+2)) {
-        		Material mat = world.getBlockState(pos).getMaterial();
-        		if(mat == MaterialLiquid.WATER) waterCount++;
-        		if(waterCount >= 25) break;
-        	}
-        	if(waterCount < 25) return null;//Not enough water
+            int waterCount = 0;
+            for(BlockPos pos : BlockPos.getAllInBox((int)hook.posX-2, (int)hook.posY-3, (int)hook.posZ-2, (int)hook.posX+2, (int)hook.posY, (int)hook.posZ+2)) {
+                Material mat = world.getBlockState(pos).getMaterial();
+                if(mat == MaterialLiquid.WATER) waterCount++;
+                if(waterCount >= 25) break;
+            }
+            if(waterCount < 25) return null;//Not enough water
         }
         if(liquid == FishingLiquid.LAVA) {//TODO: different sizes required depending on liquid
-        	int lavaCount = 0;
-        	for(BlockPos pos : BlockPos.getAllInBox((int)hook.posX-2, (int)hook.posY-3, (int)hook.posZ-2, (int)hook.posX+2, (int)hook.posY, (int)hook.posZ+2)) {
-        		Material mat = world.getBlockState(pos).getMaterial();
-        		if(mat == MaterialLiquid.LAVA) lavaCount++;
-        		if(lavaCount >= 25) break;
-        	}
-        	if(lavaCount < 25) return null;//Not enough lava
+            int lavaCount = 0;
+            for(BlockPos pos : BlockPos.getAllInBox((int)hook.posX-2, (int)hook.posY-3, (int)hook.posZ-2, (int)hook.posX+2, (int)hook.posY, (int)hook.posZ+2)) {
+                Material mat = world.getBlockState(pos).getMaterial();
+                if(mat == MaterialLiquid.LAVA) lavaCount++;
+                if(lavaCount >= 25) break;
+            }
+            if(lavaCount < 25) return null;//Not enough lava
         }
-        
+
         ItemStack itemFishingRod = getBetterFishingRod(player);
         boolean hasFishBait = ItemBetterFishingRod.hasBait(itemFishingRod);
-        
+
         Map<String, PopulationData> fishPopulationMap = chunkFishingData.getFishes(world.getTotalWorldTime());
         List<WeightedRandomFishPopulation> weightedRandomFishPopulationList = new ArrayList<>();
 
@@ -797,16 +832,16 @@ public class FishingEventHandler {//God this handler is a mess
 
             if(fishData.time.equals(FishData.TimeToFish.DAY) && (!world.isDaytime())) continue;
             if(fishData.time.equals(FishData.TimeToFish.NIGHT) && (world.isDaytime())) continue;
-            
+
             if(!fishData.liquid.equals(liquid) && !fishData.liquid.equals(FishingLiquid.ANY)) continue; //TODO: reenable after testing
-            
+
             if(fishData.minDeepLevel > ItemBetterFishingRod.getReelItem(itemFishingRod).getReelRange()) continue;
-            
+
             if(fishData.minYLevel > hook.posY) continue;
-            if(fishData.maxYLevel < hook.posY) continue; 
-            
+            if(fishData.maxYLevel < hook.posY) continue;
+
             if(fishData.maxLightLevel < world.getLight(hook.getPosition())) continue;
-            
+
             if(fishData.rainRequired && (!world.isRaining())) continue;
             if(fishData.thunderRequired && (!world.isThundering())) continue;
 
@@ -820,7 +855,7 @@ public class FishingEventHandler {//God this handler is a mess
 
         return new FishPopulation(randomFishPopulation.fishId, randomFishPopulation.population);
     }
-    
+
     private ItemStack getBetterFishingRod(EntityPlayer player) {
         if(usingVanillaFishingRod(player)) return ItemStack.EMPTY;
 
@@ -837,16 +872,16 @@ public class FishingEventHandler {//God this handler is a mess
         ItemStack offHandItem = player.getHeldItemOffhand();
 
         if(!mainHandItem.isEmpty()) {
-	        if(mainHandItem.getItem() instanceof ItemBetterFishingRod) return false;
-	        if(mainHandItem.getItem() instanceof ItemFishingRod) return true;
+            if(mainHandItem.getItem() instanceof ItemBetterFishingRod) return false;
+            if(mainHandItem.getItem() instanceof ItemFishingRod) return true;
         }
         if(!offHandItem.isEmpty()) {
-	        if(offHandItem.getItem() instanceof ItemBetterFishingRod) return false;
-	        if(offHandItem.getItem() instanceof ItemFishingRod) return true;
+            if(offHandItem.getItem() instanceof ItemBetterFishingRod) return false;
+            if(offHandItem.getItem() instanceof ItemFishingRod) return true;
         }
         return false;
     }
-    
+
     private void setLureSpeed(EntityFishHook hook, int ticks) {
         if(delayBeforeSwimmingToHookField == null) return;
 
@@ -854,7 +889,7 @@ public class FishingEventHandler {//God this handler is a mess
             delayBeforeSwimmingToHookField.setAccessible(true);
             delayBeforeSwimmingToHookField.setInt(hook, ticks);
             delayBeforeSwimmingToHookField.setAccessible(false);
-        } 
+        }
         catch(IllegalArgumentException | IllegalAccessException e) {
             delayBeforeSwimmingToHookField.setAccessible(false);
             e.printStackTrace();
@@ -863,13 +898,13 @@ public class FishingEventHandler {//God this handler is a mess
 
     private int getDelayBeforeSwimmingToHook(EntityFishHook hook) {
         if(delayBeforeSwimmingToHookField == null) return -1;
-        
+
         try {
             delayBeforeSwimmingToHookField.setAccessible(true);
             int delay = delayBeforeSwimmingToHookField.getInt(hook);
             delayBeforeSwimmingToHookField.setAccessible(false);
             return delay;
-        } 
+        }
         catch(IllegalArgumentException | IllegalAccessException e) {
             delayBeforeSwimmingToHookField.setAccessible(false);
             e.printStackTrace();
@@ -885,7 +920,7 @@ public class FishingEventHandler {//God this handler is a mess
             int delay = delayBeforeBiteField.getInt(hook);
             delayBeforeBiteField.setAccessible(false);
             return delay;
-        } 
+        }
         catch(IllegalArgumentException | IllegalAccessException e) {
             delayBeforeBiteField.setAccessible(false);
             e.printStackTrace();
@@ -900,27 +935,69 @@ public class FishingEventHandler {//God this handler is a mess
             biteIntervalField.setAccessible(true);
             biteIntervalField.setInt(hook, time);
             biteIntervalField.setAccessible(false);
-        } 
+        }
         catch(IllegalArgumentException | IllegalAccessException e) {
             biteIntervalField.setAccessible(false);
             e.printStackTrace();
         }
     }
 
-	private HookState getHookState(EntityFishHook hook) {
-    	if(currentStateField == null) return null;
-    	
+    private HookState getHookState(EntityFishHook hook) {
+        if(currentStateField == null) return null;
+
         try {
-        	currentStateField.setAccessible(true);
+            currentStateField.setAccessible(true);
             Enum hookEnum = (Enum) currentStateField.get(hook);
             int hookStateOrdinal = hookEnum.ordinal();
             currentStateField.setAccessible(false);
             return HookState.values()[hookStateOrdinal];
-        } 
+        }
         catch(IllegalAccessException e) {
-        	currentStateField.setAccessible(false);
+            currentStateField.setAccessible(false);
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // Trying to get to Client side.
+    // For custom names, instead of using the "Name" NBT tag, I use "LocName". This allows to rename an item with a translatable name.
+    // About the fish details, this update no longer adds the "Lore" NBTTag because it's hardcoded text.
+    // Instead, it takes the information, use lang keys and add it to the tooltip.
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public void onItemTooltip(ItemTooltipEvent event) {
+        if(event.isCanceled() || !BetterFishUtil.isBetterFish(event.getItemStack())) return ;
+
+        // Add the fish information to its tooltip clientside to translate and format it
+        ItemStack itemStack = event.getItemStack();
+        NBTTagCompound tagCompound = itemStack.getTagCompound();
+        NBTTagCompound tagDisplay = tagCompound.hasKey("display", Constants.NBT.TAG_COMPOUND) ? tagCompound.getCompoundTag("display") : null;
+        if(tagDisplay == null) return ;
+        boolean hasLore = tagDisplay.hasKey("Lore", Constants.NBT.TAG_LIST); // Previous version fish
+
+        short tooltipLine = 1;
+        List<String> tooltip = event.getToolTip();
+        if(tagCompound.hasKey("FishWeight")){
+            if (hasLore)
+                tooltip.set(tooltipLine, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+            else
+                tooltip.add(tooltipLine, TextFormatting.GRAY + String.format("%s: %d", I18n.format("tooltip.fishingmadebetter.fish.weight"), BetterFishUtil.getFishWeight(itemStack)) + TextFormatting.RESET);
+            tooltipLine++;
+        }
+        if (CustomConfigurationHandler.fishDataMap.get(BetterFishUtil.getFishId(itemStack)).allowScaling) {
+            if (tagCompound.hasKey("FishScale")){
+                if (hasLore)
+                    tooltip.set(tooltipLine,TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+                else
+                    tooltip.add(tooltipLine,TextFormatting.GRAY + String.format("%s: %s", I18n.format("tooltip.fishingmadebetter.fish.scale"), BetterFishUtil.doesFishHasScale(itemStack) ? (TextFormatting.BOLD + I18n.format("tooltip.fishingmadebetter.fish.scale_attached")) : I18n.format("tooltip.fishingmadebetter.fish.scale_detached")) + TextFormatting.RESET);
+                tooltipLine++;
+            }
+        }
+        if (tagCompound.hasKey("FishCaughtTime")){
+            if (hasLore)
+                tooltip.set(tooltipLine,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
+            else
+                tooltip.add(tooltipLine,TextFormatting.BLUE + "" + TextFormatting.BOLD + (BetterFishUtil.getFishCaughtTime(itemStack) == 0 ? I18n.format("tooltip.fishingmadebetter.fish.dead") : I18n.format("tooltip.fishingmadebetter.fish.alive")) + TextFormatting.RESET);
         }
     }
 }

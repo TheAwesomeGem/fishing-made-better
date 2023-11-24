@@ -119,7 +119,7 @@ public class ItemManager {
         		HOOK_MAGNETIC,
         		FISH_BUCKET,
 				BAIT_BUCKET
-        		);
+				);
     }
     
     public static ItemBetterFishingRod[] rodList() {
@@ -179,5 +179,6 @@ public class ItemManager {
 
         FISH_BUCKET.registerItemModel(FISH_BUCKET);
 		BAIT_BUCKET.registerItemModel(BAIT_BUCKET);
+
     }
 }

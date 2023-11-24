@@ -24,12 +24,12 @@ public class RecipeBaitedRod extends net.minecraftforge.registries.IForgeRegistr
 
     @Override
     public ItemStack getCraftingResult(InventoryCrafting inv) {
-    	Integer[] slots = validInput(inv);
-    	if(slots==null) return ItemStack.EMPTY;
-    	
+        Integer[] slots = validInput(inv);
+        if(slots==null) return ItemStack.EMPTY;
+
         ItemStack itemFishingRod = inv.getStackInSlot(slots[0]).copy();
         ItemStack itemBait = inv.getStackInSlot(slots[1]).copy();
-        
+
         ItemBetterFishingRod.setBaitItem(itemFishingRod, Item.REGISTRY.getNameForObject(itemBait.getItem()).toString());
         ItemBetterFishingRod.setBaitMetadata(itemFishingRod, itemBait.getMetadata());
         ItemBetterFishingRod.setBaitDisplayName(itemFishingRod, itemBait.getDisplayName());
@@ -46,14 +46,14 @@ public class RecipeBaitedRod extends net.minecraftforge.registries.IForgeRegistr
     public ItemStack getRecipeOutput() {
         return ItemStack.EMPTY;
     }
-    
+
     @Nullable
     private Integer[] validInput(InventoryCrafting inv) {
-    	int numStacks = 0;
+        int numStacks = 0;
         int rodSlot = -1;
         int baitSlot = -1;
         List<Integer> occupiedSlots = new ArrayList<>();
-        
+
         for(int i = 0; i < inv.getSizeInventory(); i++) {
             if (!inv.getStackInSlot(i).isEmpty()) {
                 numStacks++;
@@ -64,7 +64,7 @@ public class RecipeBaitedRod extends net.minecraftforge.registries.IForgeRegistr
 
         for(int i : occupiedSlots) {
             ItemStack itemStack = inv.getStackInSlot(i);
-            
+
             if(itemStack.isEmpty()) return null;
             else if(itemStack.getItem() instanceof ItemBetterFishingRod) rodSlot = i;
             else if(BetterFishUtil.isValidBait(itemStack)) baitSlot = i;

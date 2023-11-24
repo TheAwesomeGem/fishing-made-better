@@ -58,9 +58,9 @@ public abstract class ItemHook extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-        if(this.tuggingReduction != 0) tooltip.add(I18n.format("item.fishingmadebetter.hook_barbed.tooltip") + ": " + this.tuggingReduction);
-        if(this.treasureModifier != 0) tooltip.add(I18n.format("item.fishingmadebetter.hook_magnetic.tooltip") + ": +" + String.format("%s%%", this.treasureModifier));
-        if(this.biteRateModifier != 0) tooltip.add(I18n.format("item.fishingmadebetter.hook_shiny.tooltip") + ": +" + String.format("%s%%", this.biteRateModifier));
-        if(this.weightModifier != 0) tooltip.add(I18n.format("item.fishingmadebetter.hook_fatty.tooltip") + ": +" + String.format("%s%%", this.weightModifier));
+        if(this.tuggingReduction != 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.hook_barbed") + ": " + this.tuggingReduction);
+        if(this.treasureModifier != 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.hook_magnetic") + ": +" + String.format("%s%%", this.treasureModifier));
+        if(this.biteRateModifier != 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.hook_shiny") + ": +" + String.format("%s%%", this.biteRateModifier));
+        if(this.weightModifier != 0) tooltip.add(I18n.format("tooltip.fishingmadebetter.hook_fatty") + ": +" + String.format("%s%%", this.weightModifier));
     }
 }

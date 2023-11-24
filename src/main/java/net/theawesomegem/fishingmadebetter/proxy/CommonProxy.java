@@ -173,7 +173,7 @@ public class CommonProxy {
 
         RebornCraftingHelper.addShapedRecipe(new ItemStack(BlockManager.ITEM_BLOCK_BAIT_BOX, 1), "WIW", "I I", "WWW", 'W', "plankWood", 'I', Blocks.IRON_BARS);
         RebornCraftingHelper.addShapedRecipe(new ItemStack(ItemManager.BAIT_BUCKET, 1), "SES", "EBE", "SES", 'S', Items.WHEAT_SEEDS, 'E', Items.SPIDER_EYE, 'B', Items.BUCKET);
-        
+
     	IForgeRegistryModifiable<IRecipe> craftingRegistry = (IForgeRegistryModifiable<IRecipe>)recipeRegistry;
     	
         if(Loader.isModLoaded("aquaculture") && ConfigurationManager.server.aquacultureRecipeOverride) {
