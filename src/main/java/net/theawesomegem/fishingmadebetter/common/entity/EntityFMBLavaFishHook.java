@@ -3,7 +3,6 @@ package net.theawesomegem.fishingmadebetter.common.entity;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumParticleTypes;
@@ -27,7 +26,7 @@ public class EntityFMBLavaFishHook extends EntityFMBCustomFishHook {
     }
     
     public EntityFMBLavaFishHook(World worldIn) {
-    	super(worldIn, worldIn.getPlayerEntityByUUID(Minecraft.getMinecraft().getSession().getProfile().getId()));
+    	super(worldIn);
     	this.isImmuneToFire = true;
     }
     

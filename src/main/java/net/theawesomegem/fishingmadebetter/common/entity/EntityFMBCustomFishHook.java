@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.MaterialLiquid;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.EntityPlayer;
@@ -67,7 +66,7 @@ public class EntityFMBCustomFishHook extends EntityFishHook {
     }
     
     public EntityFMBCustomFishHook(World worldIn) {
-    	super(worldIn, worldIn.getPlayerEntityByUUID(Minecraft.getMinecraft().getSession().getProfile().getId()));
+        super(worldIn, null);
     }
     
     public float getLiquidHeight(World worldIn, BlockPos blockpos) {

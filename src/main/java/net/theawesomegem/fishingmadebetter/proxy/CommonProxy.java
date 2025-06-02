@@ -68,7 +68,6 @@ public class CommonProxy {
 
         CustomConfigurationHandler.preInit(e.getModConfigurationDirectory());
         PrimaryPacketHandler.registerPackets();
-        EntityManager.register();
     }
 
     public void onInit(FMLInitializationEvent e) {
@@ -252,4 +251,8 @@ public class CommonProxy {
     public EntityPlayer getPlayer(MessageContext ctx) {
         return ctx.getServerHandler().player;
     }
+	
+	public EntityPlayer getClientPlayer() {
+		return null;
+	}
 }

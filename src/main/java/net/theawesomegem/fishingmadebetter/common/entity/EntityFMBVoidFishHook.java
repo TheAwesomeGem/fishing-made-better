@@ -1,6 +1,5 @@
 package net.theawesomegem.fishingmadebetter.common.entity;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumParticleTypes;
@@ -22,7 +21,7 @@ public class EntityFMBVoidFishHook extends EntityFMBCustomFishHook {
     }
     
     public EntityFMBVoidFishHook(World worldIn) {
-    	super(worldIn, worldIn.getPlayerEntityByUUID(Minecraft.getMinecraft().getSession().getProfile().getId()));
+    	super(worldIn);
     }
     
     @Override
